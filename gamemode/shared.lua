@@ -11,6 +11,8 @@ GM.Sandbox = BaseClass
 
 RPGM = RPGM or {
     Config = {},
+    Items = {},
+    Classes = {},
     Util = {}
 }
 
