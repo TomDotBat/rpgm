@@ -19,9 +19,6 @@ RPGM.Config.FallDamageDamper = 15
 RPGM.Config.FallDamageAmount = 10
 RPGM.Config.DisableSuicide = false
 
---Death Settings
-RPGM.Config.ShowKillFeed = true
-
 --Voice Settings
 RPGM.Config.VoiceRange = 550
 RPGM.Config.Voice3D = true
