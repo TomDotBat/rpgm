@@ -1,0 +1,8 @@
+"rpgm"
+{
+	"base"		"sandbox"
+	"title"		"RPGM: An RP Gamemode Base"
+	"maps"		"^rp_"
+	"menusystem"	"1"
+	"workshopid"	""
+}
