@@ -26,4 +26,5 @@ RPGM.Config.VoiceUseRadius = true
 RPGM.Config.VoiceRoomOnly = true
 
 --Misc Settings
-RPGM.Config.EnableSprays = true 
+RPGM.Config.EnableSprays = true
+RPGM.Config.DisableCSSAlert = false
