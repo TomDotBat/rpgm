@@ -10,3 +10,11 @@ function RPGM.AddCategory(classType, categoryName, color, order)
         order = order
     }
 end
+
+function RPGM.GetCategories()
+    return categories
+end
+
+function RPGM.GetClassCategories(classType)
+    return categories[classType]
+end
