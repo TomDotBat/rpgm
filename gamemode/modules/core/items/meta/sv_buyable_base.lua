@@ -3,11 +3,18 @@ function RPGM.Classes.BuyableItemBase(name, category, command, model, order, ext
     local tbl = RPGM.Classes.ItemBase(name, category, command, model, order, extra, functions)
 
     function tbl:getPrice(ply) return (isfunction(price) and IsValid(ply)) and price(ply) or price end
-    function tbl:getMax() return (isfunction(max) and IsValid(ply)) and max(ply) or max end
+    function tbl:getMax(ply) return (isfunction(max) and IsValid(ply)) and max(ply) or max end
     function tbl:getJobsAllowed() return jobsAllowed end
+
     function tbl:isJobAllowed(jobName)
         if not jobsAllowed or table.Count(jobsAllowed) < 1 then return true end
         return jobsAllowed[jobName]
+    end
+
+    function tbl:canBuy(ply)
+        local teamName = ply:teamName()
+        if not self:isJobAllowed(teamName) then return false, "You can't buy this item as a " .. teamName .. "." end
+        return self:doCustomCheck(ply)
     end
 
     function tbl:setPrice(val)
