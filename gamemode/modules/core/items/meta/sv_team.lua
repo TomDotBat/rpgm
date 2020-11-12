@@ -5,12 +5,6 @@ function RPGM.Classes.Team(name, category, command, model, order, extra, functio
     function tbl:getDescription() return description end
     function tbl:getWeapons() return weapons end
     function tbl:getLimit() return limit end
-    function tbl:doCustomCheck(ply)
-        local check = functions["customCheck"]
-        if not check then return true end
-
-        return check(ply)
-    end
 
     function tbl:setDescription(val)
         assert(isstring(val), "Team description must be a string.")
