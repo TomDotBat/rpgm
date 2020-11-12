@@ -9,7 +9,7 @@ function RPGM.Classes.Team(name, category, command, model, order, extra, functio
     function tbl:getLimit() return limit end
 
     function tbl:setColor(val)
-        assert(IsColor(val), "Team color must be a color.")
+        RPGM.Assert(IsColor(val), "Team color must be a color.")
         color = val
     end
 
@@ -19,14 +19,14 @@ function RPGM.Classes.Team(name, category, command, model, order, extra, functio
     end
 
     function tbl:setWeapons(val)
-        assert(istable(val), "Team weapons must be a table of weapon class strings.")
+        RPGM.Assert(istable(val), "Team weapons must be a table of weapon class strings.")
 
         local actualWeapons = {}
         for k, v in pairs(val) do
-            assert(isstring(v), "Team weapons must be a table of weapon class strings.")
+            RPGM.Assert(isstring(v), "Team weapons must be a table of weapon class strings.")
 
             if not weapons.Get(v) then
-                print("Warning! The weapon \"" .. v .. "\" doesn't exist, removing from the loadout for " .. name ".")
+                RPGM.LogWarning("The weapon \"" .. v .. "\" doesn't exist, removing from the loadout for " .. name ".")
                 continue
             end
             table.insert(actualWeapons, v)
@@ -36,7 +36,7 @@ function RPGM.Classes.Team(name, category, command, model, order, extra, functio
     end
 
     function tbl:setLimit(val)
-        assert(isnumber(val), "Team maximum must be a number.")
+        RPGM.Assert(isnumber(val), "Team maximum must be a number.")
         limit = val
     end
 

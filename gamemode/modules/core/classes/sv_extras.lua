@@ -3,7 +3,7 @@ local extras = {}
 
 function RPGM.Classes.RegisterExtra(classType, varName, useAccessors, getter, setter)
     if not RPGM.Classes[classType] then
-        print("Warning! Invalid class type specified when registering an extra value.")
+        RPGM.LogWarning("Invalid class type specified when registering an extra value.")
         debug.Trace()
         return
     end

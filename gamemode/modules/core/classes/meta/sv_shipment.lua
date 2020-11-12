@@ -9,9 +9,9 @@ function RPGM.Classes.Shipment(name, category, command, model, order, extra, fun
     function tbl:getIndividualPrice(ply) return (isfunction(individualPrice) and IsValid(ply)) and individualPrice(ply) or individualPrice end
 
     function tbl:setClass(val)
-        assert(isstring(val), "Shipment class must be a weapon class string.")
+        RPGM.Assert(isstring(val), "Shipment class must be a weapon class string.")
         if not weapons.Get(val) then
-            print("Warning! The weapon \"" .. val .. "\" doesn't exist for the shipment " .. name .. ", defaulting to \"weapon_physcannon\".")
+            RPGM.LogWarning("The weapon \"" .. val .. "\" doesn't exist for the shipment " .. name .. ", defaulting to \"weapon_physcannon\".")
             class = "weapon_physcannon"
             return
         end
@@ -22,19 +22,19 @@ function RPGM.Classes.Shipment(name, category, command, model, order, extra, fun
     function tbl:setSize(val)
         if isfunction(val) then size = val return end
 
-        assert(isnumber(val), "Shipment size must be a number or function taking a player argument.")
+        RPGM.Assert(isnumber(val), "Shipment size must be a number or function taking a player argument.")
         size = val
     end
 
     function tbl:setSellIndividual(val)
-        assert(isbool(val), "Shipment individual sell state must be a boolean.")
+        RPGM.Assert(isbool(val), "Shipment individual sell state must be a boolean.")
         sellIndividual = val
     end
 
     function tbl:setIndividualPrice(val)
         if isfunction(val) then individualPrice = val return end
 
-        assert(isnumber(val), "Individual shipment price must be a number or function taking a player argument.")
+        RPGM.Assert(isnumber(val), "Individual shipment price must be a number or function taking a player argument.")
         individualPrice = val
     end
 

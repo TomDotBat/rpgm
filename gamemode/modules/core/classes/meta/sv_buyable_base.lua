@@ -21,22 +21,22 @@ function RPGM.Classes.BuyableItemBase(name, category, command, model, order, ext
     function tbl:setPrice(val)
         if isfunction(val) then price = val return end
 
-        assert(isnumber(val), "Item price must be a number or function taking a player argument.")
+        RPGM.Assert(isnumber(val), "Item price must be a number or function taking a player argument.")
         price = val
     end
 
     function tbl:setMax(val)
         if isfunction(val) then max = val return end
 
-        assert(isnumber(val), "Item maximum must be a number or function taking a player argument.")
+        RPGM.Assert(isnumber(val), "Item maximum must be a number or function taking a player argument.")
         max = val
     end
 
     function tbl:setJobsAllowed(val)
-        assert(istable(val), "Entity allowed jobs must be a table of job name strings.")
+        RPGM.Assert(istable(val), "Entity allowed jobs must be a table of job name strings.")
 
         for k, v in pairs(val) do
-            assert(isstring(v), "Entity allowed jobs must be a table of job name strings.")
+            RPGM.Assert(isstring(v), "Entity allowed jobs must be a table of job name strings.")
         end
 
         jobsAllowed = val

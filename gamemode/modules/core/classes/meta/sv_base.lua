@@ -20,47 +20,47 @@ function RPGM.Classes.ItemBase(name, category, command, model, order, extra, fun
     end
 
     function tbl:setName(val)
-        assert(isstring(val), "Item name must be a string.")
+        RPGM.Assert(isstring(val), "Item name must be a string.")
         name = val
     end
 
     function tbl:setCategory(val)
-        assert(isstring(val), "Item category must be a string.")
+        RPGM.Assert(isstring(val), "Item category must be a string.")
         category = val
     end
 
     function tbl:setCommand(val)
-        assert(isstring(val), "Item command must be a string.")
+        RPGM.Assert(isstring(val), "Item command must be a string.")
         command = val
     end
 
     function tbl:setModel(val)
         if istable(val) then
             for k, v in pairs(val) do
-                assert(isstring(v), "Item model must be a string or table of strings.")
+                RPGM.Assert(isstring(v), "Item model must be a string or table of strings.")
             end
         end
 
-        assert(isstring(val), "Item model must be a string or table of strings.")
+        RPGM.Assert(isstring(val), "Item model must be a string or table of strings.")
 
         model = val
     end
 
     function tbl:setOrder(val)
-        assert(isnumber(val), "Item order must be a number.")
+        RPGM.Assert(isnumber(val), "Item order must be a number.")
         order = val
     end
 
     function tbl:setExtra(val)
-        assert(istable(val) and not table.IsSequential(val), "Item extra data must be a key-value table.")
+        RPGM.Assert(istable(val) and not table.IsSequential(val), "Item extra data must be a key-value table.")
         extra = val
     end
 
     function tbl:setFunctions(val)
-        assert(istable(val) and not table.IsSequential(val), "Item hook overrides must be a key-value table of hook identifiers and functions.")
+        RPGM.Assert(istable(val) and not table.IsSequential(val), "Item hook overrides must be a key-value table of hook identifiers and functions.")
 
         for k, v in pairs(val) do
-            assert(isfunction(v), "Item hook overrides must be a key-value table of hook identifiers and functions.")
+            RPGM.Assert(isfunction(v), "Item hook overrides must be a key-value table of hook identifiers and functions.")
         end
 
         functions = val
