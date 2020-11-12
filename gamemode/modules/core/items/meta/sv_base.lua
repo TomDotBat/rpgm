@@ -11,6 +11,12 @@ function RPGM.Classes.ItemBase(name, category, command, model, order, extra, fun
     function tbl:getOrder() return order end
     function tbl:getExtra() return extra end
     function tbl:getFunctions() return functions end
+    function tbl:doCustomCheck(ply)
+        local check = functions["customCheck"]
+        if not check then return true end
+
+        return check(ply)
+    end
 
     function tbl:setName(val)
         assert(isstring(val), "Item name must be a string.")
