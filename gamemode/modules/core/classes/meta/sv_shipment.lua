@@ -44,6 +44,7 @@ function RPGM.Classes.Shipment(name, category, command, model, order, extra, fun
     tbl:setSellIndividual(sellIndividual)
 
     RPGM.Classes.SetupExtras(tbl)
+    RPGM.AddCategory(tbl.__type, category)
 
     return tbl
 end

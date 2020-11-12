@@ -1,11 +1,17 @@
 
-function RPGM.Classes.Team(name, category, command, model, order, extra, functions, description, weapons, limit)
+function RPGM.Classes.Team(name, category, command, model, order, extra, functions, color, description, weapons, limit)
     local tbl = RPGM.Classes.ItemBase(name, category, command, model, order, extra, functions)
     tbl.__type = "team"
 
+    function tbl:getColor() return color end
     function tbl:getDescription() return description end
     function tbl:getWeapons() return weapons end
     function tbl:getLimit() return limit end
+
+    function tbl:setColor(val)
+        assert(IsColor(val), "Team color must be a color.")
+        color = val
+    end
 
     function tbl:setDescription(val)
         assert(isstring(val), "Team description must be a string.")
@@ -34,10 +40,13 @@ function RPGM.Classes.Team(name, category, command, model, order, extra, functio
         limit = val
     end
 
+    tbl:setColor(color)
     tbl:setDescription(description)
+    tbl:setWeapons(weapons)
     tbl:setLimit(limit)
 
     RPGM.Classes.SetupExtras(tbl)
+    RPGM.AddCategory(tbl.__type, category)
 
     return tbl
 end
