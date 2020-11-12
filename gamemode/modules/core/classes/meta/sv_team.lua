@@ -1,6 +1,7 @@
 
 function RPGM.Classes.Team(name, category, command, model, order, extra, functions, description, weapons, limit)
     local tbl = RPGM.Classes.ItemBase(name, category, command, model, order, extra, functions)
+    tbl.__type = "team"
 
     function tbl:getDescription() return description end
     function tbl:getWeapons() return weapons end

@@ -1,6 +1,7 @@
 
 function RPGM.Classes.BuyableItemBase(name, category, command, model, order, extra, functions, price, max)
     local tbl = RPGM.Classes.ItemBase(name, category, command, model, order, extra, functions)
+    tbl.__type = "base_buyable"
 
     function tbl:getPrice(ply) return (isfunction(price) and IsValid(ply)) and price(ply) or price end
     function tbl:getMax(ply) return (isfunction(max) and IsValid(ply)) and max(ply) or max end
@@ -41,7 +42,7 @@ function RPGM.Classes.BuyableItemBase(name, category, command, model, order, ext
         jobsAllowed = val
     end
 
-    tbl:setPrice(max)
+    tbl:setPrice(price)
     tbl:setMax(max)
     tbl:setJobsAllowed(jobsAllowed)
 

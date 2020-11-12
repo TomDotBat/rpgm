@@ -1,6 +1,7 @@
 
 function RPGM.Classes.ItemBase(name, category, command, model, order, extra, functions)
     local tbl = {}
+    tbl.__type = "base"
 
     function tbl:getName() return name end
     function tbl:getCategory() return category end
