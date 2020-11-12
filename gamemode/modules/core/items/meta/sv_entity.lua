@@ -3,7 +3,7 @@ function RPGM.Classes.BuyableItemBase(name, category, command, model, order, ext
     local tbl = RPGM.Classes.ItemBase(name, category, command, model, order, extra, functions, price, max, jobsAllowed)
 
     function tbl:getClass() return class end
-    function tbl:getSpawnFunction() return class end
+    function tbl:getSpawnFunction() return spawnFunction end
 
     function tbl:setClass(val)
         assert(isnumber(val), "Entity class must be a number.")
@@ -12,7 +12,7 @@ function RPGM.Classes.BuyableItemBase(name, category, command, model, order, ext
 
     function tbl:setSpawnFunction(val)
         assert(isfunction(val) or val == nil, "Entity spawn function must be a function taking a player, trace and entity table.")
-        spawnFunction = val
+        functions[spawnFunction] = val
     end
 
     tbl:setClass(class)
