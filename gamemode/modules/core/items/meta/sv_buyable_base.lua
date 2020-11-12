@@ -11,20 +11,14 @@ function RPGM.Classes.BuyableItemBase(name, category, command, model, order, ext
     end
 
     function tbl:setPrice(val)
-        if isfunction(val) then
-            price = val
-            return
-        end
+        if isfunction(val) then price = val return end
 
         assert(isnumber(val), "Item price must be a number or function taking a player argument.")
         price = val
     end
 
     function tbl:setMax(val)
-        if isfunction(val) then
-            max = val
-            return
-        end
+        if isfunction(val) then max = val return end
 
         assert(isnumber(val), "Item maximum must be a number or function taking a player argument.")
         max = val
