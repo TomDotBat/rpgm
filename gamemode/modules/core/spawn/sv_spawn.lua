@@ -5,6 +5,12 @@ function GM:PlayerSpawn(ply)
 
     RPGM.SetBabyGod(ply, true)
 
+    player_manager.SetPlayerClass(ply, "player_rpgm")
+
+    --Apply job class vars here
+
+    player_manager.RunClass(ply, "Spawn")
+
     hook.Call("PlayerLoadout", self, ply)
     hook.Call("PlayerSetModel", self, ply)
 
