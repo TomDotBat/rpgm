@@ -24,5 +24,7 @@ function RPGM.Classes.Entity(name, category, command, model, order, extra, funct
     tbl:setClass(class)
     tbl:setSpawnFunction(spawnFunction)
 
+    RPGM.Classes.SetupExtras(tbl)
+
     return tbl
 end

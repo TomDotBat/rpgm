@@ -74,5 +74,7 @@ function RPGM.Classes.ItemBase(name, category, command, model, order, extra, fun
     tbl:setExtra(extra)
     tbl:setFunctions(val)
 
+    RPGM.Classes.SetupExtras(tbl)
+
     return tbl
 end

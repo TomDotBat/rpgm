@@ -46,5 +46,7 @@ function RPGM.Classes.BuyableItemBase(name, category, command, model, order, ext
     tbl:setMax(max)
     tbl:setJobsAllowed(jobsAllowed)
 
+    RPGM.Classes.SetupExtras(tbl)
+
     return tbl
 end

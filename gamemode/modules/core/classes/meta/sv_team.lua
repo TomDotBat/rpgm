@@ -37,5 +37,7 @@ function RPGM.Classes.Team(name, category, command, model, order, extra, functio
     tbl:setDescription(description)
     tbl:setLimit(limit)
 
+    RPGM.Classes.SetupExtras(tbl)
+
     return tbl
 end

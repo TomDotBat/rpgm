@@ -43,5 +43,7 @@ function RPGM.Classes.Shipment(name, category, command, model, order, extra, fun
     tbl:setIndividualPrice(individualPrice)
     tbl:setSellIndividual(sellIndividual)
 
+    RPGM.Classes.SetupExtras(tbl)
+
     return tbl
 end
