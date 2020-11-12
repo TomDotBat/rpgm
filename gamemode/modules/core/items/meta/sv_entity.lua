@@ -6,7 +6,7 @@ function RPGM.Classes.Entity(name, category, command, model, order, extra, funct
     function tbl:getSpawnFunction() return spawnFunction end
 
     function tbl:setClass(val)
-        assert(isnumber(val), "Entity class must be a number.")
+        assert(isnumber(val), "Entity class must be a string.")
         class = val
     end
 
