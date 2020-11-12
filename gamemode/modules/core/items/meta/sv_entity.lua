@@ -1,6 +1,6 @@
 
-function RPGM.Classes.BuyableItemBase(name, category, command, model, order, extra, functions, price, max, jobsAllowed, class, spawnFunction)
-    local tbl = RPGM.Classes.ItemBase(name, category, command, model, order, extra, functions, price, max, jobsAllowed)
+function RPGM.Classes.Entity(name, category, command, model, order, extra, functions, price, max, jobsAllowed, class, spawnFunction)
+    local tbl = RPGM.Classes.BuyableItemBase(name, category, command, model, order, extra, functions, price, max, jobsAllowed)
 
     function tbl:getClass() return class end
     function tbl:getSpawnFunction() return spawnFunction end
