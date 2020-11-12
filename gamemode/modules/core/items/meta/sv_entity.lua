@@ -6,7 +6,12 @@ function RPGM.Classes.Entity(name, category, command, model, order, extra, funct
     function tbl:getSpawnFunction() return spawnFunction end
 
     function tbl:setClass(val)
-        assert(isnumber(val), "Entity class must be a string.")
+        assert(isstring(val), "Entity class must be a entity class string.")
+        if not scripted_ents.Get(val) then
+            print("Warning! The entity \"" .. val .. "\" doesn't exist for the buyable entity " .. name .. ", defaulting to \"prop_physics\".")
+            class = "prop_physics"
+            return
+        end
         class = val
     end
 
