@@ -1,14 +1,16 @@
 
-function RPGM.Classes.ItemBase(name, category, command, model, order)
+function RPGM.Classes.ItemBase(name, category, command, model, order, extra, functions)
     local tbl = {}
 
     function tbl:getName() return name end
     function tbl:getCategory() return category end
     function tbl:getCommand() return command end
-    function tbl:getModel() 
+    function tbl:getModel()
         return istable(model) and table.Random(model) or model
     end
     function tbl:getOrder() return order end
+    function tbl:getExtra() return extra end
+    function tbl:getFunctions() return functions end
 
     function tbl:setName(val)
         assert(isstring(val), "Item name must be a string.")
@@ -42,11 +44,28 @@ function RPGM.Classes.ItemBase(name, category, command, model, order)
         order = val
     end
 
+    function tbl:setExtra(val)
+        assert(istable(val) and not table.IsSequential(val), "Item extra data must be a key-value table.")
+        extra = val
+    end
+
+    function tbl:setFunctions(val)
+        assert(istable(val) and not table.IsSequential(val), "Item hook overrides must be a key-value table of hook identifiers and functions.")
+
+        for k, v in pairs(val) do
+            assert(isfunction(v), "Item hook overrides must be a key-value table of hook identifiers and functions.")
+        end
+
+        functions = val
+    end
+
     tbl:setName(name)
     tbl:setCategory(category)
     tbl:setCommand(command)
     tbl:setModel(model)
     tbl:setOrder(order)
+    tbl:setExtra(extra)
+    tbl:setFunctions(val)
 
     return tbl
 end
