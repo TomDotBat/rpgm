@@ -1,4 +1,0 @@
-
-function RPGM.CreateConsoleCommand()
-
-end
