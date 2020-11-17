@@ -7,3 +7,4 @@ RPGM.Config.VoiceWhenDead = true
 
 --Misc Settings
 RPGM.Config.ConsoleCommand = "rpgm"
+RPGM.Config.ChatCommandPrefix = "/"
