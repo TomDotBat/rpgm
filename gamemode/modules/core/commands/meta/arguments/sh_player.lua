@@ -1,4 +1,9 @@
 
+local function hasSymbolPair(str, symbol)
+    if not string.StartWith(symbol, str) then return false end
+    return string.find(str, symbol, 2)
+end
+
 function RPGM.Classes.PlayerArgument(name, optional, default, allowSteamId)
     local tbl = RPGM.Classes.Argument(name, optional, default)
     tbl.__type = "argument_number"
@@ -12,13 +17,15 @@ function RPGM.Classes.PlayerArgument(name, optional, default, allowSteamId)
     end
 
     function tbl:processString(str, caller)
-        local splitStr = string.Split(str, " ")
-        if #splitStr < 1 then return self:getOptional(), str, self:getDefault() end
-
         if allowSteamId then
             local success, nextStr, val = RPGM.Util.PlayerSteamIDArg:processString(str)
             if success then return success, nextStr, val end
         end
+
+        str = string.lower(str)
+
+        local splitStr = string.Split(str, " ")
+        if #splitStr < 1 then return self:getOptional(), str, self:getDefault() end
 
         local text = splitStr[1]
         if text == "^" then
@@ -31,6 +38,21 @@ function RPGM.Classes.PlayerArgument(name, optional, default, allowSteamId)
             return self:getOptional(), str, self:getDefault()
         end
 
+        local endPoint = hasSymbolPair(str, "\"") or hasSymbolPair(str, "'")
+        if endPoint then
+            text = string.sub(str, 2, endPoint - 1)
+
+            for _, target in ipairs(player.GetAll()) do
+                if not IsValid(target) then continue end
+
+                if string.find(string.lower(target:Nick()), text) then
+                    return true, self:removeLeftChars(str, #text + 1), target
+                end
+            end
+
+            return self:getOptional(), str, self:getDefault()
+        end
+
         local playerList = player.GetAll()
         for k, v in ipairs(splitStr) do
             text = table.concat(splitStr, " ", 1, k)
@@ -38,7 +60,7 @@ function RPGM.Classes.PlayerArgument(name, optional, default, allowSteamId)
             for _, target in ipairs(playerList) do
                 if not IsValid(target) then continue end
 
-                if string.find(string.lower(v:Nick()), text) then
+                if string.find(string.lower(target:Nick()), text) then
                     return true, self:removeLeftChars(str, #text + 1), target
                 end
             end
