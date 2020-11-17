@@ -1,4 +1,9 @@
 
+local function hasSymbolPair(str, symbol)
+    if not string.StartWith(symbol, str) then return false end
+    return string.find(str, symbol, 2)
+end
+
 function RPGM.Classes.TextArgument(name, optional, default, singleWord)
     local tbl = RPGM.Classes.Argument(name, optional, default)
     tbl.__type = "argument_text"
@@ -9,11 +14,6 @@ function RPGM.Classes.TextArgument(name, optional, default, singleWord)
     function tbl:setSingleWord(val)
         RPGM.Assert(isbool(val), "Text argument single word state must be a boolean.")
         singleWord = val
-    end
-
-    local function hasSymbolPair(str, symbol)
-        if not string.StartWith(symbol, str) then return false end
-        return string.find(str, symbol, 2)
     end
 
     function tbl:processString(str)
