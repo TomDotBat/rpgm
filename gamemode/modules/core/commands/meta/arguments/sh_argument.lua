@@ -31,7 +31,7 @@ function RPGM.Classes.Argument(name, optional, default)
     end
 
     tbl:setName(name)
-    tbl:setOptional(optional)
+    tbl:setOptional(optional or false)
     tbl:setDefault(default)
 
     return tbl
