@@ -1,5 +1,5 @@
 
-function RPGM.Classes.Command(name, aliases, args, permission, minAccess)
+function RPGM.Classes.Command(name, aliases, args, func, permission, minAccess)
     local tbl = {}
     tbl.__type = "command"
 
@@ -18,6 +18,7 @@ function RPGM.Classes.Command(name, aliases, args, permission, minAccess)
     function tbl:getNames() return names end
     function tbl:getAliases() return aliases end
     function tbl:getArguments() return args end
+    function tbl:getFunction() return func end
     function tbl:getPermission() return permission end
     function tbl:getSyntax()
         local syntax = name .. " "
@@ -30,8 +31,8 @@ function RPGM.Classes.Command(name, aliases, args, permission, minAccess)
     end
     function tbl:hasPermission(ply, callback, targetPly)
         if not permission then
-            callback(true, "The " .. name .. "command is not permission restricted")
-            return true, "The " .. name .. "command is not permission restricted"
+            callback(true, "The " .. name .. "command is not permission restricted.")
+            return true, "The " .. name .. "command is not permission restricted."
         end
 
         return CAMI.PlayerHasAccess(ply, permission, callback, targetPly)
@@ -54,6 +55,11 @@ function RPGM.Classes.Command(name, aliases, args, permission, minAccess)
 
         aliases = val
         updateNames()
+    end
+
+    function tbl:setFunction(val)
+        RPGM.Assert(isfunction(val), "Command function must be a function.")
+        func = val
     end
 
     function tbl:setArguments(val)
@@ -79,6 +85,29 @@ function RPGM.Classes.Command(name, aliases, args, permission, minAccess)
             Name = val,
             MinAccess = access
         })
+    end
+
+    function tbl:execute(str, caller, callback)
+        local data = {}
+        local targetPly
+
+        for k, arg in ipairs(args) do
+            local success, str, result = arg:processString(str, caller)
+            if not success then return false end
+
+            if arg.__type == "argument_player" then
+                targetPly = result
+            end
+
+            data[k] = result
+        end
+
+        return self:hasPermission(caller, function(allowed, reason)
+            callback(allowed, reason)
+            if not allowed then return end
+
+            func(data)
+        end, targetPly)
     end
 
     tbl:setName(name)
