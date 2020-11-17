@@ -1,5 +1,4 @@
 
-
 local voiceDistance = RPGM.Config.VoiceRange ^ 2
 local voice3d = RPGM.Config.Voice3D
 local useRadius = RPGM.Config.VoiceUseRadius
