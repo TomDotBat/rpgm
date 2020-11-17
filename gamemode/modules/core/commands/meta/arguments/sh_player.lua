@@ -6,7 +6,7 @@ end
 
 function RPGM.Classes.PlayerArgument(name, optional, default, allowSteamId)
     local tbl = RPGM.Classes.Argument(name, optional, default)
-    tbl.__type = "argument_number"
+    tbl.__type = "argument_player"
     tbl.DisplayType = "Player"
 
     function tbl:getAllowSteamId() return allowSteamId end
