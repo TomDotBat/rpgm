@@ -30,6 +30,8 @@ function RPGM.RemoveCommand(name)
     end
 end
 
+local errorMessageCol = Color(217, 54, 46)
+
 function RPGM.HandleCommands(ply, str)
     local name = string.Split(str, " ")[1]
     if not name then return end
@@ -39,7 +41,12 @@ function RPGM.HandleCommands(ply, str)
     if not cmd then return end
 
     cmd:execute(string.Right(str, #str - (#name + 1)), ply, function(allowed, reason)
-        print("cum")
+        if not IsValid(ply) then return end
+
+        if not allowed then
+            RPGM.MessagePlayer(ply, reason, errorMessageCol)
+            return
+        end
     end)
 
     return true
