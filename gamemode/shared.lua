@@ -43,3 +43,5 @@ local rootDir = GM.FolderName .. "/gamemode/"
 RPGM.Util.LoadDirectory(rootDir .. "config")
 RPGM.Util.LoadDirectory(rootDir .. "libraries")
 RPGM.Util.LoadDirectory(rootDir .. "modules")
+
+collectgarbage()
