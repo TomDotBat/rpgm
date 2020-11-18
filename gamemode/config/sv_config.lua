@@ -19,6 +19,10 @@ RPGM.Config.FallDamageDamper = 15
 RPGM.Config.FallDamageAmount = 10
 RPGM.Config.DisableSuicide = false
 
+--Chat Settings
+RPGM.Config.ChatRange = 250
+RPGM.Config.ChatUseRadius = true
+
 --Voice Settings
 RPGM.Config.VoiceRange = 550
 RPGM.Config.Voice3D = true
