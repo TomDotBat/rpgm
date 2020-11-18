@@ -40,7 +40,9 @@ function RPGM.HandleCommands(ply, str)
     local cmd = RPGM.GetCommand(name)
     if not cmd then return end
 
-    cmd:execute(string.Right(str, #str - (#name + 1)), ply, function(allowed, reason)
+    local length = #str
+    local restLength = (#name + 1)
+    cmd:execute(length <= restLength and "" or string.Right(str, length - restLength), ply, function(allowed, reason)
         if not IsValid(ply) then return end
 
         if not allowed then
