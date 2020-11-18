@@ -2,6 +2,9 @@
 --Death Settings
 RPGM.Config.ShowKillFeed = true
 
+--Chat Settings
+RPGM.Config.ChatWhenDead = true
+
 --Voice Settings
 RPGM.Config.VoiceWhenDead = true
 
