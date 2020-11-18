@@ -5,16 +5,29 @@ function RPGM.GetCommands()
     return commands
 end
 
+function RPGM.GetCommandList()
+    return table.GetKeys(commands)
+end
+
 function RPGM.GetCommand(name)
     return commands[name]
 end
 
-function RPGM.RegisterCommand(...)
-    table.insert(commands, RPGM.Classes.Command(...))
+function RPGM.RegisterCommand(name, aliases, ...)
+    local cmd = RPGM.Classes.Command(name, aliases, ...)
+
+    for _, alias in ipairs(cmd:getNames()) do
+        commands[alias] = cmd
+    end
 end
 
 function RPGM.RemoveCommand(name)
-    commands[name] = nil
+    local cmd = commands[name]
+    if not cmd then return end
+
+    for _, alias in ipairs(cmd:getNames()) do
+        commands[alias] = nil
+    end
 end
 
 function RPGM.HandleCommands(ply, str)
@@ -22,18 +35,19 @@ function RPGM.HandleCommands(ply, str)
     if not name then return end
     name = string.lower(name)
 
-    for _, cmd in ipairs(commands) do
-        local aliases = cmd:getAliases()
-        for _, alias in ipairs(aliases) do
-            if name == alias then
-                cmd:execute(string.Right(str, #str - (name + 1)), ply, function(allowed, reason)
+    local cmd = RPGM.GetCommand(name)
+    if not cmd then return end
 
-                end)
+    cmd:execute(string.Right(str, #str - (#name + 1)), ply, function(allowed, reason)
+        print("cum")
+    end)
 
-                return true
-            end
-        end
-    end
-
-    return
+    return true
 end
+
+
+RPGM.RegisterCommand("ooc", {"/"}, {
+    RPGM.Classes.TextArgument("Message", false, nil, false, true)
+}, function(data)
+    PrintTable(data)
+end)
