@@ -21,7 +21,7 @@ function RPGM.Classes.Command(name, aliases, args, func, permission, minAccess)
     function tbl:getFunction() return func end
     function tbl:getPermission() return permission end
     function tbl:getSyntax()
-        local syntax = name .. " "
+        local syntax = ""
 
         for k, v in ipairs(args) do
             syntax = syntax .. "<" .. v.DisplayType .. ": " .. v:getName() .. "> "
@@ -31,8 +31,8 @@ function RPGM.Classes.Command(name, aliases, args, func, permission, minAccess)
     end
     function tbl:hasPermission(ply, callback, targetPly)
         if not permission then
-            callback(true, "The " .. name .. "command is not permission restricted.")
-            return true, "The " .. name .. "command is not permission restricted."
+            callback(true, "The \"" .. name .. "\" command is not permission restricted.")
+            return true, "The \"" .. name .. "\" command is not permission restricted."
         end
 
         return CAMI.PlayerHasAccess(ply, permission, callback, targetPly)
@@ -93,7 +93,10 @@ function RPGM.Classes.Command(name, aliases, args, func, permission, minAccess)
 
         for k, arg in ipairs(args) do
             local success, str, result = arg:processString(str, caller)
-            if not success then return false end
+            if not success then
+                callback(false, "Correct syntax: " .. name .. " " .. self:getSyntax())
+                return false
+            end
 
             if arg.__type == "argument_player" then
                 targetPly = result
