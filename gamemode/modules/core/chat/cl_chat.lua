@@ -63,13 +63,13 @@ net.Receive("RPGM.Chat", function()
             prefixCol, prefix .. " ",
             textColor, text
         )
-        MsgC(defaultPrefixCol, "[RPGM] ", textColor, text)
+        MsgC(prefixCol, prefix .. " ", textColor, text .. "\n")
 
         return
     end
 
     chat.AddText(textColor, text)
-    MsgC(prefixCol, prefix .. " ", textColor, text)
+    MsgC(defaultPrefixCol, "[RPGM] ", textColor, text .. "\n")
 
     chat.PlaySound()
 end)
