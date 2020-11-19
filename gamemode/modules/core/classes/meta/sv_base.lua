@@ -52,15 +52,17 @@ function RPGM.Classes.ItemBase(name, category, command, model, order, extra, fun
     end
 
     function tbl:setExtra(val)
+        if table.IsEmpty(val) then return end
         RPGM.Assert(istable(val) and not table.IsSequential(val), "Item extra data must be a key-value table.")
         extra = val
     end
 
     function tbl:setFunctions(val)
-        RPGM.Assert(istable(val) and not table.IsSequential(val), "Item hook overrides must be a key-value table of hook identifiers and functions.")
+        if table.IsEmpty(val) then return end
+        RPGM.Assert(istable(val) and table.IsSequential(val), "Item functions must be a key-value table of functions and names.")
 
         for k, v in pairs(val) do
-            RPGM.Assert(isfunction(v), "Item hook overrides must be a key-value table of hook identifiers and functions.")
+            RPGM.Assert(isfunction(v), "Item functions must be a key-value table of functions and names.")
         end
 
         functions = val
@@ -72,7 +74,7 @@ function RPGM.Classes.ItemBase(name, category, command, model, order, extra, fun
     tbl:setModel(model)
     tbl:setOrder(order)
     tbl:setExtra(extra)
-    tbl:setFunctions(val)
+    tbl:setFunctions(functions)
 
     RPGM.Classes.SetupExtras(tbl)
 
