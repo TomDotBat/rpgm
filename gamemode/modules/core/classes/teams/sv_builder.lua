@@ -53,3 +53,7 @@ function RPGM.AddTeam(data)
 
     return teamTbl
 end
+
+function RPGM.GetDefaultTeam()
+    return RPGM.TeamTable[citizen]
+end
