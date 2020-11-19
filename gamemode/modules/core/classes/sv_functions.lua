@@ -5,5 +5,5 @@ function RPGM.CallClassFunction(class, functionName, ...)
     local functions = class:getFunctions()
     if not (istable(functions) and functions[functionName]) then return end
 
-    functions[functionName](...)
+    return functions[functionName](...)
 end
