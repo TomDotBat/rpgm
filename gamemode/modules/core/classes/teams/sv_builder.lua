@@ -2,6 +2,7 @@
 local takenNames = {}
 
 RPGM.TeamTable = RPGM.TeamTable or {}
+RPGM.TeamTableID = RPGM.TeamTableID or {}
 RPGM.CategorisedTeamTable = RPGM.CategorisedTeamTable or {}
 RPGM.TeamCounter = 0
 
@@ -45,6 +46,7 @@ function RPGM.AddTeam(data)
     takenNames[data.name] = true
 
     RPGM.TeamTable[command] = teamTbl
+    RPGM.TeamTableID[RPGM.TeamCounter] = teamTbl
 
     if not RPGM.CategorisedTeamTable[category] then
         RPGM.CategorisedTeamTable[category] = {}
