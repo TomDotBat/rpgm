@@ -67,7 +67,10 @@ function RPGM.RemoveTeam(command)
 
     local id = teamTbl.__id
     RPGM.TeamTable[command] = nil
+    RPGM.CategorisedTeamTable[teamTbl:getCategory()][command] = nil
+
     if not id then return end
+    RPGM.TeamTableID[id] = nil
 
     local defaultId = RPGM.GetDefaultTeamID()
     for _, ply in ipairs(team.GetPlayers(id)) do
