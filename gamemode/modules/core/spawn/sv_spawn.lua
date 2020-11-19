@@ -1,5 +1,8 @@
 
+local getTeamClass = team.GetClass
 function GM:PlayerSpawn(ply)
+    RPGM.CallClassFunction(getTeamClass(ply:Team()), "onPlayerSpawn", ply)
+
     ply:CrosshairEnable()
     ply:UnSpectate()
 
@@ -7,7 +10,7 @@ function GM:PlayerSpawn(ply)
 
     player_manager.SetPlayerClass(ply, "player_rpgm")
 
-    --Apply team class vars here
+    ply:applyTeamVars()
 
     player_manager.RunClass(ply, "Spawn")
 
