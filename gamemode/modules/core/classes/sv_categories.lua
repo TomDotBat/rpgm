@@ -1,11 +1,11 @@
 
 local categories = {}
 
-function RPGM.AddCategory(classType, categoryName, color, order)
-    if not categoryName then return end
+function RPGM.AddCategory(classType, name, color, order)
+    if not name then return end
     if not categories[classType] then categories[classType] = {} end
 
-    categories[classType][categoryName] = {
+    categories[classType][name] = {
         color = color,
         order = order
     }
