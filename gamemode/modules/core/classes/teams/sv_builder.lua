@@ -55,14 +55,6 @@ function RPGM.AddTeam(data)
     return teamTbl, RPGM.TeamCounter
 end
 
-RPGM.AddTeam({
-    name = "Citizen",
-    category = "Citizens",
-    command = "citizen",
-    model = "models/player/gman_high.mdl",
-    color = color_white
-})
-
 function RPGM.RemoveTeam(command)
     RPGM.Assert(command != RPGM.Config.DefaultTeam, "An attempt was made to delete the default team, action prevented.")
 
