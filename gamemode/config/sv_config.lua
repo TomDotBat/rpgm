@@ -29,6 +29,34 @@ RPGM.Config.Voice3D = true
 RPGM.Config.VoiceUseRadius = true
 RPGM.Config.VoiceRoomOnly = true
 
+--Q Menu Spawning Settings
+--[[
+    Permission Level Nos:
+     < 0 Anyone
+     1   Admin
+     2   SuperAdmin
+     > 2 No one
+]]
+RPGM.Config.PropSpawnLevel = 0
+RPGM.Config.EffectSpawnLevel = 2
+RPGM.Config.RagdollSpawnLevel = 2
+RPGM.Config.WeaponSpawnLevel = 2
+RPGM.Config.EntitySpawnLevel = 2
+RPGM.Config.NPCSpawnLevel = 3
+RPGM.Config.VehicleSpawnLevel = 2
+
+--Prop Settings
+RPGM.Config.AllowedProperties = {
+    ["remover"] = true,
+    ["ignite"] = false,
+    ["extinguish"] = true,
+    ["keepupright"] = true,
+    ["gravity"] = true,
+    ["collision"] = true,
+    ["skin"] = true,
+    ["bodygroups"] = true
+}
+
 --Misc Settings
 RPGM.Config.EnableSprays = true
 RPGM.Config.DisableCSSAlert = false
