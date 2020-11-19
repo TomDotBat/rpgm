@@ -60,3 +60,4 @@ RPGM.Config.AllowedProperties = {
 --Misc Settings
 RPGM.Config.EnableSprays = true
 RPGM.Config.DisableCSSAlert = false
+RPGM.Config.ForcePlayerModel = true
