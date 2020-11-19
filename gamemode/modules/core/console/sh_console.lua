@@ -3,9 +3,7 @@ local commandPrefix = RPGM.Config.ConsoleCommand
 
 concommand.Add(commandPrefix, function(ply, cmd, args, argStr)
     if CLIENT then return end
-    RPGM.HandleCommands(ply, argStr, function(msg)
-        print(msg)
-    end)
+    RPGM.HandleCommands(ply, argStr)
 end,
 function(_, args)
     args = string.Split(string.Trim(args), " ")
