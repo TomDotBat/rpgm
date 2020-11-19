@@ -1,19 +1,18 @@
 
-local takenNames, takenCmds = {}, {}
+local takenNames = {}
 
 RPGM.TeamTable = RPGM.TeamTable or {}
 RPGM.CategorisedTeamTable = RPGM.CategorisedTeamTable or {}
 RPGM.TeamCounter = 0
 
 function RPGM.AddTeam(data)
-    if takenCmds[data.command] then
+    if RPGM.TeamTable[data.command] then
         return RPGM.LogError("Command already taken for team \"" .. (data.name or "Unknown") .. "\".")
     elseif takenNames[data.name] then
         return RPGM.LogError("Name already taken for team \"" .. (data.name or "Unknown") .. "\".")
     end
 
-    takenCmds[data.command] = true
-    takenCmds[data.name] = true
+    takenNames[data.name] = true
 
     local name = data.name
     local category = data.category or "Other"
@@ -61,6 +60,8 @@ function RPGM.RemoveTeam(command)
 
     local teamTbl = RPGM.TeamTable[command]
     if not teamTbl then return end
+
+    takenNames[teamTbl:getName()] = nil
 
     local id = teamTbl.__id
     RPGM.TeamTable[command] = nil
