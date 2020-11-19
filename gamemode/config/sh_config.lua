@@ -1,4 +1,7 @@
 
+--Team Settings
+RPGM.Config.DefaultTeam = "citizen"
+
 --Death Settings
 RPGM.Config.ShowKillFeed = true
 
