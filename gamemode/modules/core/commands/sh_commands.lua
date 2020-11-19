@@ -53,10 +53,3 @@ function RPGM.HandleCommands(ply, str)
 
     return true
 end
-
-
-RPGM.RegisterCommand("ooc", {"/"}, {
-    RPGM.Classes.TextArgument("Message", false, nil, false, true)
-}, function(data)
-    PrintTable(data)
-end)
