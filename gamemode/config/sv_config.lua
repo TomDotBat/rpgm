@@ -1,4 +1,11 @@
 
+--Movement Settings
+RPGM.Config.WalkSpeed = 160
+RPGM.Config.RunSpeed = 240
+
+--Vitals Settings
+RPGM.Config.StartingHealth = 100
+
 --Spawning Settings
 RPGM.Config.BabyGodEnabled = true
 RPGM.Config.BabyGodTime = 5
