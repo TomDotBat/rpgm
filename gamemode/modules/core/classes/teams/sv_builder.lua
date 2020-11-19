@@ -12,8 +12,6 @@ function RPGM.AddTeam(data)
         return RPGM.LogError("Name already taken for team \"" .. (data.name or "Unknown") .. "\".")
     end
 
-    takenNames[data.name] = true
-
     local name = data.name
     local category = data.category or "Other"
     local command = data.command
@@ -33,14 +31,6 @@ function RPGM.AddTeam(data)
         data.limit or 0
     )
 
-    RPGM.TeamTable[command] = teamTbl
-
-    if not RPGM.CategorisedTeamTable[category] then
-        RPGM.CategorisedTeamTable[category] = {}
-    end
-
-    RPGM.CategorisedTeamTable[category][command] = teamTbl
-
     RPGM.TeamCounter = RPGM.TeamCounter + 1
     teamTbl.__id = RPGM.TeamCounter
 
@@ -52,8 +42,26 @@ function RPGM.AddTeam(data)
         util.PrecacheModel(data.model)
     end
 
+    takenNames[data.name] = true
+
+    RPGM.TeamTable[command] = teamTbl
+
+    if not RPGM.CategorisedTeamTable[category] then
+        RPGM.CategorisedTeamTable[category] = {}
+    end
+
+    RPGM.CategorisedTeamTable[category][command] = teamTbl
+
     return teamTbl, RPGM.TeamCounter
 end
+
+RPGM.AddTeam({
+    name = "Citizen",
+    category = "Citizens",
+    command = "citizen",
+    model = "models/player/gman_high.mdl",
+    color = color_white
+})
 
 function RPGM.RemoveTeam(command)
     RPGM.Assert(command != RPGM.Config.DefaultTeam, "An attempt was made to delete the default team, action prevented.")
