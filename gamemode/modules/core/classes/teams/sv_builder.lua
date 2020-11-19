@@ -43,6 +43,8 @@ function RPGM.AddTeam(data)
     RPGM.CategorisedTeamTable[category][command] = teamTbl
 
     RPGM.TeamCounter = RPGM.TeamCounter + 1
+    teamTbl.__id = RPGM.TeamCounter
+
     team.SetUp(RPGM.TeamCounter, name, color)
 
     if istable(data.model) then
@@ -51,9 +53,32 @@ function RPGM.AddTeam(data)
         util.PrecacheModel(data.model)
     end
 
-    return teamTbl
+    return teamTbl, RPGM.TeamCounter
+end
+
+function RPGM.RemoveTeam(command)
+    RPGM.Assert(command != RPGM.Config.DefaultTeam, "An attempt was made to delete the default team, action prevented.")
+
+    local teamTbl = RPGM.TeamTable[command]
+    if not teamTbl then return end
+
+    local id = teamTbl.__id
+    RPGM.TeamTable[command] = nil
+    if not id then return end
+
+    local defaultId = RPGM.GetDefaultTeamID()
+    for _, ply in ipairs(team.GetPlayers(id)) do
+        ply:SetTeam(defaultId)
+    end
+
+    local teams = team.GetAllTeams()
+    teams[id] = nil
 end
 
 function RPGM.GetDefaultTeam()
-    return RPGM.TeamTable[citizen]
+    return RPGM.TeamTable[RPGM.Config.DefaultTeam]
+end
+
+function RPGM.GetDefaultTeamID()
+    return RPGM.GetDefaultTeam().__id
 end
