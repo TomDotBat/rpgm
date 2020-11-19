@@ -43,5 +43,3 @@ function RPGM.Classes.SteamIDArgument(name, optional, default, returnPlayer)
 
     return tbl
 end
-
-RPGM.Util.PlayerSteamIDArg = RPGM.Classes.SteamIDArgument("INTERNAL", false, nil, true)

@@ -56,3 +56,5 @@ function RPGM.Util.FindEmptyPos(pos, ignore, distance, step, area)
 
     return pos
 end
+
+RPGM.Util.PlayerSteamIDArg = RPGM.Classes.SteamIDArgument("INTERNAL", false, nil, true)
