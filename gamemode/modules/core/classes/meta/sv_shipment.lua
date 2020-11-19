@@ -1,6 +1,6 @@
 
-function RPGM.Classes.Shipment(name, category, command, model, order, extra, functions, price, max, jobsAllowed, class, size, sellIndividual, individualPrice)
-    local tbl = RPGM.Classes.BuyableItemBase(name, category, command, model, order, extra, functions, price, max, jobsAllowed)
+function RPGM.Classes.Shipment(name, category, command, model, order, extra, functions, price, max, teamsAllowed, class, size, sellIndividual, individualPrice)
+    local tbl = RPGM.Classes.BuyableItemBase(name, category, command, model, order, extra, functions, price, max, teamsAllowed)
     tbl.__type = "shipment"
 
     function tbl:getClass() return class end

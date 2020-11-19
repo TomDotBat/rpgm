@@ -1,20 +1,20 @@
 
-function RPGM.Classes.BuyableItemBase(name, category, command, model, order, extra, functions, price, max)
+function RPGM.Classes.BuyableItemBase(name, category, command, model, order, extra, functions, price, max, teamsAllowed)
     local tbl = RPGM.Classes.ItemBase(name, category, command, model, order, extra, functions)
     tbl.__type = "base_buyable"
 
     function tbl:getPrice(ply) return (isfunction(price) and IsValid(ply)) and price(ply) or price end
     function tbl:getMax(ply) return (isfunction(max) and IsValid(ply)) and max(ply) or max end
-    function tbl:getJobsAllowed() return jobsAllowed end
+    function tbl:getTeamsAllowed() return teamsAllowed end
 
-    function tbl:isJobAllowed(jobName)
-        if not jobsAllowed or table.Count(jobsAllowed) < 1 then return true end
-        return jobsAllowed[jobName]
+    function tbl:isTeamAllowed(teamName)
+        if not teamsAllowed or table.Count(teamsAllowed) < 1 then return true end
+        return teamsAllowed[teamName]
     end
 
     function tbl:canBuy(ply)
         local teamName = ply:teamName()
-        if not self:isJobAllowed(teamName) then return false, "You can't buy this item as a " .. teamName .. "." end
+        if not self:isTeamAllowed(teamName) then return false, "You can't buy this item as a " .. teamName .. "." end
         return self:doCustomCheck(ply)
     end
 
@@ -32,19 +32,19 @@ function RPGM.Classes.BuyableItemBase(name, category, command, model, order, ext
         max = val
     end
 
-    function tbl:setJobsAllowed(val)
-        RPGM.Assert(istable(val), "Entity allowed jobs must be a table of job name strings.")
+    function tbl:setTeamsAllowed(val)
+        RPGM.Assert(istable(val), "Entity allowed teams must be a table of team name strings.")
 
         for k, v in pairs(val) do
-            RPGM.Assert(isstring(v), "Entity allowed jobs must be a table of job name strings.")
+            RPGM.Assert(isstring(v), "Entity allowed teams must be a table of team name strings.")
         end
 
-        jobsAllowed = val
+        teamsAllowed = val
     end
 
     tbl:setPrice(price)
     tbl:setMax(max)
-    tbl:setJobsAllowed(jobsAllowed)
+    tbl:setTeamsAllowed(teamsAllowed)
 
     RPGM.Classes.SetupExtras(tbl)
 
