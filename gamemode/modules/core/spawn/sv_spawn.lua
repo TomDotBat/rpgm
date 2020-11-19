@@ -17,3 +17,11 @@ function GM:PlayerSpawn(ply)
     local ent, pos = hook.Call("PlayerSelectSpawn", self, ply)
     ply:SetPos(pos or ent:GetPos())
 end
+
+function GM:PlayerInitialSpawn(ply)
+    self.Sandbox.PlayerInitialSpawn(self, ply)
+
+    RPGM.Log(ply:Nick() .. " (" .. ply:SteamID() .. ") has joined the game.")
+
+    ply:SetTeam(RPGM.GetDefaultTeamID())
+end
