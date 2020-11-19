@@ -28,3 +28,17 @@ timer.Simple(0.1, function()
         GAMEMODE:InitPostEntity()
     end
 end)
+
+RPGM.AddTeam({
+    name = "Citizen",
+    category = "Citizens",
+    command = "citizen",
+    model = "models/player/gman_high.mdl",
+    color = color_white
+})
+
+RPGM.RegisterCommand("ooc", {"/"}, {
+    RPGM.Classes.TextArgument("Message", false, nil, false, true)
+}, function(data)
+    PrintTable(data)
+end)
