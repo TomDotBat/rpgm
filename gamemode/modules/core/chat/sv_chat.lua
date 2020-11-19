@@ -6,7 +6,9 @@ function GM:PlayerSay(ply, text, teamOnly)
         return ""
     end
 
-    RPGM.Log(ply:Nick() .. " (" .. ply:SteamID() .. "): " .. text)
+    if game.IsDedicated() then
+        RPGM.Log(ply:Nick() .. " (" .. ply:SteamID() .. "): " .. text)
+    end
 
     local isDead = not ply:Alive()
     if not RPGM.Config.ChatWhenDead and isDead then return "" end
