@@ -2,6 +2,8 @@
 local getTeamClass = team.GetClass
 
 function GM:PlayerChangedTeam(ply, oldTeamId, newTeamId)
+    ply.lastTeam = oldTeamId
+
     RPGM.CallClassFunction(getTeamClass(oldTeamId), "onPlayerLeave", ply, newTeamId)
     RPGM.CallClassFunction(getTeamClass(newTeamId), "onPlayerJoin", ply, oldTeamId)
 
