@@ -1,5 +1,6 @@
 
 local getTeamClass = team.GetClass
+
 function GM:PlayerSpawn(ply)
     RPGM.CallClassFunction(getTeamClass(ply:Team()), "onPlayerSpawn", ply)
 
