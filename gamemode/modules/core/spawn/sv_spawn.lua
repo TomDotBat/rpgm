@@ -7,7 +7,7 @@ function GM:PlayerSpawn(ply)
 
     player_manager.SetPlayerClass(ply, "player_rpgm")
 
-    --Apply job class vars here
+    --Apply team class vars here
 
     player_manager.RunClass(ply, "Spawn")
 
