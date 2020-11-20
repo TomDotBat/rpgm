@@ -24,7 +24,7 @@ function RPGM.AddTeam(data)
         command,
         data.model,
         data.order or 0,
-        data.extra or {},
+        data.extras or {},
         data.functions or {},
         color,
         data.description or "",
@@ -58,10 +58,12 @@ function RPGM.AddTeam(data)
 end
 
 function RPGM.RemoveTeam(command)
-    RPGM.Assert(command != RPGM.Config.DefaultTeam, "An attempt was made to delete the default team, action prevented.")
+    RPGM.Assert(command ~= RPGM.Config.DefaultTeam, "An attempt was made to delete the default team, action prevented.")
 
     local teamTbl = RPGM.TeamTable[command]
     if not teamTbl then return end
+
+    RPGM.SendTeamDelete(command, player.GetAll())
 
     takenNames[teamTbl:getName()] = nil
 
