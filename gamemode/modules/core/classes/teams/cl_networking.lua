@@ -1,7 +1,6 @@
 
 net.Receive("RPGM.TeamChanged", function()
-    local oldTeam, newTeam = net.ReadUInt(10), net.ReadUInt(10)
-    hook.Call("OnLocalTeamChanged", GAMEMODE, oldTeam, newTeam)
+    hook.Call("OnLocalTeamChanged", GAMEMODE, net.ReadUInt(10), net.ReadUInt(10))
 end)
 
 net.Receive("RPGM.DownloadTeams", function()
