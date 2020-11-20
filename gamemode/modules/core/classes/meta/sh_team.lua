@@ -49,6 +49,7 @@ function RPGM.Classes.Team(name, category, command, model, order, extra, functio
     function tbl:getNetworkableTable(useCache)
         local netTable = parentNetTableGetter(self, useCache)
 
+        netTable["id"] = self.__id
         netTable["color"] = color
         netTable["description"] = description
         netTable["weapons"] = weapons
