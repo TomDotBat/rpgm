@@ -4,8 +4,7 @@
     Original code by François Perrad, edited by Tom.bat for use in Garry's Mod.
 --]]
 
-messagePack = {}
-messagePack.__index = messagePack
+RPGM.MessagePack = {}
 
 local SIZEOF_NUMBER = 8
 local maxinteger
@@ -47,7 +46,7 @@ local packers = setmetatable({}, {
     end
 })
 
-messagePack.packers = packers
+RPGM.MessagePack.packers = packers
 
 packers["nil"] = function(buffer)
     buffer[#buffer + 1] = char(0xC0) -- nil
@@ -123,7 +122,7 @@ local set_string = function(str)
     end
 end
 
-messagePack.set_string = set_string
+RPGM.MessagePack.set_string = set_string
 
 packers["map"] = function(buffer, tbl, n)
     if n <= 0x0F then
@@ -224,7 +223,7 @@ local set_array = function(array)
     end
 end
 
-messagePack.set_array = set_array
+RPGM.MessagePack.set_array = set_array
 
 packers["table"] = function(buffer, tbl)
     packers["_table"](buffer, tbl)
@@ -298,7 +297,7 @@ local set_integer = function(integer)
     end
 end
 
-messagePack.set_integer = set_integer
+RPGM.MessagePack.set_integer = set_integer
 
 packers["float"] = function(buffer, n)
     local sign = 0
@@ -376,7 +375,7 @@ local set_number = function(number)
     end
 end
 
-messagePack.set_number = set_number
+RPGM.MessagePack.set_number = set_number
 
 for k = 0, 4 do
     local n = tointeger(2 ^ k)
@@ -461,7 +460,7 @@ packers["Color"] = function(buffer, col)
     packers["ext"](buffer, EXT_COLOR, concat(tempBuffer))
 end
 
-function messagePack.pack(data)
+function RPGM.MessagePack.pack(data)
     local buffer = {}
     packers[type(data)](buffer, data)
 
@@ -484,7 +483,7 @@ local function unpack_cursor(c)
     return unpackers[val](c, val)
 end
 
-messagePack.unpack_cursor = unpack_cursor
+RPGM.MessagePack.unpack_cursor = unpack_cursor
 
 local function unpack_str(c, n)
     local s, i, j = c.s, c.i, c.j
@@ -519,7 +518,7 @@ local function unpack_map(c, n)
         local val = unpack_cursor(c)
 
         if k == nil or k ~= k then
-            k = messagePack.sentinel
+            k = RPGM.MessagePack.sentinel
         end
 
         if k ~= nil then
@@ -758,8 +757,8 @@ local gmodUnpackers = {
     end
 }
 
-function messagePack.build_ext(tag, data)
-    local func = messagePack.unpacker(data)
+function RPGM.MessagePack.build_ext(tag, data)
+    local func = RPGM.MessagePack.unpacker(data)
     local _, val = func()
     return gmodUnpackers[tag](val)
 end
@@ -776,7 +775,7 @@ local function unpack_ext(c, n, tag)
 
     c.i = i + n
 
-    return messagePack.build_ext(tag, s:sub(i, e))
+    return RPGM.MessagePack.build_ext(tag, s:sub(i, e))
 end
 
 unpackers = setmetatable({
@@ -869,7 +868,7 @@ local function cursor_loader(ld)
     }
 end
 
-function messagePack.unpack(s)
+function RPGM.MessagePack.unpack(s)
     checktype("unpack", 1, s, "string")
     local cursor = cursor_string(s)
     local data = unpack_cursor(cursor)
@@ -881,7 +880,7 @@ function messagePack.unpack(s)
     return data
 end
 
-function messagePack.unpacker(src)
+function RPGM.MessagePack.unpacker(src)
     if type(src) == "string" then
         local cursor = cursor_string(src)
 
@@ -909,7 +908,7 @@ set_integer("unsigned")
 if SIZEOF_NUMBER == 4 then
     maxinteger = 16777215
     mininteger = -maxinteger
-    messagePack.small_lua = true
+    RPGM.MessagePack.small_lua = true
     unpackers[0xCB] = nil -- double
     unpackers[0xCF] = nil -- uint64
     unpackers[0xD3] = nil -- int64
@@ -920,12 +919,8 @@ else
     set_number("double")
 
     if SIZEOF_NUMBER > 8 then
-        messagePack.long_double = true
+        RPGM.MessagePack.long_double = true
     end
 end
 
 set_array("without_hole")
-
-function messagePack.new()
-    return setmetatable({}, messagePack)
-end
