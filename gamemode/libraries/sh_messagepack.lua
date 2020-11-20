@@ -460,7 +460,7 @@ packers["Color"] = function(buffer, col)
     packers["ext"](buffer, EXT_COLOR, concat(tempBuffer))
 end
 
-function RPGM.MessagePack.pack(data)
+function RPGM.MessagePack.Pack(data)
     local buffer = {}
     packers[type(data)](buffer, data)
 
@@ -868,7 +868,7 @@ local function cursor_loader(ld)
     }
 end
 
-function RPGM.MessagePack.unpack(s)
+function RPGM.MessagePack.Unpack(s)
     checktype("unpack", 1, s, "string")
     local cursor = cursor_string(s)
     local data = unpack_cursor(cursor)
