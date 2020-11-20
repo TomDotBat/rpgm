@@ -27,6 +27,7 @@ function RPGM.Classes.ItemBase(name, category, command, model, order, extra, fun
     function tbl:setCategory(val)
         RPGM.Assert(isstring(val), "Item category must be a string.")
         category = val
+        RPGM.AddCategory(self.__type, val)
     end
 
     function tbl:setCommand(val)
