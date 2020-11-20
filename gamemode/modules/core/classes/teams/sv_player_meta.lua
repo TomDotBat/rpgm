@@ -1,10 +1,6 @@
 
 local meta = FindMetaTable("Player")
 
-function meta:getTeamClass()
-    return RPGM.TeamTableID[self:Team()]
-end
-
 function meta:applyTeamVars()
     local playerClass = baseclass.Get(player_manager.GetPlayerClass(self))
 
