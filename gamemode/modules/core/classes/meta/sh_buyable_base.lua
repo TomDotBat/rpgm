@@ -33,10 +33,10 @@ function RPGM.Classes.BuyableItemBase(name, category, command, model, order, ext
     end
 
     function tbl:setTeamsAllowed(val)
-        RPGM.Assert(istable(val), "Entity allowed teams must be a table of team name strings.")
+        RPGM.Assert(istable(val), "Entity allowed teams must be a table of team command strings.")
 
         for k, v in pairs(val) do
-            RPGM.Assert(isstring(v), "Entity allowed teams must be a table of team name strings.")
+            RPGM.Assert(isstring(v), "Entity allowed teams must be a table of team command strings.")
         end
 
         teamsAllowed = val
@@ -45,6 +45,17 @@ function RPGM.Classes.BuyableItemBase(name, category, command, model, order, ext
     tbl:setPrice(price)
     tbl:setMax(max)
     tbl:setTeamsAllowed(teamsAllowed)
+
+    local parentNetTableGetter = tbl.getNetworkableTable
+    function tbl:getNetworkableTable(useCache)
+        local netTable = parentNetTableGetter(self, useCache)
+
+        netTable["price"] = price
+        netTable["max"] = max
+        netTable["teamsAllowed"] = teamsAllowed
+
+        return netTable
+    end
 
     RPGM.Classes.SetupExtras(tbl)
 

@@ -45,8 +45,19 @@ function RPGM.Classes.Team(name, category, command, model, order, extra, functio
     tbl:setWeapons(weapons)
     tbl:setLimit(limit)
 
+    local parentNetTableGetter = tbl.getNetworkableTable
+    function tbl:getNetworkableTable(useCache)
+        local netTable = parentNetTableGetter(self, useCache)
+
+        netTable["color"] = color
+        netTable["description"] = description
+        netTable["weapons"] = weapons
+        netTable["limit"] = limit
+
+        return netTable
+    end
+
     RPGM.Classes.SetupExtras(tbl)
-    RPGM.AddCategory(tbl.__type, category)
 
     return tbl
 end

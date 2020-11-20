@@ -43,8 +43,19 @@ function RPGM.Classes.Shipment(name, category, command, model, order, extra, fun
     tbl:setIndividualPrice(individualPrice)
     tbl:setSellIndividual(sellIndividual)
 
+    local parentNetTableGetter = tbl.getNetworkableTable
+    function tbl:getNetworkableTable(useCache)
+        local netTable = parentNetTableGetter(self, useCache)
+
+        netTable["class"] = class
+        netTable["size"] = size
+        netTable["individualPrice"] = individualPrice
+        netTable["sellIndividual"] = sellIndividual
+
+        return netTable
+    end
+
     RPGM.Classes.SetupExtras(tbl)
-    RPGM.AddCategory(tbl.__type, category)
 
     return tbl
 end
