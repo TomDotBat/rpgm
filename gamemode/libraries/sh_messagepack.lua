@@ -412,8 +412,8 @@ local EXT_VECTOR  = 3
 local EXT_ANGLE   = 4
 local EXT_COLOR   = 5
 
-local tempBuffer = {}
 packers["Entity"] = function(buffer, ent)
+    local tempBuffer = {}
     packers["number"](tempBuffer, ent:EntIndex())
     packers["ext"](buffer, EXT_ENTITY, tempBuffer[1])
 end
@@ -425,6 +425,7 @@ packers["NPC"] = packers["Entity"]
 packers["NextBot"] = packers["Entity"]
 
 packers["Player"] = function(buffer, ply)
+    local tempBuffer = {}
     packers["number"](tempBuffer, ply:UserID())
     packers["ext"](buffer, EXT_PLAYER, tempBuffer[1])
 end
@@ -436,6 +437,7 @@ packers["Vector"] = function(buffer, vec)
     vectorBuffer[3] = vec[3]
     vectorBuffer[4] = nil
 
+    local tempBuffer = {}
     packers["_table"](tempBuffer, vectorBuffer)
     packers["ext"](buffer, EXT_VECTOR, concat(tempBuffer))
 end
@@ -446,6 +448,7 @@ packers["Angle"] = function(buffer, ang)
     vectorBuffer[3] = ang[3]
     vectorBuffer[4] = nil
 
+    local tempBuffer = {}
     packers["_table"](tempBuffer, vectorBuffer)
     packers["ext"](buffer, EXT_ANGLE, concat(tempBuffer))
 end
@@ -456,7 +459,8 @@ packers["Color"] = function(buffer, col)
     vectorBuffer[3] = col.b
     vectorBuffer[4] = col.a
 
-    packers["_table"](buf, vectorBuffer)
+    local tempBuffer = {}
+    packers["_table"](tempBuffer, vectorBuffer)
     packers["ext"](buffer, EXT_COLOR, concat(tempBuffer))
 end
 
