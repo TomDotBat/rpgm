@@ -10,7 +10,7 @@ function RPGM.Classes.ItemBase(name, category, command, model, order, extra, fun
         return istable(model) and table.Random(model) or model
     end
     function tbl:getOrder() return order end
-    function tbl:getExtra() return extra end
+    function tbl:getExtras() return extra end
     function tbl:getFunctions() return functions end
     function tbl:doCustomCheck(ply)
         local check = functions["customCheck"]
@@ -40,9 +40,9 @@ function RPGM.Classes.ItemBase(name, category, command, model, order, extra, fun
             for k, v in pairs(val) do
                 RPGM.Assert(isstring(v), "Item model must be a string or table of strings.")
             end
+        else
+            RPGM.Assert(isstring(val), "Item model must be a string or table of strings.")
         end
-
-        RPGM.Assert(isstring(val), "Item model must be a string or table of strings.")
 
         model = val
     end
@@ -52,10 +52,17 @@ function RPGM.Classes.ItemBase(name, category, command, model, order, extra, fun
         order = val
     end
 
-    function tbl:setExtra(val)
+    function tbl:setExtras(val)
         if table.IsEmpty(val) then return end
         RPGM.Assert(istable(val) and not table.IsSequential(val), "Item extra data must be a key-value table.")
         extra = val
+    end
+
+    function tbl:setExtra(key, val)
+        RPGM.Assert(isstring(key), "Item extra name must be a string.")
+
+        if not istable(extra) then extra = {} end
+        extra[key] = val
     end
 
     function tbl:setFunctions(val)
@@ -69,13 +76,37 @@ function RPGM.Classes.ItemBase(name, category, command, model, order, extra, fun
         functions = val
     end
 
+    function tbl:setFunction(key, val)
+        RPGM.Assert(isstring(key), "Item function name must be a string.")
+        RPGM.Assert(isfunction(val), "Item function must be a function.")
+
+        if not istable(functions) then functions = {} end
+        functions[key] = val
+    end
+
     tbl:setName(name)
     tbl:setCategory(category)
     tbl:setCommand(command)
     tbl:setModel(model)
     tbl:setOrder(order)
-    tbl:setExtra(extra)
+    tbl:setExtras(extra)
     tbl:setFunctions(functions)
+
+    local netTable
+    function tbl:getNetworkableTable(useCache)
+        if useCache and netTable then return netTable end
+
+        netTable = {
+            ["name"] = name,
+            ["category"] = category,
+            ["command"] = command,
+            ["model"] = model,
+            ["order"] = order,
+            ["extra"] = extra
+        }
+
+        return netTable
+    end
 
     RPGM.Classes.SetupExtras(tbl)
 
