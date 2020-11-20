@@ -14,7 +14,7 @@ function RPGM.Classes.Team(name, category, command, model, order, extra, functio
     end
 
     function tbl:setDescription(val)
-        assert(isstring(val), "Team description must be a string.")
+        RPGM.Assert(isstring(val), "Team description must be a string.")
         description = val
     end
 
