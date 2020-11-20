@@ -23,6 +23,16 @@ function GM:InitPostEntity()
     game.ConsoleCommand("sv_alltalk 0\n")
 end
 
+local readyPlys = {}
+net.Receive("RPGM.ClientReady", function(len, ply)
+    if readyPlys[ply] then return end
+    readyPlys[ply] = true
+
+    hook.Call("RPGM.ClientReady", nil, ply)
+end)
+
+util.AddNetworkString("RPGM.ClientReady")
+
 timer.Simple(0.1, function()
     if not GAMEMODE.InitPostEntityCalled then
         GAMEMODE:InitPostEntity()
