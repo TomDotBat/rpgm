@@ -31,6 +31,10 @@ net.Receive("RPGM.ClientReady", function(len, ply)
     hook.Call("RPGM.ClientReady", nil, ply)
 end)
 
+hook.Add("PlayerDisconnected", "RPGM.ClientReadyCleanup", function(ply)
+    readyPlys[ply] = nil
+end)
+
 util.AddNetworkString("RPGM.ClientReady")
 
 timer.Simple(0.1, function()
@@ -38,6 +42,8 @@ timer.Simple(0.1, function()
         GAMEMODE:InitPostEntity()
     end
 end)
+
+if RPGM.GetDefaultTeam() then return end
 
 RPGM.AddTeam({
     name = "Citizen",
