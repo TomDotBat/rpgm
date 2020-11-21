@@ -22,7 +22,6 @@ end
 
 hook.Add("RPGM.ClientReady", "RPGM.SendTeamsOnStart", RPGM.SendAllTeams)
 
-
 function RPGM.SendTeam(team, recipient)
     local data = team:getNetworkableTable()
     data = RPGM.MessagePack.Pack(data)
