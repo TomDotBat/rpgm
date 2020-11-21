@@ -23,6 +23,8 @@ function GM:InitPostEntity()
     game.ConsoleCommand("sv_alltalk 0\n")
 end
 
+util.AddNetworkString("RPGM.ClientReady")
+
 local readyPlys = {}
 net.Receive("RPGM.ClientReady", function(len, ply)
     if readyPlys[ply] then return end
@@ -34,8 +36,6 @@ end)
 hook.Add("PlayerDisconnected", "RPGM.ClientReadyCleanup", function(ply)
     readyPlys[ply] = nil
 end)
-
-util.AddNetworkString("RPGM.ClientReady")
 
 timer.Simple(0.1, function()
     if not GAMEMODE.InitPostEntityCalled then
@@ -50,7 +50,7 @@ RPGM.AddTeam({
     category = "Citizens",
     command = "citizen",
     model = "models/player/gman_high.mdl",
-    color = color_white
+    color = Color(255, 255, 255)
 })
 
 RPGM.RegisterCommand("ooc", {"/"}, {

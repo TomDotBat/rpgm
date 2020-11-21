@@ -1,4 +1,6 @@
 
+util.AddNetworkString("RPGM.TeamChanged")
+
 local getTeamClass = team.GetClass
 
 function GM:PlayerChangedTeam(ply, oldTeamId, newTeamId)
@@ -12,5 +14,3 @@ function GM:PlayerChangedTeam(ply, oldTeamId, newTeamId)
      net.WriteUInt(newTeamId, 10)
     net.Send(ply)
 end
-
-util.AddNetworkString("RPGM.TeamChanged")

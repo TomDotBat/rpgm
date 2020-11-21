@@ -1,4 +1,7 @@
 
+util.AddNetworkString("RPGM.Talk")
+util.AddNetworkString("RPGM.Chat")
+
 function GM:PlayerSay(ply, text, teamOnly)
     if text == "" then return "" end
 
@@ -78,8 +81,6 @@ function RPGM.TalkToPlayer(talker, receiver, text, prefixCol, prefix, talkerName
     net.Send(receiver)
 end
 
-util.AddNetworkString("RPGM.Talk")
-
 function RPGM.MessagePlayer(receiver, text, textCol, prefixCol, prefix)
     net.Start("RPGM.Chat")
         net.WriteString(text)
@@ -94,5 +95,3 @@ function RPGM.MessagePlayer(receiver, text, textCol, prefixCol, prefix)
         end
     net.Send(receiver)
 end
-
-util.AddNetworkString("RPGM.Chat")

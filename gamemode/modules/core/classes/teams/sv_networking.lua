@@ -1,4 +1,8 @@
 
+util.AddNetworkString("RPGM.DownloadTeams")
+util.AddNetworkString("RPGM.DownloadTeam")
+util.AddNetworkString("RPGM.DeleteTeam")
+
 function RPGM.SendAllTeams(recipient)
     local data = {}
 
@@ -18,7 +22,6 @@ end
 
 hook.Add("RPGM.ClientReady", "RPGM.SendTeamsOnStart", RPGM.SendAllTeams)
 
-util.AddNetworkString("RPGM.DownloadTeams")
 
 function RPGM.SendTeam(team, recipient)
     local data = team:getNetworkableTable()
@@ -32,12 +35,8 @@ function RPGM.SendTeam(team, recipient)
     net.Send(recipient)
 end
 
-util.AddNetworkString("RPGM.DownloadTeam")
-
 function RPGM.SendTeamDelete(command, recipient)
     net.Start("RPGM.DeleteTeam")
      net.WriteString(command)
     net.Send(recipient)
 end
-
-util.AddNetworkString("RPGM.DeleteTeam")
