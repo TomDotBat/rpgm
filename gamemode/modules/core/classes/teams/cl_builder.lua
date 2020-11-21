@@ -16,7 +16,7 @@ function RPGM.SetupTeam(data)
     local name = data.name
     local category = data.category or "Other"
     local command = data.command
-    local color = data.color
+    local color = Color(data.color["r"], data.color["g"], data.color["b"], data.color["a"])
 
     local teamTbl = RPGM.Classes.Team(
         name,
