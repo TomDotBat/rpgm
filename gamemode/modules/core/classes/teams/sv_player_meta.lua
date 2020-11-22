@@ -19,3 +19,7 @@ function meta:applyTeamVars()
     self:SetNoCollideWithTeammates(playerClass.TeammateNoCollide)
     self:SetAvoidPlayers(playerClass.AvoidPlayers)
 end
+
+function meta:joinTeam(cmd)
+    return RPGM.JoinTeam(self, cmd)
+end
