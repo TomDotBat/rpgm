@@ -109,7 +109,7 @@ function RPGM.Classes.Command(name, aliases, args, func, permission, minAccess)
             callback(allowed, reason)
             if not allowed then return end
 
-            func(data)
+            func(caller, data)
         end, targetPly)
     end
 
