@@ -6,7 +6,7 @@ function RPGM.Classes.Team(name, category, command, model, order, extra, functio
     function tbl:getColor() return color end
     function tbl:getDescription() return description end
     function tbl:getWeapons() return weapons end
-    function tbl:getLimit() return limit end
+    function tbl:getLimit(ply) return (isfunction(limit) and IsValid(ply)) and limit(ply) or limit end
 
     function tbl:setColor(val)
         RPGM.Assert(IsColor(val), "Team color must be a color.")
@@ -36,7 +36,9 @@ function RPGM.Classes.Team(name, category, command, model, order, extra, functio
     end
 
     function tbl:setLimit(val)
-        RPGM.Assert(isnumber(val), "Team maximum must be a number.")
+        if isfunction(val) then limit = val return end
+
+        RPGM.Assert(isnumber(val), "Team slot limit must be a number or function taking a player argument.")
         limit = val
     end
 
