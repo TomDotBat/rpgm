@@ -53,5 +53,3 @@ function RPGM.HandleCommands(ply, str)
 
     return true
 end
-
-hook.Run("RPGM.RegisterCommands")

@@ -19,6 +19,10 @@ RPGM = RPGM or {
 function RPGM.Util.LoadDirectory(dir)
     local files, folders = file.Find(dir .. "/*", "LUA")
 
+    for k, v in pairs(folders) do
+        RPGM.Util.LoadDirectory(dir .. "/" .. v)
+    end
+
     for k, v in pairs(files) do
         local dirPath = dir .. "/" .. v
 
@@ -33,15 +37,13 @@ function RPGM.Util.LoadDirectory(dir)
             include(dirPath)
         end
     end
-
-    for k, v in pairs(folders) do
-        RPGM.Util.LoadDirectory(dir .. "/" .. v)
-    end
 end
 
 local rootDir = GM.FolderName .. "/gamemode/"
 RPGM.Util.LoadDirectory(rootDir .. "config")
 RPGM.Util.LoadDirectory(rootDir .. "libraries")
 RPGM.Util.LoadDirectory(rootDir .. "modules")
+
+hook.Run("RPGM.RegisterCommands")
 
 collectgarbage()
