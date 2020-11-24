@@ -24,9 +24,9 @@ function RPGM.InitializeDB()
 
     MySQLite.queueQuery("REPLACE INTO " .. tablePrefix .. "version VALUES(1)")
 
-    hook.Call("DBBuilder", GM or GAMEMODE, autoIncrement)
+    hook.Call("RPGM.DBBuilder", GM or GAMEMODE, autoIncrement)
 
     MySQLite.commit(function()
-        hook.Call("DBInitialized", GM or GAMEMODE, RPGM.DBVersion, isMySQL, tablePrefix)
+        hook.Call("RPGM.DBInitialized", GM or GAMEMODE, RPGM.DBVersion, isMySQL, tablePrefix)
     end)
 end
