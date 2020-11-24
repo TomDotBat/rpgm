@@ -68,3 +68,4 @@ RPGM.Config.AllowedProperties = {
 RPGM.Config.EnableSprays = true
 RPGM.Config.DisableCSSAlert = false
 RPGM.Config.ForcePlayerModel = true
+RPGM.Config.AnnounceTeamChange = true
