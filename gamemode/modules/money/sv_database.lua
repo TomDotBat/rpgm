@@ -2,7 +2,7 @@
 local tableName = RPGM.Config.Database.TablePrefix .. "money"
 
 hook.Add("RPGM.DBBuilder", "RPGM.BuildMoneyTable", function()
-    MySQLite.queueQuery([[CREATE TABLE "]] .. tableName .. [[" (
+    MySQLite.queueQuery([[CREATE TABLE IF NOT EXISTS "]] .. tableName .. [[" (
 	"steamid"	TEXT NOT NULL,
 	"money"	INTEGER NOT NULL,
 	PRIMARY KEY("steamid")
