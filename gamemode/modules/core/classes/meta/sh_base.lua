@@ -31,7 +31,8 @@ function RPGM.Classes.ItemBase(name, category, command, model, order, extra, fun
     end
 
     function tbl:setCommand(val)
-        RPGM.Assert(isstring(val), "Item command must be a string.")
+        RPGM.Assert(isstring(val), "Item command must be a string with no spaces.")
+        RPGM.Assert(not string.find(val, " "), "Item command must be a string with no spaces.")
         command = val
     end
 
