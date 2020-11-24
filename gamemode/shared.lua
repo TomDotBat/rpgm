@@ -47,4 +47,10 @@ RPGM.Util.LoadDirectory(rootDir .. "config/items")
 
 hook.Run("RPGM.RegisterCommands")
 
+RPGM.RegisterCommand("ooc", {"/"}, {
+    RPGM.Classes.TextArgument("Message", false, nil, false, true)
+}, function(data)
+    PrintTable(data)
+end)
+
 collectgarbage()
