@@ -40,7 +40,8 @@ function RPGM.Util.LoadDirectory(dir)
 end
 
 local rootDir = GM.FolderName .. "/gamemode/"
-RPGM.Util.LoadDirectory(rootDir .. "config/settings")
+RPGM.Util.LoadDirectory(rootDir .. "config/core")
+RPGM.Util.LoadDirectory(rootDir .. "config/modules")
 RPGM.Util.LoadDirectory(rootDir .. "libraries")
 RPGM.Util.LoadDirectory(rootDir .. "modules")
 RPGM.Util.LoadDirectory(rootDir .. "config/items")
