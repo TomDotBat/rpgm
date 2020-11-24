@@ -5,7 +5,7 @@ function RPGM.Notify(ply, text, type, len)
     net.Start("RPGM.Notify")
      net.WriteString(text)
      net.WriteUInt(type, 3)
-     net.WriteUInt(len, 32)
+     net.WriteUInt(len or 5, 32)
     net.Send(ply)
 end
 

@@ -2,7 +2,6 @@
 local defaultPrefixCol = Color(52, 168, 235)
 
 function RPGM.Notify(ply, text, type, len, disableSound)
-    if type < 0 or type > 4 then return end
     notification.AddLegacy(text, type or NOTIFY_GENERIC, len or 5)
     MsgC(defaultPrefixCol, "[RPGM] ", color_white, text .. "\n")
 
