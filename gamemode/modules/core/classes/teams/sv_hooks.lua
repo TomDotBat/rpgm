@@ -1,13 +1,13 @@
 
 util.AddNetworkString("RPGM.TeamChanged")
 
-local getTeamClass = team.GetClass
-
 function GM:PlayerChangedTeam(ply, oldTeamId, newTeamId)
-    ply.lastTeam = oldTeamId
+    if oldTeamId then
+        ply.lastTeam = oldTeamId
+        RPGM.CallClassFunction(RPGM.TeamTableID[oldTeamId], "onPlayerLeave", ply, newTeamId)
+    end
 
-    RPGM.CallClassFunction(getTeamClass(oldTeamId), "onPlayerLeave", ply, newTeamId)
-    RPGM.CallClassFunction(getTeamClass(newTeamId), "onPlayerJoin", ply, oldTeamId)
+    RPGM.CallClassFunction(RPGM.TeamTableID[newTeamId], "onPlayerJoin", ply, oldTeamId)
 
     net.Start("RPGM.TeamChanged")
      net.WriteUInt(oldTeamId, 10)
