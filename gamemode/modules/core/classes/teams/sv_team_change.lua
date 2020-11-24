@@ -1,7 +1,7 @@
 
 function RPGM.JoinTeam(ply, cmd, force)
     local teamTbl = RPGM.TeamTable[cmd]
-    if not teamTbl then return end
+    if not teamTbl then return true end
 
     if not force then
         local limit = teamTbl:getLimit(ply)
