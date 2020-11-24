@@ -8,10 +8,3 @@ if not RPGM.GetDefaultTeam() then
         color = Color(255, 255, 255)
     })
 end
-
-
-RPGM.RegisterCommand("ooc", {"/"}, {
-    RPGM.Classes.TextArgument("Message", false, nil, false, true)
-}, function(ply, data)
-    PrintTable(data)
-end)
