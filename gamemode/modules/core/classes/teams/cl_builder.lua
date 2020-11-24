@@ -71,3 +71,11 @@ function RPGM.RemoveTeam(command)
     local teams = team.GetAllTeams()
     teams[id] = nil
 end
+
+function RPGM.GetDefaultTeam()
+    return RPGM.TeamTable[RPGM.Config.DefaultTeam]
+end
+
+function RPGM.GetDefaultTeamID()
+    return RPGM.GetDefaultTeam().__id
+end
