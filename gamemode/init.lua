@@ -4,6 +4,8 @@ AddCSLuaFile("shared.lua")
 
 include("shared.lua")
 
+RPGM.InitializeDB()
+
 function GM:Initialize()
     self.Sandbox.Initialize(self)
 end
@@ -23,6 +25,12 @@ function GM:InitPostEntity()
     game.ConsoleCommand("sv_alltalk 0\n")
 end
 
+timer.Simple(0.1, function()
+    if not GAMEMODE.InitPostEntityCalled then
+        GAMEMODE:InitPostEntity()
+    end
+end)
+
 util.AddNetworkString("RPGM.ClientReady")
 
 local readyPlys = {}
@@ -35,26 +43,4 @@ end)
 
 hook.Add("PlayerDisconnected", "RPGM.ClientReadyCleanup", function(ply)
     readyPlys[ply] = nil
-end)
-
-timer.Simple(0.1, function()
-    if not GAMEMODE.InitPostEntityCalled then
-        GAMEMODE:InitPostEntity()
-    end
-end)
-
-if RPGM.GetDefaultTeam() then return end
-
-RPGM.AddTeam({
-    name = "Citizen",
-    category = "Citizens",
-    command = "citizen",
-    model = "models/player/gman_high.mdl",
-    color = Color(255, 255, 255)
-})
-
-RPGM.RegisterCommand("ooc", {"/"}, {
-    RPGM.Classes.TextArgument("Message", false, nil, false, true)
-}, function(ply, data)
-    PrintTable(data)
 end)
