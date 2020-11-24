@@ -5,5 +5,6 @@ RPGM.Config.Database = {
     Username = "root",
     Password = nil,
     Database = "rpgm",
-    Module = "mysqloo"
+    Module = "mysqloo",
+    TablePrefix = "rpgm_"
 }
