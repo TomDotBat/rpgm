@@ -27,7 +27,7 @@ function RPGM.Classes.SetupExtras(class)
     local classExtras = extras[classType]
     if not classExtras then return end
 
-    local extraTable = class:getExtra()
+    local extraTable = class:getExtras()
 
     for k,v in pairs(classExtras) do
         local accessorData = extras[classType]
