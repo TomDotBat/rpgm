@@ -1,6 +1,6 @@
 
 --[[
-    gmod-messagepack, an edit of lua-MessagePack (https:--fperrad.frama.io/lua-MessagePack/).
+    gmod-messagepack, an edit of lua-MessagePack (https://fperrad.frama.io/lua-MessagePack/).
     Original code by François Perrad, edited by Tom.bat for use in Garry's Mod.
 --]]
 
@@ -24,6 +24,13 @@ local frexp = math.frexp
 local ldexp = math.ldexp
 local huge = math.huge
 local tconcat = table.concat
+
+local oldType = type
+local isColor = IsColor
+local function type(var)
+    if isColor(var) then return "Color" end
+    return oldType(var)
+end
 
 local function argerror(caller, narg, extramsg)
     error("bad argument #" .. tostring(narg) .. " to " .. caller .. " (" .. extramsg .. ")")
@@ -404,8 +411,6 @@ packers["ext"] = function(buffer, tag, data)
     buffer[#buffer + 1] = data
 end
 
-local concat = table.concat
-
 local EXT_ENTITY  = 1
 local EXT_PLAYER  = 2
 local EXT_VECTOR  = 3
@@ -439,7 +444,7 @@ packers["Vector"] = function(buffer, vec)
 
     local tempBuffer = {}
     packers["_table"](tempBuffer, vectorBuffer)
-    packers["ext"](buffer, EXT_VECTOR, concat(tempBuffer))
+    packers["ext"](buffer, EXT_VECTOR, tconcat(tempBuffer))
 end
 
 packers["Angle"] = function(buffer, ang)
@@ -450,7 +455,7 @@ packers["Angle"] = function(buffer, ang)
 
     local tempBuffer = {}
     packers["_table"](tempBuffer, vectorBuffer)
-    packers["ext"](buffer, EXT_ANGLE, concat(tempBuffer))
+    packers["ext"](buffer, EXT_ANGLE, tconcat(tempBuffer))
 end
 
 packers["Color"] = function(buffer, col)
@@ -461,7 +466,7 @@ packers["Color"] = function(buffer, col)
 
     local tempBuffer = {}
     packers["_table"](tempBuffer, vectorBuffer)
-    packers["ext"](buffer, EXT_COLOR, concat(tempBuffer))
+    packers["ext"](buffer, EXT_COLOR, tconcat(tempBuffer))
 end
 
 function RPGM.MessagePack.Pack(data)
@@ -744,21 +749,21 @@ local Vector = Vector
 local Angle = Angle
 
 local gmodUnpackers = {
-    [EXT_ENTITY] = function(value)
-        return Entity(value)
-    end,
-    [EXT_PLAYER] = function(value)
-        return Player(value)
-    end,
-    [EXT_VECTOR] = function(value)
-        return Vector(value[1], value[2], value[3])
-    end,
-    [EXT_ANGLE] = function(value)
-        return Angle(value[1], value[2], value[3])
-    end,
-    [EXT_COLOR] = function(value)
-        return Color(value[1], value[2], value[3], value[4])
-    end
+	[EXT_ENTITY] = function(value)
+		return Entity(value)
+	end,
+	[EXT_PLAYER] = function(value)
+		return Player(value)
+	end,
+	[EXT_VECTOR] = function(value)
+		return Vector(value[1], value[2], value[3])
+	end,
+	[EXT_ANGLE] = function(value)
+		return Angle(value[1], value[2], value[3])
+	end,
+	[EXT_COLOR] = function(value)
+		return Color(value[1], value[2], value[3], value[4])
+	end
 }
 
 function RPGM.MessagePack.build_ext(tag, data)
