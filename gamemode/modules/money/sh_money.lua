@@ -30,5 +30,5 @@ function RPGM.formatMoney(n)
         n = n .. "0"
     end
 
-    return (negative and "-" or "") .. attachCurrency(n)
+    return (negative and "-" or "") .. addCurrency(n)
 end
