@@ -5,6 +5,9 @@ if not RPGM.GetDefaultTeam() then
         category = "Citizens",
         command = "citizen",
         model = "models/player/gman_high.mdl",
-        color = Color(255, 255, 255)
+        color = Color(255, 255, 255),
+        extras = {
+            salary = 40
+        }
     })
 end
