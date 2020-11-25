@@ -13,7 +13,7 @@ function RPGM.GetMoneyFromDB(steamid, callback)
     RPGM.CheckType(steamid, "string")
 
     MySQLite.query(
-        [[SELECT "money" FROM `]] .. tableName .. [[` WHERE "steamid"=']] .. steamid .. [[';]],
+        [[SELECT money FROM `]] .. tableName .. [[` WHERE steamid="]] .. steamid .. [[";]],
         function(data)
             if data then
                 local row = data[1]
@@ -39,8 +39,8 @@ function RPGM.SetMoneyInDB(steamid, amount, callback)
 
     amount = tostring(amount)
 
-    local query = [[INSERT INTO "]] .. tableName
-        .. [[" ("steamid", "money") VALUES(]] .. steamid .. [[,]] .. amount .. [[)]]
+    local query = [[INSERT INTO `]] .. tableName
+        .. [[` (steamid, money) VALUES("]] .. steamid .. [[", ]] .. amount .. [[)]]
 
     if MySQLite.isMySQL() then
         query = query
