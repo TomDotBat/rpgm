@@ -371,7 +371,7 @@ function SQLStr(sqlStr)
         mysqlOO                and function(str) return "\"" .. databaseObject:escape(tostring(str)) .. "\"" end or
         TMySQL                 and function(str) return "\"" .. databaseObject:Escape(tostring(str)) .. "\"" end
 
-    return escape(sqlStr)
+    return escape(sqlStr, true)
 end
 
 function tableExists(tbl, callback, errorCallback)
