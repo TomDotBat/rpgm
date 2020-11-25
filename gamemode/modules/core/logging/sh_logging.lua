@@ -5,7 +5,7 @@ function RPGM.Log(msg, prefixColOverride)
     MsgC(prefixColOverride or prefixCol, "[RPGM]: ", messageCol, msg .. "\n")
 end
 
-local warningCol = Color(230, 131, 60)
+local warningCol = Color(242, 141, 24)
 function RPGM.LogWarning(warningMsg)
     MsgC(prefixCol, "[RPGM - WARNING]: ", warningCol, warningMsg .. "\n")
 end
