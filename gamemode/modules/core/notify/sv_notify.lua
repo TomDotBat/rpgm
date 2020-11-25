@@ -4,7 +4,7 @@ util.AddNetworkString("RPGM.Notify")
 function RPGM.Notify(ply, text, type, len)
     net.Start("RPGM.Notify")
      net.WriteString(text)
-     net.WriteUInt(type, 3)
+     net.WriteUInt(type or NOTIFY_GENERIC, 3)
      net.WriteUInt(len or 5, 32)
     net.Send(ply)
 end
