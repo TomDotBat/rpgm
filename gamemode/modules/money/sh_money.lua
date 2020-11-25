@@ -11,7 +11,7 @@ local function addCurrency(str)
     return config.CurrencyLeft and config.CurrencySymbol .. str or str .. config.CurrencySymbol
 end
 
-function RPGM.formatMoney(n)
+function RPGM.FormatMoney(n)
     if not n then return addCurrency("0") end
 
     if n >= 1e14 then return addCurrency(tostring(n)) end
