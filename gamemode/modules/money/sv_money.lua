@@ -20,7 +20,7 @@ function RPGM.SetPlayerMoney(ply, amount, callback)
 	RPGM.CheckType(amount, "number")
 
 	ply:setRPInt("Money", amount)
-	RPGM.SetMoneyInDB(ply:SteamID64(), amount, ply:Name(), callback)
+	RPGM.SetMoneyInDB(ply:SteamID64(), amount, callback)
 end
 
 function RPGM.GivePlayerMoney(ply, amount, callback)
