@@ -10,7 +10,7 @@ function RPGM.PayPlayerSalary(ply)
     local newSalary = hook.Run("RPGM.OverridePlayerSalary", ply, salary or 0)
     salary = newSalary or salary
 
-    if not salary or salary < 0 then return end
+    if not salary or salary < 1 then return end
 
     local cantRecieve, reason = hook.Run("RPGM.CanPlayerRecieveSalary", ply, salary)
     if cantRecieve then
