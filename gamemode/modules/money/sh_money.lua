@@ -1,4 +1,6 @@
 
+RPGM.Classes.RegisterExtra("team", "salary", true)
+
 local tostring = tostring
 local find = string.find
 local abs = math.abs
