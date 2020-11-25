@@ -1,5 +1,5 @@
 
-RPGM.Classes.RegisterExtra("team", "salary", true)
+RPGM.Classes.RegisterExtra("Team", "salary", true)
 
 function RPGM.PayPlayerSalary(ply)
     local team = ply:getTeamClass()
