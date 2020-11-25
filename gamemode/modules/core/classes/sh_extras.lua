@@ -6,12 +6,6 @@ function RPGM.Classes.GetExtras(classType)
 end
 
 function RPGM.Classes.RegisterExtra(classType, varName, useAccessors, getter, setter)
-    if not RPGM.Classes[classType] then
-        RPGM.LogWarning("Invalid class type specified when registering an extra value.")
-        debug.Trace()
-        return
-    end
-
     if not extras[classType] then extras[classType] = {} end
 
     if not useAccessors then
@@ -29,7 +23,7 @@ function RPGM.Classes.SetupExtras(class)
 
     local extraTable = class:getExtras()
 
-    for k,v in pairs(classExtras) do
+    for k, v in pairs(classExtras) do
         local accessorData = extras[classType]
         if isbool(accessorData) then continue end
 
