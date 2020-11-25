@@ -1,9 +1,7 @@
 
-local defaultPrefixCol = Color(52, 168, 235)
-
 function RPGM.Notify(text, type, len, disableSound)
     notification.AddLegacy(text, type or NOTIFY_GENERIC, len or 5)
-    MsgC(defaultPrefixCol, "[RPGM] ", color_white, text .. "\n")
+    RPGM.Log(text)
 
     if disableSound then return end
     surface.PlaySound("buttons/lightswitch2.wav")

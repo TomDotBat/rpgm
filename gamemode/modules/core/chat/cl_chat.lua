@@ -21,14 +21,14 @@ net.Receive("RPGM.Talk", function()
         talkerName = talker:Nick()
     else
         local override = net.ReadString()
-        if isstring(override) and override != "" then
+        if isstring(override) and override ~= "" then
             talkerName = override
         end
     end
 
     hook.Call("OnPlayerChat", GAMEMODE, talker, text, false, talkerDead)
 
-    if net.BytesLeft() != 0 then
+    if net.BytesLeft() ~= 0 then
         chat.AddText(
             net.ReadColor(), net.ReadString() .. " ",
             talkerDead and deadMessageColor or getTeamColor(talker:Team()), talkerName,
@@ -48,28 +48,26 @@ net.Receive("RPGM.Talk", function()
     chat.PlaySound()
 end)
 
-local defaultPrefixCol = Color(52, 168, 235)
-
 net.Receive("RPGM.Chat", function()
     local text = net.ReadString()
 
     local textColor = net.ReadColor()
     if not IsColor(textColor) then textColor = messageColor end
 
-    if net.BytesLeft() != 0 then
+    if net.BytesLeft() ~= 0 then
         local prefixCol, prefix = net.ReadColor(), net.ReadString()
 
         chat.AddText(
             prefixCol, prefix .. " ",
             textColor, text
         )
-        MsgC(prefixCol, prefix .. " ", textColor, text .. "\n")
+        RPGM.Log(text, prefixCol)
 
         return
     end
 
     chat.AddText(textColor, text)
-    MsgC(defaultPrefixCol, "[RPGM] ", textColor, text .. "\n")
+    RPGM.Log(text)
 
     chat.PlaySound()
 end)
