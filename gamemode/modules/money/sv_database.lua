@@ -3,8 +3,8 @@ local tableName = RPGM.Config.Database.TablePrefix .. "money"
 
 hook.Add("RPGM.DBBuilder", "RPGM.BuildMoneyTable", function()
     MySQLite.queueQuery([[CREATE TABLE IF NOT EXISTS "]] .. tableName .. [[" (
-	"steamid"	TEXT NOT NULL,
-	"money"	INTEGER NOT NULL,
+	steamid	TEXT NOT NULL,
+	money INTEGER NOT NULL,
 	PRIMARY KEY("steamid")
 );]])
 end)
@@ -17,9 +17,12 @@ function RPGM.GetMoneyFromDB(steamid, callback)
         function(data)
             if data then
                 local row = data[1]
-                if row and row.money and row.money > 0 then
-                    if callback then callback(row.money) end
-                    return
+                if row and row.money then
+                    local money = tonumber(row.money)
+                    if money > 0 then
+                        if callback then callback(row.money) end
+                        return
+                    end
                 end
             end
 

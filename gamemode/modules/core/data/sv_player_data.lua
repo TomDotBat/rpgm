@@ -3,8 +3,8 @@ local tableName = RPGM.Config.Database.TablePrefix .. "players"
 
 hook.Add("RPGM.DBBuilder", "RPGM.BuildPlayerTable", function()
     MySQLite.queueQuery([[CREATE TABLE IF NOT EXISTS "]] .. tableName .. [[" (
-	`steamid`	TEXT NOT NULL,
-	`name`	TEXT NOT NULL,
+	steamid	TEXT NOT NULL,
+	name	TEXT NOT NULL,
 	PRIMARY KEY("steamid")
 );]])
 end)
@@ -16,7 +16,7 @@ function RPGM.SetPlayerNameInDB(steamid, name, callback)
     name = MySQLite.SQLStr(name)
 
     local query = [[INSERT INTO `]] .. tableName
-        .. [[` ("steamid", "name") VALUES("]] .. steamid .. [[", "]] .. name .. [[")]]
+        .. [[` (steamid, name) VALUES("]] .. steamid .. [[", "]] .. name .. [[")]]
 
     if MySQLite.isMySQL() then
         query = query
