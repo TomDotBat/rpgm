@@ -1,6 +1,4 @@
 
---steamid, steam name, nickname, ip?
-
 local tableName = RPGM.Config.Database.TablePrefix .. "players"
 
 hook.Add("RPGM.DBBuilder", "RPGM.BuildPlayerTable", function()
