@@ -12,17 +12,17 @@ function GM:PlayerBindPress(ply, bind, pressed)
 
     local bnd = string.match(bind, "gm_[a-z]+[12]?")
     if bnd and keyBinds[bnd] then
-        hook.Call(keyBinds[bnd], GAMEMODE)
+        hook.Call(keyBinds[bnd], GM or GAMEMODE)
     end
 
     if not RPGM.Config.VoiceWhenDead and not ply:Alive() and string.find(bind, "voicerecord") then return true end
 end
 
 local function handleFKeyPress(ply, keyNo)
-    if ply ~= RPGM.Util.GetLocalPlayer() then return end
+    if ply ~= nil and ply ~= RPGM.Util.GetLocalPlayer() then return end
     if keyNo < 0 or keyNo > 4 then return end
 
-    hook.Call("RPGM.FKeyPressed", GAMEMODE, keyNo)
+    hook.Call("RPGM.FKeyPressed",  GM or GAMEMODE, keyNo)
 end
 
 function GM:ShowHelp(ply)
@@ -45,6 +45,8 @@ local mouseX, mouseY
 local cursorUnlocked = false
 
 hook.Add("RPGM.FKeyPressed", "RPGM.UnlockCursorBind", function(keyNo)
+    if keyNo ~= 3 then return end
+
     cursorUnlocked = not cursorUnlocked
 
     if cursorUnlocked then
