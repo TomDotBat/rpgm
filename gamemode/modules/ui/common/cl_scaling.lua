@@ -5,8 +5,19 @@ function RPGM.Scale(value)
     return max(value * (scrh() / 1080), 1)
 end
 
-RPGM.HUDPadding = RPGM.Scale(30)
+local constants = {}
+local scaledConstants = {}
+function RPGM.RegisterScaledConstant(varName, size)
+    constants[varName] = size
+    scaledConstants[varName] = RPGM.Scale(size)
+end
+
+function RPGM.GetScaledConstant(varName)
+    return scaledConstants[varName]
+end
 
 hook.Add("OnScreenSizeChanged", "RPGM.StoreScaledConstants", function()
-    RPGM.HUDPadding = RPGM.Scale(30)
+    for varName, size in ipairs(constants) do
+        scaledConstants[varName] = RPGM.Scale(size)
+    end
 end)
