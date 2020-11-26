@@ -1,11 +1,11 @@
 
 local meta = FindMetaTable("Player")
 
-function meta:rpNotify(text, type, len, disableSound)
+function meta:rpNotify(title, description, type, len, disableSound)
     if SERVER then
-        RPGM.Notify(self, text, type, len)
+        RPGM.Notify(self, title, description, type, len)
         return
     end
 
-    RPGM.Notify(text, type, len, disableSound)
+    RPGM.Notify(title, description, type, len, disableSound)
 end

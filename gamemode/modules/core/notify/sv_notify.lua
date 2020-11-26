@@ -1,9 +1,15 @@
 
 util.AddNetworkString("RPGM.Notify")
 
-function RPGM.Notify(ply, text, type, len)
+function RPGM.Notify(ply, title, description, type, len)
+    if not isstring(description) then
+        description = title
+        title = ""
+    end
+
     net.Start("RPGM.Notify")
-     net.WriteString(text)
+     net.WriteString(title)
+     net.WriteString(description)
      net.WriteUInt(type or NOTIFY_GENERIC, 3)
      net.WriteUInt(len or 5, 32)
     net.Send(ply)
@@ -14,3 +20,4 @@ NOTIFY_ERROR = 1
 NOTIFY_UNDO = 2
 NOTIFY_HINT = 3
 NOTIFY_CLEANUP = 4
+NOTIFY_MONEY = 5
