@@ -17,7 +17,7 @@ function RPGM.PayPlayerSalary(ply)
     end
 
     ply:addMoney(salary)
-    ply:rpNotify("You have been paid your salary of " .. RPGM.FormatMoney(salary) .. ".")
+    ply:rpNotify("Salary Payment", "You have been paid your salary of " .. RPGM.FormatMoney(salary) .. ".", NOTIFY_MONEY)
 end
 
 local getAllPlayers = player.GetAll
