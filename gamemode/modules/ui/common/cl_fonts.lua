@@ -1,10 +1,4 @@
 
-local scrh = ScrH
-local max = math.max
-function RPGM.Scale(value)
-    return max(value * (scrh() / 1080), 1)
-end
-
 function RPGM.RegisterFontUnscaled(name, font, size, weight)
     surface.CreateFont("RPGM." .. name, {
         font = font,
