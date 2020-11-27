@@ -64,7 +64,7 @@ hook.Add("RPGM.DrawHUD", "RPGM.DrawNotifications", function(scrW, scrH)
     local iconSize = getScaledConstant("HUD.Notifications.IconSize")
 
     local notifX = scrW - padding - notifW
-    local contentX = notifX + contentSpacing
+    local contentX = notifX + contentPad
 
     local backgroundCol = RPGM.Colors.Background
     local titleCol = RPGM.Colors.PrimaryText
