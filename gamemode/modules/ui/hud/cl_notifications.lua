@@ -58,9 +58,9 @@ local frameTime = FrameTime
 
 hook.Add("RPGM.DrawHUD", "RPGM.DrawNotifications", function(scrW, scrH)
     local padding = getScaledConstant("HUD.Padding")
+    local contentPad = getScaledConstant("HUD.ContentPadding")
     local spacing = getScaledConstant("HUD.Notifications.Spacing")
     local notifW = getScaledConstant("HUD.Notifications.Width")
-    local contentSpacing = getScaledConstant("HUD.ContentPadding")
     local iconSize = getScaledConstant("HUD.Notifications.IconSize")
 
     local notifX = scrW - padding - notifW
@@ -77,8 +77,8 @@ hook.Add("RPGM.DrawHUD", "RPGM.DrawNotifications", function(scrW, scrH)
     for i = #notifs, 1, -1 do
         local notif = notifs[i]
         if not notif[5] then
-            notif[5] = RPGM.WrapText(notif[1], notifW - contentSpacing * 2, "RPGM.HUD.Notification.Body")
-            notif[6] = select(2, surface.GetTextSize(notif[5])) + contentSpacing * 3 + iconSize
+            notif[5] = RPGM.WrapText(notif[1], notifW - contentPad * 2, "RPGM.HUD.Notification.Body")
+            notif[6] = select(2, surface.GetTextSize(notif[5])) + contentPad * 3 + iconSize
         end
 
         if time >= notif[3] then
@@ -91,11 +91,11 @@ hook.Add("RPGM.DrawHUD", "RPGM.DrawNotifications", function(scrW, scrH)
         surface.SetDrawColor(backgroundCol)
         surface.DrawRect(notifX, notifY, notifW, notif[6])
 
-        local contentY = notifY + contentSpacing
+        local contentY = notifY + contentPad
         RPGM.DrawImgur(contentX, contentY, iconSize, iconSize, imgurIds[notif[2]], titleCol)
 
-        RPGM.DrawSimpleText(notif[4], "RPGM.HUD.Notification.Title", contentX + iconSize + contentSpacing, contentY + iconSize * .5, titleCol, nil, TEXT_ALIGN_CENTER)
-        RPGM.DrawText(notif[5], "RPGM.HUD.Notification.Body", contentX, contentY + iconSize + contentSpacing, bodyCol)
+        RPGM.DrawSimpleText(notif[4], "RPGM.HUD.Notification.Title", contentX + iconSize + contentPad, contentY + iconSize * .5, titleCol, nil, TEXT_ALIGN_CENTER)
+        RPGM.DrawText(notif[5], "RPGM.HUD.Notification.Body", contentX, contentY + iconSize + contentPad, bodyCol)
 
         surface.SetAlphaMultiplier(1)
         desiredY = desiredY + notif[6] + spacing
