@@ -52,9 +52,6 @@ RPGM.RegisterScaledConstant("HUD.Notifications.Spacing", 12)
 RPGM.RegisterScaledConstant("HUD.Notifications.ContentSpacing", 12)
 RPGM.RegisterScaledConstant("HUD.Notifications.IconSize", 24)
 
-local titleCol = RPGM.Colors.Primary
-local bodyCol = RPGM.Colors.Secondary
-
 local fadeTime = .3
 local getScaledConstant = RPGM.GetScaledConstant
 local lerp = Lerp
@@ -69,6 +66,9 @@ hook.Add("RPGM.DrawHUD", "RPGM.DrawNotifications", function(scrW, scrH)
 
     local notifX = scrW - padding - notifW
     local contentX = notifX + contentSpacing
+
+    local titleCol = RPGM.Colors.Primary
+    local bodyCol = RPGM.Colors.Secondary
 
     local time = UnPredictedCurTime()
     local ft = frameTime() * 5
