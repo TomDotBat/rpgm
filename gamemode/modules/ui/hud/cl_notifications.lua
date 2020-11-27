@@ -66,6 +66,7 @@ hook.Add("RPGM.DrawHUD", "RPGM.DrawNotifications", function(scrW, scrH)
     local notifX = scrW - padding - notifW
     local contentX = notifX + contentSpacing
 
+    local backgroundCol = RPGM.Colors.Background
     local titleCol = RPGM.Colors.PrimaryText
     local bodyCol = RPGM.Colors.SecondaryText
 
@@ -87,7 +88,7 @@ hook.Add("RPGM.DrawHUD", "RPGM.DrawNotifications", function(scrW, scrH)
         local notifY = lerp(ft, notif[7] or -notif[6], desiredY)
         notif[7] = notifY
 
-        surface.SetDrawColor(RPGM.Colors.Background)
+        surface.SetDrawColor(backgroundCol)
         surface.DrawRect(notifX, notifY, notifW, notif[6])
 
         local contentY = notifY + contentSpacing
