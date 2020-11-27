@@ -1,58 +1,67 @@
 
-local PANEL = {}
-
 local localPly
-function PANEL:Init()
-    localPly = RPGM.Util.GetLocalPlayer()
-    if not IsValid(localPly) then return end
+local name, job = "Tom.bat", "Citizen"
+local health, armor, money = 0, 0, 0
 
-    self:UpdatePlayerVars(localPly)
+local formattedMoney = ""
 
-    self.SmoothHealth = 0
-    self.SmoothArmor = 0
-    self.SmoothMoney = 0
+RPGM.RegisterFont("HUD.PlayerInfo", "Open Sans SemiBold", 22, 500)
 
-    self:SetSize(RPGM.Scale(220), RPGM.Scale(120))
-    self:AutoPosition()
+RPGM.RegisterScaledConstant("HUD.PlayerInfo.MinWidth", 270)
+RPGM.RegisterScaledConstant("HUD.PlayerInfo.RowHeight", 24)
 
-    gameevent.Listen("player_spawn")
-    hook.Add("player_spawn", self, self.ResetMaxes)
+local getScaledConstant = RPGM.GetScaledConstant
+local primaryCol
+local contentPad
+
+local rows = {}
+
+rows[1] = function(x, y, w, h, centerY)
+    RPGM.DrawImgur(x, y, h, h, "imgurId", primaryCol)
+    RPGM.DrawSimpleText(name, "RPGM.HUD.PlayerInfo", x + h + contentPad, centerY, primaryCol, nil, TEXT_ALIGN_CENTER)
+    --surface.SetDrawColor(color_white)
+    --surface.DrawRect(x, y, w, h)
 end
 
-function PANEL:UpdatePlayerVars(ply)
-    self.Name = ply:Nick()
-    self.Job = ply:getTeamName()
-    self.Money = ply:getMoney()
-    self.Health = math.max(ply:Health(), 0)
+rows[2] = function(x, y, w, h, centerY)
+    RPGM.DrawImgur(x, y, h, h, "imgurId", primaryCol)
+    local jobX = x + h + contentPad
+    local jobW = RPGM.DrawSimpleText(job, "RPGM.HUD.PlayerInfo", jobX, centerY, primaryCol, nil, TEXT_ALIGN_CENTER)
 
-    local armor = ply:Armor()
-    self.ShouldShowArmor = armor > 0
-    self.Armor = armor
+    local moneyX = jobX + jobW + contentPad
+    RPGM.DrawImgur(moneyX, y, h, h, "imgurId", primaryCol)
+    RPGM.DrawSimpleText(RPGM.FormatMoney(money), "RPGM.HUD.PlayerInfo", moneyX + h + contentPad, centerY, primaryCol, nil, TEXT_ALIGN_CENTER)
+    --surface.SetDrawColor(Color(255, 0, 0))
+    --surface.DrawRect(x, y, w, h)
 end
 
-function PANEL:ResetMaxes(data)
-    if data.userid ~= localPly:UserID() then return end
-    self.MaxHealth = 100
-    self.MaxArmor = 100
+rows[3] = function(x, y, w, h, centerY)
 end
 
-function PANEL:AutoPosition()
-    local pad = RPGM.GetScaledConstant("HUD.Padding")
-    self:SetPos(pad, ScrH() - pad - self:GetTall())
+rows[4] = function(x, y, w, h, centerY)
 end
 
-function PANEL:PerformLayout(w, h)
+hook.Add("RPGM.DrawHUD", "RPGM.DrawPlayerInfo", function(scrW, scrH)
+    local rowCount = #rows
+    local padding = getScaledConstant("HUD.Padding")
+    contentPad = getScaledConstant("HUD.ContentPadding")
+    local rowHeight = getScaledConstant("HUD.PlayerInfo.RowHeight")
+    local halfRowHeight = rowHeight * .5
+    local height = (contentPad + rowHeight) * rowCount + contentPad
 
-end
+    local rowX, rowY = padding + contentPad, scrH - padding - height
+    local rowWidth = getScaledConstant("HUD.PlayerInfo.MinWidth") - contentPad * 2
 
-function PANEL:Paint(w, h)
+    primaryCol = RPGM.Colors.PrimaryText
+
     surface.SetDrawColor(RPGM.Colors.Background)
-    surface.DrawRect(0, 0, w, h)
-end
+    surface.DrawRect(padding, rowY, getScaledConstant("HUD.PlayerInfo.MinWidth"), height)
 
-vgui.Register("RPGM.HUD.PlayerInfo", PANEL, "Panel")
+    rowY = rowY + contentPad
 
-if not IsValid(LocalPlayer()) then return end
+    for i = 1, rowCount do
+        rows[i](rowX, rowY, rowWidth, rowHeight, rowY + halfRowHeight)
 
-if IsValid(testframe) then testframe:Remove() end
-testframe = vgui.Create("RPGM.HUD.PlayerInfo")
+        rowY = rowY + rowHeight + contentPad
+    end
+end)
