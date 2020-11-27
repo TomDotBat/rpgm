@@ -67,8 +67,8 @@ hook.Add("RPGM.DrawHUD", "RPGM.DrawNotifications", function(scrW, scrH)
     local notifX = scrW - padding - notifW
     local contentX = notifX + contentSpacing
 
-    local titleCol = RPGM.Colors.Primary
-    local bodyCol = RPGM.Colors.Secondary
+    local titleCol = RPGM.Colors.PrimaryText
+    local bodyCol = RPGM.Colors.SecondaryText
 
     local time = UnPredictedCurTime()
     local ft = frameTime() * 5
@@ -95,7 +95,7 @@ hook.Add("RPGM.DrawHUD", "RPGM.DrawNotifications", function(scrW, scrH)
         RPGM.DrawImgur(contentX, contentY, iconSize, iconSize, imgurIds[notif[2]], titleCol)
 
         RPGM.DrawSimpleText(notif[4], "RPGM.HUD.Notification.Title", contentX + iconSize + contentSpacing, contentY + iconSize * .5, titleCol, nil, TEXT_ALIGN_CENTER)
-        RPGM.DrawText(notif[1], "RPGM.HUD.Notification.Body", contentX, contentY + iconSize + contentSpacing, bodyCol)
+        RPGM.DrawText(notif[5], "RPGM.HUD.Notification.Body", contentX, contentY + iconSize + contentSpacing, bodyCol)
 
         surface.SetAlphaMultiplier(1)
         desiredY = desiredY + notif[6] + spacing
