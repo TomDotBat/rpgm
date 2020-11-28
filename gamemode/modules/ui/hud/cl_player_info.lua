@@ -17,9 +17,19 @@ local function updateStats(ply)
     armor = lerp(animSpeed, armor, ply:Armor())
     money = lerp(animSpeed, money, ply:getMoney())
 
+    maxHealth = max(maxHealth, health)
+    maxArmor = max(maxArmor, armor)
+
     if armor < 1 then hideArmor = true
     else hideArmor = false end
 end
+
+gameevent.Listen("player_spawn")
+hook.Add("player_spawn", "RPGM.ResetPlayerInfoStats", function(data)
+    if data.userid ~= localPly:UserID() then return end
+    maxHealth = 100
+    maxArmor = 100
+end)
 
 RPGM.RegisterFont("HUD.PlayerInfo", "Open Sans SemiBold", 22, 500)
 
