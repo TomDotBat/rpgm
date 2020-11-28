@@ -1,5 +1,6 @@
 
 RPGM.Classes.RegisterExtra("team", "salary", true)
+RPGM.RegisterNotificationType("MONEY", "Transaction", "5Y76zSd")
 
 local tostring = tostring
 local find = string.find
