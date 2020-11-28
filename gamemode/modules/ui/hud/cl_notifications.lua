@@ -1,43 +1,19 @@
 
-NOTIFY_GENERIC = 0
-NOTIFY_ERROR = 1
-NOTIFY_UNDO = 2
-NOTIFY_HINT = 3
-NOTIFY_CLEANUP = 4
-NOTIFY_MONEY = 5
-
-local imgurIds = {
-    [NOTIFY_GENERIC] = "rTZyn4X",
-    [NOTIFY_ERROR] = "xbMow0M",
-    [NOTIFY_UNDO] = "Qgdrzj9",
-    [NOTIFY_HINT] = "Dc1ecKF",
-    [NOTIFY_CLEANUP] = "HidXQBw",
-    [NOTIFY_MONEY] = "5Y76zSd"
-}
-
-local typeNames = {
-    [NOTIFY_GENERIC] = "Information",
-    [NOTIFY_ERROR] = "Error",
-    [NOTIFY_UNDO] = "Undone",
-    [NOTIFY_HINT] = "Hint",
-    [NOTIFY_CLEANUP] = "Cleanup",
-    [NOTIFY_MONEY] = "Transaction"
-}
-
 local notifs = {}
 
 function RPGM.AddNotification(title, description, type, length)
     notification.AddLegacy(description, type, length, title)
 end
 
+local notificationTypes = RPGM.NotificationTypes
 function notification.AddLegacy(text, type, length, title)
     RPGM.CheckType(text, "string")
-    if not imgurIds[type] then return end
+    if not notificationTypes[type] then return end
     RPGM.CheckType(length, "number")
     if title and title ~= "" then RPGM.CheckType(title, "string")
-    else title = typeNames[type] end
+    else title = notificationTypes[type][1] end
 
-    table.insert(notifs, {text, type, UnPredictedCurTime() + length, title or ""})
+    table.insert(notifs, {text, notificationTypes[type][2], UnPredictedCurTime() + length, title or ""})
 end
 
 local function ignore() end
@@ -92,7 +68,7 @@ hook.Add("RPGM.DrawHUD", "RPGM.DrawNotifications", function(scrW, scrH)
         surface.DrawRect(notifX, notifY, notifW, notif[6])
 
         local contentY = notifY + contentPad
-        RPGM.DrawImgur(contentX, contentY, iconSize, iconSize, imgurIds[notif[2]], titleCol)
+        RPGM.DrawImgur(contentX, contentY, iconSize, iconSize, notif[2], titleCol)
 
         RPGM.DrawSimpleText(notif[4], "RPGM.HUD.Notification.Title", contentX + iconSize + contentPad, contentY + iconSize * .5, titleCol, nil, TEXT_ALIGN_CENTER)
         RPGM.DrawText(notif[5], "RPGM.HUD.Notification.Body", contentX, contentY + iconSize + contentPad, bodyCol)
