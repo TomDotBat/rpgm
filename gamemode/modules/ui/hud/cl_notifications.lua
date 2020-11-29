@@ -36,6 +36,18 @@ local getScaledConstant = RPGM.GetScaledConstant
 local lerp = Lerp
 local frameTime = FrameTime
 
+local function cleanupDeadNotifs(deadNotifs)
+    table.remove(notifs, deadNotifs[1])
+    table.remove(deadNotifs, 1)
+
+    for i, index in ipairs(deadNotifs) do
+        deadNotifs[i] = index - 1
+    end
+
+    if table.IsEmpty(deadNotifs) then return end
+    cleanupDeadNotifs(deadNotifs)
+end
+
 hook.Add("RPGM.DrawHUD", "RPGM.DrawNotifications", function(scrW, scrH)
     local padding = getScaledConstant("HUD.Padding")
     local contentPad = getScaledConstant("HUD.ContentPadding")
@@ -45,6 +57,8 @@ hook.Add("RPGM.DrawHUD", "RPGM.DrawNotifications", function(scrW, scrH)
 
     local notifX = scrW - padding - notifW
     local contentX = notifX + contentPad
+
+    local deadNotifs = {}
 
     local time = UnPredictedCurTime()
     local ft = frameTime() * 5
@@ -58,7 +72,11 @@ hook.Add("RPGM.DrawHUD", "RPGM.DrawNotifications", function(scrW, scrH)
         end
 
         if time >= notif[3] then
-            surface.SetAlphaMultiplier(1 - (time - notif[3]) / fadeTime)
+            local alpha = 1 - (time - notif[3]) / fadeTime
+            surface.SetAlphaMultiplier(alpha)
+            if alpha <= 0 then
+                table.insert(deadNotifs, i)
+            end
         end
 
         local notifY = lerp(ft, notif[7] or -notif[6], desiredY)
@@ -76,14 +94,7 @@ hook.Add("RPGM.DrawHUD", "RPGM.DrawNotifications", function(scrW, scrH)
         surface.SetAlphaMultiplier(1)
         desiredY = desiredY + notif[6] + spacing
     end
-end)
 
-timer.Create("RPGM.CleanupNotifications", .1, 0, function()
-    local time = UnPredictedCurTime()
-    for i, notif in ipairs(notifs) do
-        if time > (notif[3] + fadeTime) then
-            table.remove(notifs, i)
-            return
-        end
-    end
+    if table.IsEmpty(deadNotifs) then return end
+    cleanupDeadNotifs(deadNotifs)
 end)
