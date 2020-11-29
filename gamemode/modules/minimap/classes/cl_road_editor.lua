@@ -7,7 +7,7 @@ function RPGM.Classes.RoadEditor()
 
     function tbl:openMenu()
         self.frame = vgui.Create("DFrame")
-        self.frame:SetTitle("RPGM - Map Road Editor")
+        self.frame:SetTitle("RPGM - Road Editor")
         self.frame:SetSize(400, 340)
         self.frame:Center()
         self.frame:MakePopup()
