@@ -3,7 +3,12 @@ local disabledElements = {
     ["CHudHealth"] = true,
     ["CHudBattery"] = true,
     ["CHudSuitPower"] = true,
-    ["CHUDQuickInfo"] = true
+    ["CHUDQuickInfo"] = true,
+    ["CHudDamageIndictator"] = true,
+    ["CHudZoom"] = true,
+    ["CHudAmmo"] = true,
+    ["CHudSecondaryAmmo"] = true,
+    ["CHudDeathNotice"] = true
 }
 
 function GM:HUDShouldDraw(name)
