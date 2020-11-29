@@ -7,10 +7,11 @@ local localPly
 local clip = 0
 local reserve = 0
 
+local isValid = IsValid
 hook.Add("RPGM.ShouldDraw", "RPGM.DrawAmmo", function(elem)
     if elem ~= "Ammo" then return end
     local wep = localPly:GetActiveWeapon()
-    if localPly:Health() < 1 or not IsValid(wep) or wep:GetClass() == "weapon_physcannon" then return false end
+    if localPly:Health() < 1 or not isValid(wep) or wep:GetClass() == "weapon_physcannon" then return false end
 end)
 
 local animX = 0
@@ -36,7 +37,7 @@ hook.Add("RPGM.DrawHUD", "RPGM.DrawAmmo", function(scrW, scrH)
     local boxX, boxY = scrW - padding - boxW, scrH - padding - boxH
 
     local wep = localPly:GetActiveWeapon()
-    if IsValid(wep) then
+    if isValid(wep) then
         clip = wep:Clip1()
         reserve = localPly:GetAmmoCount(wep:GetPrimaryAmmoType())
     end
