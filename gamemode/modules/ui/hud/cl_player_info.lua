@@ -12,7 +12,7 @@ local function updateStats(ply)
     name = ply:Name()
     team = ply:getTeamName()
 
-    local animSpeed = ft() * 2
+    local animSpeed = ft() * 3
     health = max(lerp(animSpeed, health, ply:Health()), 0)
     armor = lerp(animSpeed, armor, ply:Armor())
     money = lerp(animSpeed, money, ply:getMoney())
@@ -32,10 +32,13 @@ hook.Add("player_spawn", "RPGM.ResetPlayerInfoStats", function(data)
 end)
 
 RPGM.RegisterFont("HUD.PlayerInfo", "Open Sans SemiBold", 22, 500)
+RPGM.RegisterFont("HUD.Wanted", "Open Sans Bold", 24, 500)
 
 RPGM.RegisterScaledConstant("HUD.PlayerInfo.MinWidth", 270)
 RPGM.RegisterScaledConstant("HUD.PlayerInfo.RowHeight", 24)
 RPGM.RegisterScaledConstant("HUD.PlayerInfo.BarHeight", 10)
+RPGM.RegisterScaledConstant("HUD.PlayerInfo.WantedSpacing", 6)
+RPGM.RegisterScaledConstant("HUD.PlayerInfo.SirenSize", 24)
 
 local getScaledConstant = RPGM.GetScaledConstant
 local primaryCol = RPGM.Colors.PrimaryText
@@ -96,6 +99,8 @@ rows[4] = function(x, y, w, h, centerY, baseW)
     drawProgress(x + barOffset, y, w - barOffset, h, armor / maxArmor, armorBgCol, armorCol)
 end
 
+local sin = math.sin
+local curTime = UnPredictedCurTime
 hook.Add("RPGM.DrawHUD", "RPGM.DrawPlayerInfo", function(scrW, scrH)
     localPly = RPGM.Util.GetLocalPlayer()
     if not localPly then return end
@@ -112,17 +117,36 @@ hook.Add("RPGM.DrawHUD", "RPGM.DrawPlayerInfo", function(scrW, scrH)
 
     contentOverflow = max(contentOverflow, 0)
 
-    local rowX, rowY = padding + contentPad, scrH - padding - height
+    local boxY = scrH - padding - height
+    local rowX = padding + contentPad
     local baseRowWidth = width - contentPad * 2
     local rowWidth = baseRowWidth + contentOverflow
 
     surface.SetDrawColor(RPGM.Colors.Background)
-    surface.DrawRect(padding, rowY, width + contentOverflow, height)
+    surface.DrawRect(padding, boxY, width + contentOverflow, height)
 
-    rowY = rowY + contentPad
+    local rowY = boxY + contentPad
 
     for i = 1, rowCount do
         rows[i](rowX, rowY, rowWidth, rowHeight, rowY + halfRowHeight, baseRowWidth)
         rowY = rowY + rowHeight + contentPad
+    end
+
+    if not wanted then return end
+
+    local centerX = padding + width * .5
+    local wantedY = boxY - getScaledConstant("HUD.PlayerInfo.WantedSpacing")
+    local wantedW, wantedH = RPGM.DrawSimpleText("WANTED", "RPGM.HUD.Wanted", centerX, wantedY, primaryCol, TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM)
+
+    local sirenSize = getScaledConstant("HUD.PlayerInfo.SirenSize")
+    local sirenOffset = wantedW * .5 + sirenSize + contentPad
+    wantedY = wantedY - wantedH * .5 - sirenSize * .5
+
+    local time = curTime() * 5
+    local sinTime = (sin(time) + 1) * .5
+    for i = -1, 1, 2 do
+        RPGM.DrawImgur(centerX + sirenOffset * i, wantedY, sirenSize, sirenSize, "dIjQAWu", RPGM.LerpColor(sinTime, healthCol, armorCol))
+        sinTime = (sin(-time) + 1) * .5
+        sirenOffset = sirenOffset - sirenSize
     end
 end)
