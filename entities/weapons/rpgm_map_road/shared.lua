@@ -1,10 +1,12 @@
 
-SWEP.PrintName = "Weapon"
+SWEP.PrintName = "Road Editor"
 SWEP.Author = "Tom.bat"
 SWEP.Instructions = "Left mouse to fire a chair!"
 SWEP.Category = "RPGM - Map"
 SWEP.Spawnable = true
 SWEP.AdminOnly = false
+
+SWEP.Base = "rpgm_map_editor_base"
 
 SWEP.Primary.ClipSize = -1
 SWEP.Primary.DefaultClip = -1
@@ -16,6 +18,7 @@ SWEP.Secondary.ClipSize = -1
 SWEP.Secondary.DefaultClip = -1
 SWEP.Secondary.Automatic = false
 SWEP.Secondary.Ammo = "none"
+SWEP.Secondary.Automatic = false
 
 SWEP.Weight = 5
 SWEP.AutoSwitchTo = false
