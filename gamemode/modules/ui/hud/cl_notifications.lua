@@ -78,7 +78,7 @@ hook.Add("RPGM.DrawHUD", "RPGM.DrawNotifications", function(scrW, scrH)
     end
 end)
 
-timer.Create("RPGM.CleanupNotifications", 3, 0, function()
+timer.Create("RPGM.CleanupNotifications", .1, 0, function()
     local time = UnPredictedCurTime()
     for i, notif in ipairs(notifs) do
         if time > (notif[3] + fadeTime) then
