@@ -120,7 +120,7 @@ function SWEP:DrawLayerInfo()
 end
 
 function SWEP:DrawHUD()
-    surface.SetAlphaMultiplier(.3)
+    surface.SetAlphaMultiplier(.5)
     self:DrawTips()
 
     if not self:HasSelectedLayer() then surface.SetAlphaMultiplier(1) return end
