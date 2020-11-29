@@ -32,6 +32,14 @@ function RPGM.Classes.RoadEditor()
         self:clearScroller()
         self:showSelectedLayer()
         self:addButton("View layers", function() self:gotoLayers() end)
+        self:addButton("Dump all layers", function()
+            local fileName = "rpgm/map_dumps/map_" .. os.time() .. ".json"
+
+            file.CreateDir("rpgm/map_dumps")
+            file.Write(fileName, util.TableToJSON(self.layers))
+
+            RPGM.AddNotification("Map Dumped", "The enitre map was dumped into " .. fileName .. ".", NOTIFY_GENERIC, 5)
+        end)
     end
 
     function tbl:gotoLayers()
@@ -105,6 +113,15 @@ function RPGM.Classes.RoadEditor()
                 self.layers[layerNo].name = text
                 layerName:SetText("Editing layer: " .. text)
             end, nil, "Submit", "Cancel")
+        end)
+
+        self:addButton("Dump layer", function()
+            local fileName = "rpgm/map_dumps/layer_" .. self:getLayerName(layerNo) .. "_" .. os.time() ..  ".json"
+
+            file.CreateDir("rpgm/map_dumps")
+            file.Write(fileName, util.TableToJSON(self.layers[layerNo]))
+
+            RPGM.AddNotification("Layer Dumped", "The layer was dumped into " .. fileName .. ".", NOTIFY_GENERIC, 5)
         end)
 
         self:addButton("Delete layer", function()
