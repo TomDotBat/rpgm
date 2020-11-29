@@ -99,8 +99,10 @@ rows[4] = function(x, y, w, h, centerY, baseW)
     drawProgress(x + barOffset, y, w - barOffset, h, armor / maxArmor, armorBgCol, armorCol)
 end
 
+local animX = 0
 local sin = math.sin
 local curTime = UnPredictedCurTime
+local callHook = hook.Call
 hook.Add("RPGM.DrawHUD", "RPGM.DrawPlayerInfo", function(scrW, scrH)
     localPly = RPGM.Util.GetLocalPlayer()
     if not localPly then return end
@@ -118,12 +120,18 @@ hook.Add("RPGM.DrawHUD", "RPGM.DrawPlayerInfo", function(scrW, scrH)
     contentOverflow = max(contentOverflow, 0)
 
     local boxY = scrH - padding - height
-    local rowX = padding + contentPad
+    local rowX = padding + contentPad - animX
     local baseRowWidth = width - contentPad * 2
     local rowWidth = baseRowWidth + contentOverflow
 
+    if callHook("RPGM.ShouldDraw", nil, "PlayerInfo") == false then
+        animX = lerp(ft() * 5, animX, padding * 2 + width + contentOverflow)
+    else
+        animX = lerp(ft() * 5, animX, 0)
+    end
+
     surface.SetDrawColor(RPGM.Colors.Background)
-    surface.DrawRect(padding, boxY, width + contentOverflow, height)
+    surface.DrawRect(padding - animX, boxY, width + contentOverflow, height)
 
     local rowY = boxY + contentPad
 
@@ -134,7 +142,7 @@ hook.Add("RPGM.DrawHUD", "RPGM.DrawPlayerInfo", function(scrW, scrH)
 
     if not wanted then return end
 
-    local centerX = padding + width * .5
+    local centerX = padding + width * .5 - animX
     local wantedY = boxY - getScaledConstant("HUD.PlayerInfo.WantedSpacing")
     local wantedW, wantedH = RPGM.DrawSimpleText("WANTED", "RPGM.HUD.Wanted", centerX, wantedY, primaryCol, TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM)
 
