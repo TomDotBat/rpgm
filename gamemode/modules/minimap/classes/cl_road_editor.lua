@@ -32,13 +32,33 @@ function RPGM.Classes.RoadEditor()
         self:clearScroller()
         self:showSelectedLayer()
         self:addButton("View layers", function() self:gotoLayers() end)
-        self:addButton("Dump all layers", function()
+        self:addButton("Dump map", function()
             local fileName = "rpgm/map_dumps/map_" .. os.time() .. ".json"
 
             file.CreateDir("rpgm/map_dumps")
             file.Write(fileName, util.TableToJSON(self.layers))
 
             RPGM.AddNotification("Map Dumped", "The enitre map was dumped into " .. fileName .. ".", NOTIFY_GENERIC, 5)
+        end)
+        self:addButton("Import a map", function()
+            Derma_StringRequest("RPGM Map Editor", "Enter the file name of your export (MAP ONLY):", "rpgm/map_dumps/map_", function(text)
+                if text == "" then return end
+
+                local txt = file.Read(text, "DATA")
+                if not txt then
+                    RPGM.AddNotification("Map Import Failed", "The specified file was empty.", NOTIFY_ERROR, 5)
+                    return
+                end
+
+                local data = util.JSONToTable(txt)
+                if not data then
+                    RPGM.AddNotification("Map Import Failed", "The file contents couldn't be parsed.", NOTIFY_ERROR, 5)
+                    return
+                end
+
+                RPGM.AddNotification("Map Import Completed", "The map import was performed successfully.", NOTIFY_GENERIC, 5)
+                self.layers = data
+            end, nil, "Submit", "Cancel")
         end)
     end
 
@@ -47,6 +67,26 @@ function RPGM.Classes.RoadEditor()
 
         self:addButton("Select a layer", function() self:gotoLayerSelector() end)
         self:addButton("Edit/add layers", function() self:gotoEditLayers() end)
+        self:addButton("Import a layer", function()
+            Derma_StringRequest("RPGM Map Editor", "Enter the file name of your export (LAYER ONLY):", "rpgm/map_dumps/layer_", function(text)
+                if text == "" then return end
+
+                local txt = file.Read(text, "DATA")
+                if not txt then
+                    RPGM.AddNotification("Layer Import Failed", "The specified file was empty.", NOTIFY_ERROR, 5)
+                    return
+                end
+
+                local data = util.JSONToTable(txt)
+                if not data then
+                    RPGM.AddNotification("Layer Import Failed", "The file contents couldn't be parsed.", NOTIFY_ERROR, 5)
+                    return
+                end
+
+                RPGM.AddNotification("Layer Import Completed", "The layer import was performed successfully.", NOTIFY_GENERIC, 5)
+                table.insert(self.layers, data)
+            end, nil, "Submit", "Cancel")
+        end)
 
         self:addMenuButton()
     end
