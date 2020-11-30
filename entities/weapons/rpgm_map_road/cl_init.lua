@@ -119,6 +119,7 @@ function SWEP:DrawLayerInfo()
     RPGM.DrawText(text, "RPGM.MapEditor.SubText", ScrW() * .5, ScrH() - pad - textH, RPGM.Colors.SecondaryText, TEXT_ALIGN_CENTER)
 end
 
+local red = Color(255, 0, 0)
 function SWEP:DrawHUD()
     surface.SetAlphaMultiplier(.5)
     self:DrawTips()
@@ -131,6 +132,6 @@ function SWEP:DrawHUD()
     local col = color_white
     cam.Start3D()
         self:DrawObjects(self.Editor.layers[self:GetSelectedLayer()].roads, col)
-        self:DrawPoints(self.NewRoadPoints, col)
+        self:DrawPoints(self.NewRoadPoints, red)
     cam.End3D()
 end
