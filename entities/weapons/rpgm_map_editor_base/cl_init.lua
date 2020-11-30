@@ -47,18 +47,18 @@ function SWEP:Reload()
     end
 end
 
-function SWEP:DrawPoints(obj, color)
+function SWEP:DrawPoints(obj, color, obeyZ)
     for i, point in ipairs(obj) do
         local nextPoint = select(2, next(obj, i))
         if not nextPoint then nextPoint = obj[1] end
 
-        render.DrawLine(point, nextPoint, color)
+        render.DrawLine(point, nextPoint, color, obeyZ)
     end
 end
 
-function SWEP:DrawObjects(objs, color)
+function SWEP:DrawObjects(objs, color, obeyZ)
     for _, obj in ipairs(objs) do
-        self:DrawPoints(obj, color)
+        self:DrawPoints(obj, color, obeyZ)
     end
 end
 

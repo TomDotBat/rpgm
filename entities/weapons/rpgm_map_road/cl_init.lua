@@ -6,6 +6,22 @@ function SWEP:Initialize()
     self.Editor = RPGM.RoadEditor
 
     self.NewRoadPoints = {}
+    self:SetupRender()
+end
+
+function SWEP:Deploy()
+    self:SetupRender()
+end
+
+function SWEP:SetupRender()
+    local class = self.ClassName
+    hook.Add("PostDrawTranslucentRenderables", self, function()
+        local localPly = RPGM.Util.GetLocalPlayer()
+        if not IsValid(localPly) then return end
+        local wep = localPly:GetActiveWeapon()
+        if wep:GetClass() ~= class then hook.Remove("PostDrawTranslucentRenderables", "RPGM.MapEditor.Overlay") return end
+        wep:DrawEditor()
+    end)
 end
 
 function SWEP:GetSelectedLayer()
@@ -120,6 +136,7 @@ function SWEP:DrawLayerInfo()
 end
 
 local red = Color(255, 0, 0)
+local blue = Color(0, 0, 255)
 function SWEP:DrawHUD()
     surface.SetAlphaMultiplier(.5)
     self:DrawTips()
@@ -128,10 +145,33 @@ function SWEP:DrawHUD()
     self:DrawLayerInfo()
 
     surface.SetAlphaMultiplier(1)
+end
+
+function SWEP:DrawEditor()
+    if not self:HasSelectedLayer() then return end
+
+    local cursorPos
+    if self.Editor.showCursor or self.Editor.connectToCursor then
+        cursorPos = self:GetOwner():GetEyeTraceNoCursor().HitPos
+    end
 
     local col = color_white
     cam.Start3D()
-        self:DrawObjects(self.Editor.layers[self:GetSelectedLayer()].roads, col)
-        self:DrawPoints(self.NewRoadPoints, red)
+        self:DrawObjects(self.Editor.layers[self:GetSelectedLayer()].roads, col, true)
+
+        local roadPoints
+        if self.Editor.connectToCursor then
+            roadPoints = table.Copy(self.NewRoadPoints)
+            table.insert(roadPoints, cursorPos)
+        else
+            roadPoints = self.NewRoadPoints
+        end
+
+        self:DrawPoints(roadPoints, red)
+
+        if self.Editor.showCursor then
+            render.SetColorMaterial()
+            render.DrawWireframeSphere(cursorPos, 4, 8, 8, blue, true)
+        end
     cam.End3D()
 end
