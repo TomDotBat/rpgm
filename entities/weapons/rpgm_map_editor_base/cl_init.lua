@@ -8,6 +8,10 @@ function SWEP:IsShiftPressed()
     return input.IsKeyDown(KEY_LSHIFT) or input.IsKeyDown(KEY_RSHIFT)
 end
 
+function SWEP:IsControlPressed()
+    return input.IsKeyDown(KEY_LCONTROL) or input.IsKeyDown(KEY_RCONTROL)
+end
+
 function SWEP:PrimaryAttack()
     if not IsFirstTimePredicted() then return end
 
@@ -29,6 +33,8 @@ function SWEP:SecondaryAttack()
 
     if self:IsShiftPressed() then
         self:OnSecondaryShift(ply)
+    elseif self:IsControlPressed() then
+        self:OnSecondaryControl(ply)
     else
         self:OnSecondary(ply)
     end
@@ -47,19 +53,40 @@ function SWEP:Reload()
     end
 end
 
-function SWEP:DrawPoints(obj, color, obeyZ)
+function SWEP:DrawPoints(obj, color, obeyZ, plyPos)
+    local smallestDist, nearestPoint = math.huge
     for i, point in ipairs(obj) do
         local nextPoint = select(2, next(obj, i))
         if not nextPoint then nextPoint = obj[1] end
 
         render.DrawLine(point, nextPoint, color, obeyZ)
+
+        if plyPos then
+            local dist = plyPos:DistToSqr(point)
+            if dist < smallestDist then
+                smallestDist = dist
+                nearestPoint = point
+            end
+        end
     end
+
+    return nearestPoint, smallestDist
 end
 
-function SWEP:DrawObjects(objs, color, obeyZ)
-    for _, obj in ipairs(objs) do
-        self:DrawPoints(obj, color, obeyZ)
+function SWEP:DrawObjects(objs, color, obeyZ, plyPos)
+    local smallestDist, nearestPoint, nearestObject, nearObjId = math.huge
+
+    for i, obj in ipairs(objs) do
+        local point, dist = self:DrawPoints(obj, color, obeyZ, plyPos)
+        if plyPos and dist and dist < smallestDist then
+            smallestDist = dist
+            nearestPoint = point
+            nearestObject = obj
+            nearObjId = i
+        end
     end
+
+    return nearestObject, nearObjId, nearestPoint, smallestDist
 end
 
 function SWEP:OnPrimary() end
@@ -69,6 +96,9 @@ end
 
 function SWEP:OnSecondary() end
 function SWEP:OnSecondaryShift(ply)
+    SWEP:OnSecondary(ply)
+end
+function SWEP:OnSecondaryControl(ply)
     SWEP:OnSecondary(ply)
 end
 

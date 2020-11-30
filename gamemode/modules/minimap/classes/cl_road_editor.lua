@@ -4,7 +4,9 @@ function RPGM.Classes.RoadEditor()
         menuItems = {},
         layers = {},
         showCursor = false,
-        connectToCursor = false
+        connectToCursor = false,
+        mapScale = 0.04,
+        mapOffset = 500
     }
 
     function tbl:openMenu()
@@ -60,6 +62,8 @@ function RPGM.Classes.RoadEditor()
 
                 RPGM.AddNotification("Map Import Completed", "The map import was performed successfully.", NOTIFY_GENERIC, 5)
                 self.layers = data
+
+                hook.Run("RPGM.Minimap.EditorUpdate")
             end, nil, "Submit", "Cancel")
         end)
         self:addButton(self.showCursor and "Disable cursor" or "Enable cursor", function(s)
@@ -69,6 +73,16 @@ function RPGM.Classes.RoadEditor()
         self:addButton(self.connectToCursor and "Disable connect to cursor" or "Enable connect to cursor", function(s)
             self.connectToCursor = not self.connectToCursor
             s:SetText(self.connectToCursor and "Disable connect to cursor" or "Enable connect to cursor")
+        end)
+        self:addLabel("Map Scale:")
+        self:addSlider(self.mapScale, 0, 2, 10, function(s, val)
+            self.mapScale = val
+            hook.Run("RPGM.Minimap.EditorUpdate")
+        end)
+        self:addLabel("Map Offset:")
+        self:addSlider(self.mapOffset, 0, 2, 10, function(s, val)
+            self.mapOffset = val
+            hook.Run("RPGM.Minimap.EditorUpdate")
         end)
     end
 
@@ -110,6 +124,8 @@ function RPGM.Classes.RoadEditor()
             self:addButton("Select layer: " .. self:getLayerName(i), function()
                 self.selectedLayer = i
                 self:gotoMainMenu()
+
+                hook.Run("RPGM.Minimap.EditorUpdate")
             end)
             hasLayers = true
         end
@@ -145,6 +161,8 @@ function RPGM.Classes.RoadEditor()
                 table.insert(self.layers, layerNo, {roads = {}})
                 self.selectedLayer = layerNo
 
+                hook.Run("RPGM.Minimap.EditorUpdate")
+
                 self:gotoLayerEditor(layerNo)
             end, nil, "Submit", "Cancel")
         end)
@@ -178,6 +196,8 @@ function RPGM.Classes.RoadEditor()
             if self.selectedLayer == layerNo then self.selectedLayer = nil end
             self.layers[layerNo] = nil
             self:gotoMainMenu()
+
+            hook.Run("RPGM.Minimap.EditorUpdate")
         end)
 
         self:addButton("Back to layers menu", function() self:gotoLayers() end)
@@ -224,6 +244,23 @@ function RPGM.Classes.RoadEditor()
         table.insert(self.menuItems, button)
 
         return button
+    end
+
+    function tbl:addSlider(default, min, max, decimals, valueChange)
+        local slider = vgui.Create("DNumSlider", self.scroller:GetCanvas())
+        slider:Dock(TOP)
+        slider:DockMargin(0, 5, 2, 0)
+        slider:SetTall(30)
+        
+        slider:SetMinMax(min, max)
+        slider:SetDecimals(decimals)
+        slider:SetValue(default)
+
+        slider.OnValueChanged = valueChange
+
+        table.insert(self.menuItems, slider)
+
+        return slider
     end
 
     function tbl:addMenuButton()

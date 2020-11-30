@@ -5,8 +5,11 @@ function SWEP:Initialize()
     if not RPGM.RoadEditor then RPGM.RoadEditor = RPGM.Classes.RoadEditor() end
     self.Editor = RPGM.RoadEditor
 
+    self.PreviewData = {}
     self.NewRoadPoints = {}
     self:SetupRender()
+
+    hook.Add("RPGM.Minimap.EditorUpdate", "RPGM.ReformatMap", self.FormatMapData)
 end
 
 function SWEP:Deploy()
@@ -22,6 +25,22 @@ function SWEP:SetupRender()
         if wep:GetClass() ~= class then hook.Remove("PostDrawTranslucentRenderables", "RPGM.MapEditor.Overlay") return end
         wep:DrawEditor()
     end)
+end
+
+function SWEP:FormatMapData()
+    local scale = self.Editor.mapScale
+    local offset = self.Editor.mapOffset
+
+    local layer = self.Editor.layers[self:GetSelectedLayer()]
+    if not layer then return end
+
+    self.PreviewData = {}
+    for roadId, road in ipairs(layer.roads) do
+        table.insert(self.PreviewData, {})
+        for _, point in ipairs(road) do
+            table.insert(self.PreviewData[roadId], {x = point[1] * scale + offset, y = point[2] * scale + offset})
+        end
+    end
 end
 
 function SWEP:GetSelectedLayer()
@@ -68,6 +87,8 @@ function SWEP:OnSecondary(ply)
     RPGM.AddNotification("Road Added", "Successfully added the road to the layer.", NOTIFY_GENERIC, 5)
     table.insert(self.Editor.layers[self:GetSelectedLayer()].roads, self.NewRoadPoints)
     self.NewRoadPoints = {}
+
+    self:FormatMapData()
 end
 
 function SWEP:OnSecondaryShift(ply)
@@ -83,6 +104,23 @@ function SWEP:OnSecondaryShift(ply)
 
     self.NewRoadPoints = roads[#roads]
     table.remove(roads)
+
+    self:FormatMapData()
+end
+
+function SWEP:OnSecondaryControl(ply)
+    if not self:HasSelectedLayer() then self:WarnUnselectedLayer() return end
+
+    local nearRoad = self.NearestObject
+    if not nearRoad then
+        RPGM.AddNotification("No Nearby Roads", "Can you see any fucking yellow? No. So why are you trying dumbass.", NOTIFY_ERROR, 20)
+        return
+    end
+
+    self.NewRoadPoints = self.NearestObject
+    table.remove(self.Editor.layers[self:GetSelectedLayer()].roads, self.NearestObjectId)
+
+    self:FormatMapData()
 end
 
 function SWEP:OnReload(ply)
@@ -90,6 +128,7 @@ function SWEP:OnReload(ply)
     self.NextReload = CurTime() + 1
 
     self.Editor:openMenu()
+    self:FormatMapData()
 end
 
 RPGM.RegisterFont("MapEditor.Title", "Open Sans Bold", 72, 500)
@@ -100,6 +139,7 @@ RPGM.RegisterScaledConstant("MapEditor.TextSpacing", 2)
 
 function SWEP:DrawTips()
     local shiftPressed = self:IsShiftPressed()
+    local controlPressed = self:IsControlPressed()
 
     local pad = RPGM.GetScaledConstant("HUD.Padding")
     local _, titleH = RPGM.DrawSimpleText("RPGM Road Editor", "RPGM.MapEditor.Title", pad, pad, RPGM.Colors.PrimaryText)
@@ -117,6 +157,9 @@ function SWEP:DrawTips()
 
     textY = textY + textH + textSpacing
     _, textH = RPGM.DrawSimpleText("Shift + Right click: Go back and delete the current road", "RPGM.MapEditor.SubText", pad, textY, shiftPressed and RPGM.Colors.PrimaryText or RPGM.Colors.SecondaryText)
+
+    textY = textY + textH + textSpacing
+    _, textH = RPGM.DrawSimpleText("Ctrl + Right click: Edit the currently hovered road", "RPGM.MapEditor.SubText", pad, textY, controlPressed and RPGM.Colors.PrimaryText or RPGM.Colors.SecondaryText)
 
     textY = textY + textH + textSpacing
     RPGM.DrawSimpleText("Reload: Open road editor menu", "RPGM.MapEditor.SubText", pad, textY, RPGM.Colors.SecondaryText)
@@ -137,6 +180,7 @@ end
 
 local red = Color(255, 0, 0)
 local blue = Color(0, 0, 255)
+local yellow = Color(255, 255, 0)
 function SWEP:DrawHUD()
     surface.SetAlphaMultiplier(.5)
     self:DrawTips()
@@ -145,6 +189,31 @@ function SWEP:DrawHUD()
     self:DrawLayerInfo()
 
     surface.SetAlphaMultiplier(1)
+
+    draw.NoTexture()
+    local localPly = RPGM.Util.GetLocalPlayer()
+    if not IsValid(localPly) then return end
+
+    for _, road in ipairs(self.PreviewData) do
+        if _ == self.NearestObjectId then surface.SetDrawColor(yellow) else surface.SetDrawColor(color_white) end
+        surface.DrawPoly(road)
+    end
+
+    local scale = self.Editor.mapScale
+    local offset = self.Editor.mapOffset
+
+    if #self.NewRoadPoints > 2 then
+        surface.SetDrawColor(red)
+        local drawData = {}
+        for _, point in ipairs(self.NewRoadPoints) do
+            table.insert(drawData, {x = point[1] * scale + offset, y = point[2] * scale + offset})
+        end
+        surface.DrawPoly(drawData)
+    end
+
+    local pos = localPly:GetPos()
+    local plyX, plyY = pos[1], pos[2]
+    RPGM.DrawCircle(plyX * scale + offset, plyY * scale + offset, 8, 8, HSVToColor((CurTime() * 100) % 360, 1, 1))
 end
 
 function SWEP:DrawEditor()
@@ -157,7 +226,12 @@ function SWEP:DrawEditor()
 
     local col = color_white
     cam.Start3D()
-        self:DrawObjects(self.Editor.layers[self:GetSelectedLayer()].roads, col, true)
+        local obj, id = self:DrawObjects(self.Editor.layers[self:GetSelectedLayer()].roads, col, true, self:GetOwner():GetPos())
+        if obj then
+            self.NearestObject = obj
+            self.NearestObjectId = id
+            self:DrawPoints(obj, yellow)
+        end
 
         local roadPoints
         if self.Editor.connectToCursor then
