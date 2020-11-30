@@ -2,7 +2,9 @@
 function RPGM.Classes.RoadEditor()
     local tbl = {
         menuItems = {},
-        layers = {}
+        layers = {},
+        showCursor = false,
+        connectToCursor = false
     }
 
     function tbl:openMenu()
@@ -59,6 +61,14 @@ function RPGM.Classes.RoadEditor()
                 RPGM.AddNotification("Map Import Completed", "The map import was performed successfully.", NOTIFY_GENERIC, 5)
                 self.layers = data
             end, nil, "Submit", "Cancel")
+        end)
+        self:addButton(self.showCursor and "Disable cursor" or "Enable cursor", function(s)
+            self.showCursor = not self.showCursor
+            s:SetText(self.showCursor and "Disable cursor" or "Enable cursor")
+        end)
+        self:addButton(self.connectToCursor and "Disable connect to cursor" or "Enable connect to cursor", function(s)
+            self.connectToCursor = not self.connectToCursor
+            s:SetText(self.connectToCursor and "Disable connect to cursor" or "Enable connect to cursor")
         end)
     end
 
