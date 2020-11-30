@@ -236,10 +236,3 @@ function RPGM.Classes.RoadEditor()
 
     return tbl
 end
-
-if not IsValid(LocalPlayer()) then return end
-if IsValid(testFrame) then testFrame:Remove() end
-
-local menwoo = RPGM.Classes.RoadEditor()
-testFrame = menwoo:openMenu()
-menwoo:gotoMainMenu()
