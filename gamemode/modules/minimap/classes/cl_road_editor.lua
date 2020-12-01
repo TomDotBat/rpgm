@@ -5,8 +5,10 @@ function RPGM.Classes.RoadEditor()
         layers = {},
         showCursor = false,
         connectToCursor = false,
-        mapScale = 0.04,
-        mapOffset = 500
+        cursorSnap = 0,
+        previewScale = 0.04,
+        previewOffsetX = 500,
+        previewOffsetY = 500
     }
 
     function tbl:openMenu()
@@ -66,6 +68,11 @@ function RPGM.Classes.RoadEditor()
                 hook.Run("RPGM.Minimap.EditorUpdate")
             end, nil, "Submit", "Cancel")
         end)
+        self:addLabel("Cursor Snap Amount:")
+        self:addSlider(self.cursorSnap, 0, 90, 5, function(s, val)
+            self.cursorSnap = val
+            hook.Run("RPGM.Minimap.EditorUpdate")
+        end)
         self:addButton(self.showCursor and "Disable cursor" or "Enable cursor", function(s)
             self.showCursor = not self.showCursor
             s:SetText(self.showCursor and "Disable cursor" or "Enable cursor")
@@ -74,14 +81,19 @@ function RPGM.Classes.RoadEditor()
             self.connectToCursor = not self.connectToCursor
             s:SetText(self.connectToCursor and "Disable connect to cursor" or "Enable connect to cursor")
         end)
-        self:addLabel("Map Scale:")
-        self:addSlider(self.mapScale, 0, 2, 10, function(s, val)
-            self.mapScale = val
+        self:addLabel("Preview Scale:")
+        self:addSlider(self.previewScale, 0, 2, 10, function(s, val)
+            self.previewScale = val
             hook.Run("RPGM.Minimap.EditorUpdate")
         end)
-        self:addLabel("Map Offset:")
-        self:addSlider(self.mapOffset, 0, 2, 10, function(s, val)
-            self.mapOffset = val
+        self:addLabel("Preview Offset (X):")
+        self:addSlider(self.previewOffsetX, -2048, 2048, 10, function(s, val)
+            self.previewOffsetX = val
+            hook.Run("RPGM.Minimap.EditorUpdate")
+        end)
+        self:addLabel("Preview Offset (Y):")
+        self:addSlider(self.previewOffsetY, -2048, 2048, 10, function(s, val)
+            self.previewOffsetY = val
             hook.Run("RPGM.Minimap.EditorUpdate")
         end)
     end
@@ -251,7 +263,7 @@ function RPGM.Classes.RoadEditor()
         slider:Dock(TOP)
         slider:DockMargin(0, 5, 2, 0)
         slider:SetTall(30)
-        
+
         slider:SetMinMax(min, max)
         slider:SetDecimals(decimals)
         slider:SetValue(default)

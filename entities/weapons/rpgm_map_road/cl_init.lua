@@ -9,7 +9,7 @@ function SWEP:Initialize()
     self.NewRoadPoints = {}
     self:SetupRender()
 
-    hook.Add("RPGM.Minimap.EditorUpdate", "RPGM.ReformatMap", self.FormatMapData)
+    hook.Add("RPGM.Minimap.EditorUpdate", self, self.FormatMapData)
 end
 
 function SWEP:Deploy()
@@ -28,8 +28,8 @@ function SWEP:SetupRender()
 end
 
 function SWEP:FormatMapData()
-    local scale = self.Editor.mapScale
-    local offset = self.Editor.mapOffset
+    local scale = self.Editor.previewScale
+    local offsetX, offsetY = self.Editor.previewOffsetX, self.Editor.previewOffsetY
 
     local layer = self.Editor.layers[self:GetSelectedLayer()]
     if not layer then return end
@@ -38,7 +38,7 @@ function SWEP:FormatMapData()
     for roadId, road in ipairs(layer.roads) do
         table.insert(self.PreviewData, {})
         for _, point in ipairs(road) do
-            table.insert(self.PreviewData[roadId], {x = point[1] * scale + offset, y = point[2] * scale + offset})
+            table.insert(self.PreviewData[roadId], {x = point[1] * scale + offsetX, y = point[2] * scale + offsetY})
         end
     end
 end
@@ -51,17 +51,33 @@ function SWEP:HasSelectedLayer()
     return self:GetSelectedLayer() > 0
 end
 
+function SWEP:GetCursorPos()
+    local realPos = self:GetOwner():GetEyeTraceNoCursor().HitPos
+
+    local snap = self.Editor.cursorSnap
+    if not snap or snap < 1 then return realPos end
+
+    local lastPos = self.NewRoadPoints[#self.NewRoadPoints]
+    if not lastPos then return realPos end
+
+    local relativePos = realPos - lastPos
+    local angleDiff = relativePos:Angle()
+    angleDiff:SnapTo("y", snap)
+
+    local mathsThing = math.sqrt(relativePos[1] ^ 2 + relativePos[2] ^ 2)
+    local newPos = Vector(realPos[1] + math.sin(angleDiff[2]) * mathsThing, realPos[2] + math.cos(angleDiff[2]) * mathsThing, realPos[3])
+
+    return newPos
+end
+
 function SWEP:WarnUnselectedLayer()
     RPGM.AddNotification("You're a fucking retard", "Select a layer you absolute degenerate, what did you think was going to happen? Dumbass.", NOTIFY_ERROR, 20)
 end
 
 function SWEP:OnPrimary(ply)
     if not self:HasSelectedLayer() then self:WarnUnselectedLayer() return end
-
-    local tr = ply:GetEyeTraceNoCursor()
-    if not tr.Hit then return end
-
-    table.insert(self.NewRoadPoints, tr.HitPos)
+    table.insert(self.NewRoadPoints, self:GetCursorPos())
+    self:FormatMapData()
 end
 
 function SWEP:OnPrimaryShift(ply)
@@ -74,6 +90,7 @@ function SWEP:OnPrimaryShift(ply)
 
     RPGM.AddNotification("Point Deleted", "Successfully deleted the last road point.", NOTIFY_GENERIC, 5)
     table.remove(self.NewRoadPoints)
+    self:FormatMapData()
 end
 
 function SWEP:OnSecondary(ply)
@@ -87,7 +104,6 @@ function SWEP:OnSecondary(ply)
     RPGM.AddNotification("Road Added", "Successfully added the road to the layer.", NOTIFY_GENERIC, 5)
     table.insert(self.Editor.layers[self:GetSelectedLayer()].roads, self.NewRoadPoints)
     self.NewRoadPoints = {}
-
     self:FormatMapData()
 end
 
@@ -104,7 +120,6 @@ function SWEP:OnSecondaryShift(ply)
 
     self.NewRoadPoints = roads[#roads]
     table.remove(roads)
-
     self:FormatMapData()
 end
 
@@ -119,7 +134,6 @@ function SWEP:OnSecondaryControl(ply)
 
     self.NewRoadPoints = self.NearestObject
     table.remove(self.Editor.layers[self:GetSelectedLayer()].roads, self.NearestObjectId)
-
     self:FormatMapData()
 end
 
@@ -199,21 +213,29 @@ function SWEP:DrawHUD()
         surface.DrawPoly(road)
     end
 
-    local scale = self.Editor.mapScale
-    local offset = self.Editor.mapOffset
+    local scale = self.Editor.previewScale
+    local offsetX, offsetY = self.Editor.previewOffsetX, self.Editor.previewOffsetY
 
-    if #self.NewRoadPoints > 2 then
+    local newRoadPoints
+    if self.Editor.connectToCursor then
+        newRoadPoints = table.Copy(self.NewRoadPoints)
+        table.insert(newRoadPoints, self:GetCursorPos())
+    else
+        newRoadPoints = self.NewRoadPoints
+    end
+
+    if #newRoadPoints > 2 then
         surface.SetDrawColor(red)
         local drawData = {}
-        for _, point in ipairs(self.NewRoadPoints) do
-            table.insert(drawData, {x = point[1] * scale + offset, y = point[2] * scale + offset})
+        for _, point in ipairs(newRoadPoints) do
+            table.insert(drawData, {x = point[1] * scale + offsetX, y = point[2] * scale + offsetY})
         end
         surface.DrawPoly(drawData)
     end
 
     local pos = localPly:GetPos()
     local plyX, plyY = pos[1], pos[2]
-    RPGM.DrawCircle(plyX * scale + offset, plyY * scale + offset, 8, 8, HSVToColor((CurTime() * 100) % 360, 1, 1))
+    RPGM.DrawCircle(plyX * scale + offsetX - 4, plyY * scale + offsetY - 4, 8, 8, HSVToColor((CurTime() * 100) % 360, 1, 1))
 end
 
 function SWEP:DrawEditor()
@@ -221,7 +243,7 @@ function SWEP:DrawEditor()
 
     local cursorPos
     if self.Editor.showCursor or self.Editor.connectToCursor then
-        cursorPos = self:GetOwner():GetEyeTraceNoCursor().HitPos
+        cursorPos = self:GetCursorPos()
     end
 
     local col = color_white
