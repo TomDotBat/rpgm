@@ -10,44 +10,42 @@ local function buildTexture()
     local huge = math.huge
     local abs = math.abs
 
+    local matSize = ScrH() * 2
+
     RPGM.MapData = {}
 
     for layerId, layer in ipairs(data) do
-        RPGM.MapData[layerId] = {
+        local ly = {
             roads = {},
-            minX = 0, minY = 0,
-            maxX = huge, maxY = huge
+            minX = huge, minY = huge,
+            maxX = -huge, maxY = -huge
         }
+        RPGM.MapData[layerId] = ly
 
         for roadId, road in ipairs(layer.roads) do
-            RPGM.MapData[layerId]["roads"][roadId] = {}
+            ly["roads"][roadId] = {}
 
             for pointId, point in ipairs(road) do
                 local x, y = point[1], point[2]
-
-                RPGM.MapData[layerId].minX = min(RPGM.MapData[layerId].minX, x)
-                RPGM.MapData[layerId].minY = min(RPGM.MapData[layerId].minY, y)
-                RPGM.MapData[layerId].maxX = max(RPGM.MapData[layerId].maxX, x)
-                RPGM.MapData[layerId].maxY = max(RPGM.MapData[layerId].maxY, y)
+                ly.minX = min(ly.minX, x)
+                ly.minY = min(ly.minY, y)
+                ly.maxX = max(ly.maxX, x)
+                ly.maxY = max(ly.maxY, y)
             end
         end
 
-        local offsetX, offsetY = abs(RPGM.MapData[layerId].minX), abs(RPGM.MapData[layerId].minY)
+        local offsetX, offsetY = abs(ly.minX), abs(ly.minY)
 
-        RPGM.MapData[layerId].minX = 0
-        RPGM.MapData[layerId].minY = 0
-        RPGM.MapData[layerId].maxX = RPGM.MapData[layerId].maxX + offsetX
-        RPGM.MapData[layerId].maxY = RPGM.MapData[layerId].maxY + offsetY
+        local scale = matSize / max(ly.maxX + offsetX, ly.maxY + offsetY)
+        RPGM.MapData[layerId].scale = scale
 
-        local scale = .1
         for roadId, road in ipairs(layer.roads) do
             for pointId, point in ipairs(road) do
-                RPGM.MapData[layerId]["roads"][roadId][pointId] = {x = (point[1] + offsetX) * scale, y = (point[2] + offsetY) * scale}
+                ly["roads"][roadId][pointId] = {x = (point[1] + offsetX) * scale, y = (point[2] + offsetY) * scale}
             end
         end
     end
 
-    local matSize = ScrH()
     local layerNo = 1
     local renderTarget = GetRenderTarget("rpgm_minimap_" .. layerNo .. "_" .. tostring(matSize), matSize, matSize)
 
