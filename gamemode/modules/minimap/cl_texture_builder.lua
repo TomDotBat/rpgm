@@ -10,13 +10,15 @@ local function buildTexture()
     local huge = math.huge
     local abs = math.abs
 
-    local matSize = ScrH() * 2
+    local aliasPad = 4
+    local matSize = ScrH() * 2 + aliasPad * 2
 
     RPGM.MapData = {}
 
     for layerId, layer in ipairs(data) do
         local ly = {
             roads = {},
+            pad = aliasPad,
             minX = huge, minY = huge,
             maxX = -huge, maxY = -huge
         }
@@ -34,9 +36,9 @@ local function buildTexture()
             end
         end
 
-        local offsetX, offsetY = abs(ly.minX), abs(ly.minY)
+        local offsetX, offsetY = abs(ly.minX) + aliasPad, abs(ly.minY) + aliasPad
 
-        local scale = matSize / max(ly.maxX + offsetX, ly.maxY + offsetY)
+        local scale = (matSize - aliasPad * 2) / max(ly.maxX + offsetX, ly.maxY + offsetY)
         RPGM.MapData[layerId].scale = scale
 
         for roadId, road in ipairs(layer.roads) do
