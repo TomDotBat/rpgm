@@ -41,6 +41,7 @@ RPGM.RegisterScaledConstant("HUD.PlayerInfo.WantedSpacing", 6)
 RPGM.RegisterScaledConstant("HUD.PlayerInfo.SirenSize", 24)
 
 local getScaledConstant = RPGM.GetScaledConstant
+local backgroundCol = RPGM.Colors.Background
 local primaryCol = RPGM.Colors.PrimaryText
 local healthCol = RPGM.Colors.Negative
 local armorCol = RPGM.Colors.Primary
@@ -130,7 +131,7 @@ hook.Add("RPGM.DrawHUD", "RPGM.DrawPlayerInfo", function(scrW, scrH)
         animX = lerp(ft() * 5, animX, 0)
     end
 
-    surface.SetDrawColor(RPGM.Colors.Background)
+    surface.SetDrawColor(backgroundCol)
     surface.DrawRect(padding - animX, boxY, width + contentOverflow, height)
 
     local rowY = boxY + contentPad
