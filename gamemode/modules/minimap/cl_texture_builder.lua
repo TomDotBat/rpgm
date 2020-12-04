@@ -98,30 +98,30 @@ hook.Add("HUDPaint", "mmtest", function()
     draw.NoTexture()
     --surface.DrawTexturedRectRotated(ScrH() * .5, ScrH() * .5, ScrH(), ScrH(), 90)
     local layer = RPGM.MapData[1]
-    local size = layer.size -- * .5
+    local size = layer.size * .5
     local posX, posY = layer:worldToMap(LocalPlayer():GetPos().x, LocalPlayer():GetPos().y)
 
-    --posX, posY = posX * .5, posY * .5
-    local x, y = ScrW() / 2 - size / 2, ScrH() / 2 - size / 2
-    --surface.SetDrawColor(0, 0, 0, 255)
-    surface.DrawRect(x, y, size, size)
-
-    surface.SetDrawColor(255, 255, 255, 255)
-    surface.SetMaterial(RPGM.MapMaterial)
-    --surface.DrawTexturedRectRotated(ScrW() / 2, ScrH() / 2, size, size, 0)
-    --surface.DrawTexturedRect(x, y, size, size)
-    RPGM.DrawSubpixelClippedMaterial(RPGM.MapMaterial, x, y, size, size)
-
-    surface.SetDrawColor(150, 150, 150, 255)
-    draw.NoTexture()
-    surface.DrawTexturedRectRotated(x + posX, y - posY, 8, 8, LocalPlayer():EyeAngles()[2])
-
-    --surface.SetDrawColor(0, 0, 0, 255)
-    --RPGM.DrawTexturedRectRotatedPoint(ScrW() * .5, ScrH() * .5, size, size, -LocalPlayer():EyeAngles()[2], posX, posY)
+    posX, posY = posX * .5 - size / 2, posY * .5 + size / 2
+    --local x, y = ScrW() / 2 - size / 2, ScrH() / 2 - size / 2
+    ----surface.SetDrawColor(0, 0, 0, 255)
+    --surface.DrawRect(x, y, size, size)
 --
     --surface.SetDrawColor(255, 255, 255, 255)
     --surface.SetMaterial(RPGM.MapMaterial)
-    --RPGM.DrawTexturedRectRotatedPoint(ScrW() * .5, ScrH() * .5, size, size, -LocalPlayer():EyeAngles()[2], posX, posY)
+    ----surface.DrawTexturedRectRotated(ScrW() / 2, ScrH() / 2, size, size, 0)
+    ----surface.DrawTexturedRect(x, y, size, size)
+    --RPGM.DrawSubpixelClippedMaterial(RPGM.MapMaterial, x, y, size, size)
+--
+    --surface.SetDrawColor(150, 150, 150, 255)
+    --draw.NoTexture()
+    --surface.DrawTexturedRectRotated(x + posX, y - posY, 8, 8, LocalPlayer():EyeAngles()[2])
+
+    surface.SetDrawColor(0, 0, 0, 255)
+    RPGM.DrawTexturedRectRotatedPoint(ScrW() * .5, ScrH() * .5, size, size, -LocalPlayer():EyeAngles()[2], posX, posY)
+
+    surface.SetDrawColor(255, 255, 255, 255)
+    surface.SetMaterial(RPGM.MapMaterial)
+    RPGM.DrawTexturedRectRotatedPoint(ScrW() * .5, ScrH() * .5, size, size, -LocalPlayer():EyeAngles()[2], posX, posY)
 end)
 
---hook.Remove("HUDPaint", "mmtest")
+hook.Remove("HUDPaint", "mmtest")
