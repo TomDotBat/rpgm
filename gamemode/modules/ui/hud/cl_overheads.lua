@@ -43,12 +43,13 @@ hook.Add("PostDrawTranslucentRenderables", "RPGM.DrawOverheads", function(depth,
     if callHook("RPGM.ShouldDraw", nil, "Overheads") == false then return end
 
     for _, ply in ipairs(getAllPlayers()) do
+        if ply == localPly then continue end
         if ply:Health() < 1 then continue end
 
         local eye
         local boneId = ply:LookupBone("ValveBiped.Bip01_Head1")
         if boneId then eye = ply:GetBonePosition(boneId)
-        else ply:GetPos() end
+        else eye = ply:GetPos() end
 
         if ply:InVehicle() then
             eye.z = max(eye.z + 9, getRoof(ply:GetVehicle()) + 5)
