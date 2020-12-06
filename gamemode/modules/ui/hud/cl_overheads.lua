@@ -1,5 +1,4 @@
 
-
 local roofCache = {
     ["models/tdmcars/bus.mdl"] = Vector(),
     ["models/sligwolf/bus/bus.mdl"] = Vector(),
@@ -25,7 +24,7 @@ end
 
 local localPly
 local isValid = IsValid
-hook.Add("RPGM.ShouldDraw", "RPGM.DrawAmmo", function(elem)
+hook.Add("RPGM.ShouldDraw", "RPGM.DrawOverheads", function(elem)
     if elem ~= "Overheads" then return end
     local wep = localPly:GetActiveWeapon()
     if isValid(wep) and wep:GetClass() == "gmod_camera" then return false end
