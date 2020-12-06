@@ -4,7 +4,10 @@ local roofCache = {
     ["models/sligwolf/bus/bus.mdl"] = Vector(),
 }
 
+local isValid = IsValid
 local function getRoof(car)
+    if not isValid(car) then return end
+
     local parent = car:GetParent()
     car = (parent:IsValid() and parent:IsVehicle()) and parent or car
 
@@ -23,7 +26,6 @@ local function getRoof(car)
 end
 
 local localPly
-local isValid = IsValid
 hook.Add("RPGM.ShouldDraw", "RPGM.DrawOverheads", function(elem)
     if elem ~= "Overheads" then return end
     local wep = localPly:GetActiveWeapon()
