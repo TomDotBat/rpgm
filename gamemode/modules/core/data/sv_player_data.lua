@@ -10,6 +10,30 @@ hook.Add("RPGM.DBBuilder", "RPGM.BuildPlayerTable", function()
 );]])
 end)
 
+function RPGM.GetPlayerNameFromDB(steamid, callback)
+    RPGM.CheckType(steamid, "string")
+
+    MySQLite.query(
+        [[SELECT * FROM `]] .. tableName .. [[` WHERE steamid="]] .. steamid .. [[";]],
+        function(data)
+            if data then
+                local row = data[1]
+                if row and row.name and row.steam_name then
+                    if callback then callback(row.name, row.steam_name) end
+                    return
+                end
+            end
+
+            if not callback then return end
+            callback(false)
+        end,
+        function(err, sqlString)
+            RPGM.LogError("Failed to get " .. steamid .. "'s' name from the DB with: " .. sqlString)
+            RPGM.LogError(err)
+        end
+    )
+end
+
 function RPGM.SetPlayerNameInDB(steamid, name, steamName, callback)
     RPGM.CheckType(steamid, "string")
     RPGM.CheckType(name, "string")
@@ -34,6 +58,27 @@ function RPGM.SetPlayerNameInDB(steamid, name, steamName, callback)
         callback,
         function(err, sqlString)
             RPGM.LogError("Failed to set " .. name .. "'s' name in the DB with: " .. sqlString)
+            RPGM.LogError(err)
+        end
+    )
+end
+
+function RPGM.GetPlayerNameExists(name, callback)
+    RPGM.CheckType(name, "string")
+
+    MySQLite.query(
+        [[SELECT * FROM `]] .. tableName .. [[` WHERE name="]] .. name .. [[";]],
+        function(data)
+            if data and not table.IsEmpty(data) then
+                callback(true)
+                return
+            end
+
+            if not callback then return end
+            callback(false)
+        end,
+        function(err, sqlString)
+            RPGM.LogError("Failed to look for a nickname " .. steamid .. " in the DB with: " .. sqlString)
             RPGM.LogError(err)
         end
     )
