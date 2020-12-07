@@ -63,25 +63,36 @@ function RPGM.SetPlayerNameInDB(steamid, name, steamName, callback)
     )
 end
 
-function RPGM.GetPlayerNameExists(name, callback)
+function RPGM.GetPlayerSteamIDFromDB(name, callback)
     RPGM.CheckType(name, "string")
 
     MySQLite.query(
         [[SELECT * FROM `]] .. tableName .. [[` WHERE name="]] .. name .. [[";]],
         function(data)
-            if data and not table.IsEmpty(data) then
-                callback(true)
-                return
+            if data then
+                local row = data[1]
+                if row and row.steamid then
+                    if callback then callback(row.steamid) end
+                    return
+                end
             end
 
             if not callback then return end
             callback(false)
         end,
         function(err, sqlString)
-            RPGM.LogError("Failed to look for a nickname " .. steamid .. " in the DB with: " .. sqlString)
+            RPGM.LogError("Failed to look for a nickname " .. name .. " in the DB with: " .. sqlString)
             RPGM.LogError(err)
         end
     )
+end
+
+function RPGM.GetPlayerNameExists(name, callback)
+    RPGM.CheckType(name, "string")
+
+    RPGM.GetPlayerSteamIDFromDB(name, function(exists)
+        callback(exists ~= false)
+    end)
 end
 
 hook.Add("PlayerInitialSpawn", "RPGM.InitialisePlayerData", function(ply)
