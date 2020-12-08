@@ -54,4 +54,6 @@ RPGM.RegisterCommand("ooc", {"/"}, {
     PrintTable(data)
 end)
 
+RPGM.BootComplete = true
+
 collectgarbage()
