@@ -1,4 +1,6 @@
 
+RPGM.StartTime = os.clock()
+
 include("shared.lua")
 
 function GM:InitPostEntity()

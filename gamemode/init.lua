@@ -1,4 +1,6 @@
 
+RPGM.StartTime = os.clock()
+
 AddCSLuaFile("cl_init.lua")
 AddCSLuaFile("shared.lua")
 
