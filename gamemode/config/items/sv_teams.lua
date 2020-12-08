@@ -11,3 +11,14 @@ if not RPGM.GetDefaultTeam() then
         }
     })
 end
+
+RPGM.AddTeam({
+    name = "Policeman",
+    category = "Police",
+    command = "policeman",
+    model = "models/player/alyx.mdl",
+    color = Color(0, 0, 0),
+    extras = {
+        salary = 80
+    }
+})
