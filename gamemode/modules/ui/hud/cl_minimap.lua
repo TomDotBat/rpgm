@@ -6,7 +6,10 @@ local rotation = Angle(0, 0, 0)
 local localPly
 local lerpAngle = LerpAngle
 local ft = FrameTime
+local hasFocus = system.HasFocus
 local function updateStats(ply)
+    if not hasFocus() then return ply:EyeAngles() end
+
     local rot = ply:EyeAngles()
     if ply:InVehicle() then
         rot:Add(Angle(0, ply:GetVehicle():GetAngles().y, 0))
