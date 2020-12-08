@@ -4,13 +4,16 @@ local takenNames = {}
 RPGM.TeamTable = RPGM.TeamTable or {}
 RPGM.TeamTableID = RPGM.TeamTableID or {}
 RPGM.CategorisedTeamTable = RPGM.CategorisedTeamTable or {}
-RPGM.TeamCounter = 0
+RPGM.TeamCounter = RPGM.TeamCounter or 0
 
 function RPGM.AddTeam(data)
+    local reportConflicts = not RPGM.BootComplete
     if RPGM.TeamTable[data.command] then
-        return RPGM.LogError("Command already taken for team \"" .. (data.name or "Unknown") .. "\".")
+        if reportConflicts then RPGM.LogError("Command already taken for team \"" .. (data.name or "Unknown") .. "\".") end
+        return
     elseif takenNames[data.name] then
-        return RPGM.LogError("Name already taken for team \"" .. (data.name or "Unknown") .. "\".")
+        if reportConflicts then return RPGM.LogError("Name already taken for team \"" .. (data.name or "Unknown") .. "\".") end
+        return
     end
 
     local name = data.name
