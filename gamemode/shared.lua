@@ -1,4 +1,6 @@
 
+local startTime = os.clock()
+
 GM.Name = "RPGM: An RP Gamemode Base"
 GM.Author = "Tom.bat"
 GM.Email = "tom@tomdotbat.dev"
@@ -65,7 +67,7 @@ end)
 RPGM.Log(
     "The gamemode successfully "
     .. (isRefresh and "auto-refreshed in " or "finished loading in ")
-    .. (math.Round(os.clock() - RPGM.StartTime, 2)) .. " seconds."
+    .. (math.Round(os.clock() - startTime, 2)) .. " seconds."
 )
 
 RPGM.BootComplete = true
