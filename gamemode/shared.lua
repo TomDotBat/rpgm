@@ -9,6 +9,14 @@ DEFINE_BASECLASS("gamemode_sandbox")
 
 GM.Sandbox = BaseClass
 
+local isRefresh
+if istable(RPGM) then
+    isRefresh = true
+    if RPGM.LogWarning then
+        RPGM.LogWarning("Lua refresh detected, the gamemode will now attempt to load changes without disruption.")
+    end
+end
+
 RPGM = RPGM or {
     Config = {},
     Items = {},
@@ -53,6 +61,12 @@ RPGM.RegisterCommand("ooc", {"/"}, {
 }, function(data)
     PrintTable(data)
 end)
+
+RPGM.Log(
+    "The gamemode successfully "
+    .. (isRefresh and "auto-refreshed in " or "finished loading in ")
+    .. (math.Round(os.clock() - RPGM.StartTime, 2)) .. " seconds."
+)
 
 RPGM.BootComplete = true
 
