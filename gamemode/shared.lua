@@ -60,7 +60,7 @@ hook.Run("RPGM.RegisterCommands")
 
 RPGM.RegisterCommand("ooc", {"/"}, {
     RPGM.Classes.TextArgument("Message", false, nil, false, true)
-}, function(data)
+}, function(ply, data)
     PrintTable(data)
 end)
 
