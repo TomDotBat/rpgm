@@ -23,6 +23,9 @@ function RPGM.Classes.TextArgument(name, optional, default, singleWord, wholeStr
     end
 
     function tbl:processString(str)
+        str = string.Trim(str)
+        if str == "" then return false end
+
         if wholeString then
             if #str < 1 then return self:getOptional(), str, self:getDefault() end
             return true, "", str
