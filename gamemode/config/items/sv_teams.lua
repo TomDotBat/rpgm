@@ -17,6 +17,7 @@ RPGM.AddTeam({
     category = "Police",
     command = "policeman",
     model = "models/player/alyx.mdl",
+    weapons = {"weapon_357", "weapon_pistol"},
     color = Color(0, 0, 0),
     extras = {
         salary = 80
