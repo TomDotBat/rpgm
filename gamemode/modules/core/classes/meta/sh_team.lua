@@ -26,7 +26,7 @@ function RPGM.Classes.Team(name, category, command, model, order, extra, functio
             RPGM.Assert(isstring(v), "Team weapons must be a table of weapon class strings.")
 
             if not weapons.Get(v) then
-                RPGM.LogWarning("The weapon \"" .. v .. "\" doesn't exist, removing from the loadout for " .. name ".")
+                RPGM.LogWarning("The weapon \"" .. v .. "\" doesn't exist, removing from the loadout for " .. name .. ".")
                 continue
             end
             table.insert(actualWeapons, v)
