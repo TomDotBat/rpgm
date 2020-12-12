@@ -8,6 +8,19 @@ end
 function GM:PlayerChangedTeam(ply, oldTeamId, newTeamId)
     if not isValidTeamId(newTeamId) then return end
 
+    if RPGM.Config.KillOnTeamChange and ply:Alive() then
+        ply:StripWeapons()
+        ply:RemoveAllAmmo()
+
+        player_manager.SetPlayerClass(ply, "player_rpgm")
+        ply:applyTeamVars()
+
+        gamemode.Call("PlayerSetModel", ply)
+        gamemode.Call("PlayerLoadout", ply)
+    else
+        ply:KillSilent()
+    end
+
     local newTeam = RPGM.TeamTableID[newTeamId]
     RPGM.CallClassFunction(newTeam, "onPlayerJoin", ply, oldTeamId)
 
