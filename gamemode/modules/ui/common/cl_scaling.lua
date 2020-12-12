@@ -17,7 +17,7 @@ function RPGM.GetScaledConstant(varName)
 end
 
 hook.Add("OnScreenSizeChanged", "RPGM.StoreScaledConstants", function()
-    for varName, size in ipairs(constants) do
+    for varName, size in pairs(constants) do
         scaledConstants[varName] = RPGM.Scale(size)
     end
 end)
