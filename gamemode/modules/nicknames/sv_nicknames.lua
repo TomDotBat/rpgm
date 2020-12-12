@@ -10,6 +10,8 @@ hook.Add("RPGM.CanChangeNickname", "RPGM.NicknameRestrictions", function(ply, na
 end)
 
 function RPGM.ChangeNickname(ply, name, caller)
+    if name == "" then RPGM.ResetNickname(caller, ply:Name()) end
+
     caller = caller or ply
 
     local success, reason = hook.Call("RPGM.CanChangeNickname", nil, ply, name)
@@ -34,6 +36,36 @@ function RPGM.ChangeNickname(ply, name, caller)
     end)
 end
 
+function RPGM.ResetNickname(caller, name)
+    RPGM.GetPlayerSteamIDFromDB(name, function(steamid)
+        if not steamid then
+            if IsValid(caller) then caller:rpNotify("Nickname Not Found", "The name you provided isn't in use.", NOTIFY_ERROR) end
+            return
+        end
+
+        local ply = player.GetBySteamID64(steamid)
+        RPGM.SetPlayerNameInDB(steamid, "", IsValid(ply) and ply:SteamName() or "", function()
+            if IsValid(ply) then
+                ply:setRPString("Nickname", "")
+                ply:rpNotify("Nickname Reset", "Your nickname has been reset" .. (IsValid(caller) and " by an administrator." or "."), NOTIFY_ERROR)
+
+                local filter = RecipientFilter()
+                filter:AddAllPlayers()
+                filter:RemovePlayer(ply)
+                if IsValid(caller) then filter:RemovePlayer(caller) end
+
+                RPGM.Notify(
+                    filter, "Nickname Change",
+                    name .. " changed their nickname to " .. ply:SteamName() .. ".",
+                    NOTIFY_GENERIC
+                )
+            end
+
+            if IsValid(caller) then caller:rpNotify("Nickname Removed", "The name \"" .. name .. "\" has been made available.", NOTIFY_ERROR) end
+        end)
+    end)
+end
+
 hook.Add("RPGM.NicknameChanged", "RPGM.AlertNicknameChanges", function(ply, oldName, newName, steamName)
     RPGM.Notify(
         player.GetAll(), "Nickname Change",
@@ -41,3 +73,16 @@ hook.Add("RPGM.NicknameChanged", "RPGM.AlertNicknameChanges", function(ply, oldN
         NOTIFY_GENERIC
     )
 end)
+
+hook.Add("PlayerInitialSpawn", "RPGM.InitialisePlayerNickname", function(ply)
+    local steamid = ply:SteamID64()
+
+    RPGM.GetPlayerNameFromDB(steamid, function(name)
+        if not IsValid(ply) then return end
+
+        ply:setRPInt("Nickname", name)
+        RPGM.SetPlayerNameInDB(steamid, name, ply:SteamName())
+    end)
+end)
+
+hook.Remove("PlayerInitialSpawn", "RPGM.InitialisePlayerData") --Disable default player data storage behaviour to prevent nickname resets
