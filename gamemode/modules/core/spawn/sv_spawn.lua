@@ -1,8 +1,6 @@
 
-local getTeamClass = team.GetClass
-
 function GM:PlayerSpawn(ply)
-    RPGM.CallClassFunction(getTeamClass(ply:Team()), "onPlayerSpawn", ply)
+    RPGM.CallClassFunction(ply:getTeamClass(), "onPlayerSpawn", ply)
 
     ply:CrosshairEnable()
     ply:UnSpectate()
