@@ -1,11 +1,11 @@
 
-function RPGM.Classes.Team(name, category, command, model, order, extra, functions, color, description, weapons, limit)
+function RPGM.Classes.Team(name, category, command, model, order, extra, functions, color, description, weps, limit)
     local tbl = RPGM.Classes.ItemBase(name, category, command, model, order, extra, functions)
     tbl.__type = "team"
 
     function tbl:getColor() return color end
     function tbl:getDescription() return description end
-    function tbl:getWeapons() return weapons end
+    function tbl:getWeapons() return weps end
     function tbl:getLimit(ply) return (isfunction(limit) and IsValid(ply)) and limit(ply) or limit end
 
     function tbl:setColor(val)
@@ -32,7 +32,7 @@ function RPGM.Classes.Team(name, category, command, model, order, extra, functio
             table.insert(actualWeapons, v)
         end
 
-        weapons = actualWeapons
+        weps = actualWeapons
     end
 
     function tbl:setLimit(val)
@@ -44,7 +44,7 @@ function RPGM.Classes.Team(name, category, command, model, order, extra, functio
 
     tbl:setColor(color)
     tbl:setDescription(description)
-    tbl:setWeapons(weapons)
+    tbl:setWeapons(weps)
     tbl:setLimit(limit)
 
     local parentNetTableGetter = tbl.getNetworkableTable
@@ -54,7 +54,7 @@ function RPGM.Classes.Team(name, category, command, model, order, extra, functio
         netTable["id"] = self.__id
         netTable["color"] = color
         netTable["description"] = description
-        netTable["weapons"] = weapons
+        netTable["weapons"] = weps
         netTable["limit"] = limit
 
         return netTable
