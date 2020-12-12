@@ -8,4 +8,15 @@ function meta:Name()
 end
 
 meta.GetName = meta.Name
+meta.getName = meta.Name
 meta.Nick = meta.Name
+
+if CLIENT then return end
+
+function meta:setName(name, caller)
+    RPGM.ChangeNickname(self, name, caller)
+end
+
+function meta:resetName(caller)
+    RPGM.ResetNickname(caller, self:Name())
+end
