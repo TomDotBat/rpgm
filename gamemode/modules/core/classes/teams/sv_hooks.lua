@@ -8,7 +8,7 @@ end
 function GM:PlayerChangedTeam(ply, oldTeamId, newTeamId)
     if not isValidTeamId(newTeamId) then return end
 
-    if RPGM.Config.KillOnTeamChange and ply:Alive() then
+    if not RPGM.Config.KillOnTeamChange and ply:Alive() then
         ply:StripWeapons()
         ply:RemoveAllAmmo()
 
