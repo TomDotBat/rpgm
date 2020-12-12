@@ -35,7 +35,7 @@ function RPGM.Classes.Command(name, aliases, args, func, permission, minAccess)
             return true, "The \"" .. name .. "\" command is not permission restricted."
         end
 
-        return CAMI.PlayerHasAccess(ply, permission, callback, targetPly)
+        return CAMI.PlayerHasAccess(ply, "RPGM." .. permission, callback, targetPly)
     end
 
     function tbl:setName(val)
@@ -77,12 +77,12 @@ function RPGM.Classes.Command(name, aliases, args, func, permission, minAccess)
         RPGM.Assert(isstring(val), "Command permission must be a string.")
         RPGM.Assert(isstring(access), "Command minimum access level must be a usergroup name string.")
 
-        CAMI.UnregisterPrivilege(permission)
+        CAMI.UnregisterPrivilege("RPGM." .. permission)
 
         permission = val
 
         CAMI.RegisterPrivilege({
-            Name = val,
+            Name = "RPGM." .. val,
             MinAccess = access
         })
     end
