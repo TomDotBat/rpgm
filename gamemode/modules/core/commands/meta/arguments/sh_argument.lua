@@ -27,7 +27,7 @@ function RPGM.Classes.Argument(name, optional, default)
     end
 
     function tbl:processString(str)
-        return false //Bool: Success, String: Rest of string, Any: Processed Value
+        return false --Bool: Success, String: Rest of string, Any: Processed Value
     end
 
     tbl:setName(name)
