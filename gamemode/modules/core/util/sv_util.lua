@@ -57,7 +57,7 @@ function RPGM.Util.FindEmptyPos(pos, ignore, distance, step, area)
     return pos
 end
 
-function RPGM.placeEntity(ent, tr, ply)
+function RPGM.PlaceEntity(ent, tr, ply)
     if IsValid(ply) then
         local ang = ply:EyeAngles()
         ang[1] = 0
