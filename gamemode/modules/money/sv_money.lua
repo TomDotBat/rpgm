@@ -87,4 +87,6 @@ function RPGM.SpawnMoney(pos, amount)
 	timer.Create("RPGM.RemoveMoney:" .. ent:EntIndex(), RPGM.Config.MoneyAutoRemoveTime, 1, function()
 		SafeRemoveEntity(ent)
 	end)
+
+	return ent
 end
