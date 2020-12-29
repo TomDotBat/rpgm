@@ -28,7 +28,7 @@ function RPGM.GivePlayerMoney(ply, amount, callback)
 	RPGM.CheckType(amount, "number")
 
 	RPGM.GetPlayerMoney(ply, function(curAmount)
-		 RPGM.SetPlayerMoney(ply, curAmount + amount, callback)
+		RPGM.SetPlayerMoney(ply, curAmount + amount, callback)
 	end)
 end
 
@@ -70,3 +70,21 @@ hook.Add("PlayerInitialSpawn", "RPGM.InitialisePlayerMoney", function(ply)
 		ply:setRPInt("Money", amount)
 	end)
 end)
+
+function RPGM.PayPlayer(ply1, ply2, amount)
+	ply1:addMoney(-amount)
+	ply2:addMoney(amount)
+end
+
+function RPGM.SpawnMoney(pos, amount)
+	local ent = ents.Create("rpgm_money")
+	ent:SetPos(pos)
+	ent:SetAmount(amount)
+	ent:Spawn()
+	ent:Activate()
+
+	if RPGM.Config.MoneyAutoRemoveTime < 0 then return ent end
+	timer.Create("RPGM.RemoveMoney:" .. ent:EntIndex(), RPGM.Config.MoneyAutoRemoveTime, 1, function()
+		SafeRemoveEntity(ent)
+	end)
+end
