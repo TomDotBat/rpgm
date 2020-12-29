@@ -58,12 +58,6 @@ RPGM.Util.LoadDirectory(rootDir .. "config/items")
 
 hook.Run("RPGM.RegisterCommands")
 
-RPGM.RegisterCommand("ooc", {"/"}, {
-    RPGM.Classes.TextArgument("Message", false, nil, false, true)
-}, function(ply, data)
-    PrintTable(data)
-end)
-
 RPGM.Log(
     "The gamemode successfully "
     .. (isRefresh and "auto-refreshed in " or "finished loading in ")
