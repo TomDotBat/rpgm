@@ -57,4 +57,20 @@ function RPGM.Util.FindEmptyPos(pos, ignore, distance, step, area)
     return pos
 end
 
+function RPGM.placeEntity(ent, tr, ply)
+    if IsValid(ply) then
+        local ang = ply:EyeAngles()
+        ang[1] = 0
+        ang[2] = ang[1] + 180
+        ang[3] = 0
+        ent:SetAngles(ang)
+    end
+
+    local flushPoint = tr.HitPos - (tr.HitNormal * 512)
+    flushPoint = ent:NearestPoint(flushPoint)
+    flushPoint = ent:GetPos() - flushPoint
+    flushPoint = tr.HitPos + flushPoint
+    ent:SetPos(flushPoint)
+end
+
 RPGM.Util.PlayerSteamIDArg = RPGM.Classes.SteamIDArgument("INTERNAL", false, nil, true)
