@@ -38,7 +38,7 @@ function ENT:Use(ply)
     hook.Call("RPGM.PlayerPickedUpMoney", nil, ply, self, value)
 
     ply:addMoney(value)
-    RPGM.Notify(ply, "Picked-Up Money", "You picked up " .. RPGM.FormatMoney(value) .. " from the floor.", NOTIFY_ERROR)
+    RPGM.Notify(ply, "Picked-Up Money", "You picked up " .. RPGM.FormatMoney(value) .. " from the floor.")
     self:Remove()
 end
 
