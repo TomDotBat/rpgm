@@ -83,7 +83,7 @@ function RPGM.SpawnMoney(pos, amount)
 	ent:Spawn()
 	ent:Activate()
 
-	if RPGM.Config.MoneyAutoRemoveTime < 0 then return ent end
+	if RPGM.Config.MoneyAutoRemoveTime < 1 then return ent end
 	timer.Create("RPGM.RemoveMoney:" .. ent:EntIndex(), RPGM.Config.MoneyAutoRemoveTime, 1, function()
 		SafeRemoveEntity(ent)
 	end)
