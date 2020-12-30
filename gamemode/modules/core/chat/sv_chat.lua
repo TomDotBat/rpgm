@@ -49,8 +49,6 @@ function RPGM.TalkToAll(talker, text, nameOverride, prefixCol, prefix)
     net.Broadcast()
 end
 
-local findInSphere = ents.FindInSphere
-
 function RPGM.TalkToRange(talker, text, range, nameOverride, prefixCol, prefix)
     range = range or RPGM.Config.ChatRange
 
