@@ -92,7 +92,9 @@ function RPGM.Classes.Command(name, aliases, args, func, permission, minAccess)
         local targetPly
 
         for k, arg in ipairs(args) do
-            local success, str, result = arg:processString(str, caller)
+            local success, newStr, result = arg:processString(str, caller)
+            str = newStr
+
             if not success then
                 callback(caller, false, "Correct syntax: " .. name .. " " .. self:getSyntax())
                 return false
