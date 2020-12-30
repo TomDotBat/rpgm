@@ -32,7 +32,7 @@ function RPGM.Classes.PlayerArgument(name, optional, default, allowSteamId)
             return true, self:removeLeftChars(str, 2), caller
         elseif text == "@" then
             local target = caller:GetEyeTrace().Entity
-            if target and IsPlayer(target) and target ~= caller then
+            if target and target:IsPlayer() and target ~= caller then
                 return true, self:removeLeftChars(str, 2), target
             end
             return self:getOptional(), str, self:getDefault()
