@@ -24,14 +24,11 @@ net.Receive("RPGM.Talk", function()
         talkerName = talker:Nick()
     end
 
+    local disableColon = net.ReadBool()
+
     local prefixCol, prefix
     if net.BytesLeft() ~= 0 then
         prefixCol, prefix = net.ReadColor(), net.ReadString()
-    end
-
-    local disableColon = false
-    if net.BytesLeft() ~= 0 then
-        disableColon = net.ReadBool()
     end
 
     if text and text ~= "" and IsValid(talker) then
