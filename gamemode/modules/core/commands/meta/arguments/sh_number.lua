@@ -30,7 +30,7 @@ function RPGM.Classes.NumberArgument(name, optional, default, decimal, rangeMin,
 
         local text = splitStr[1]
         local number = tonumber(text)
-        if not tbl:isInRange(number) then return self:getOptional(), str, self:getDefault() end
+        if not (number and tbl:isInRange(number)) then return self:getOptional(), str, self:getDefault() end
 
         return true, self:removeLeftChars(str, #text + 1), decimal and math.Round(number) or number
     end
