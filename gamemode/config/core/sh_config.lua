@@ -7,6 +7,7 @@ RPGM.Config.ShowKillFeed = true
 
 --Chat Settings
 RPGM.Config.ChatWhenDead = true
+RPGM.Config.CommandErrorCol = Color(217, 54, 46)
 
 --Voice Settings
 RPGM.Config.VoiceWhenDead = true
