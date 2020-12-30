@@ -55,7 +55,7 @@ function RPGM.TalkToRange(talker, text, range, nameOverride, prefixCol, prefix)
     range = range or RPGM.Config.ChatRange
 
     local filter = {}
-    for _, target in ipairs(findInSphere(talker:EyePos(), range)) do --TODO: Use player.GetAll and a distance check (faster)
+    for _, target in ipairs(RPGM.Util.FindPlayersInSphere(talker:EyePos(), range)) do
         if target == talker then continue end
         if not target:IsPlayer() or target:IsBot() then continue end
 
