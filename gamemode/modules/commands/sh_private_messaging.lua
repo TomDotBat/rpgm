@@ -5,5 +5,8 @@ hook.Add("RPGM.RegisterCommands", "RPGM.PMCommands", function()
         RPGM.Classes.TextArgument("Message", false, nil, false, true)
     }, function(ply, data)
         RPGM.TalkToPlayer(ply, data[1], data[2], RPGM.Config.PMTagCol, "[PM]")
+
+        if ply == data[1] then return end
+        RPGM.TalkToPlayer(ply, ply, data[2], RPGM.Config.PMTagCol, "[PM]")
     end)
 end)
