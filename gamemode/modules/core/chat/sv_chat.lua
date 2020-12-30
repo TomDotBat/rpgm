@@ -36,7 +36,7 @@ function GM:PlayerSay(ply, text, teamOnly)
     return text
 end
 
-function RPGM.TalkToAll(talker, text, nameOverride, prefixCol, prefix)
+function RPGM.TalkToAll(talker, text, nameOverride, prefixCol, prefix, disableColon)
     net.Start("RPGM.Talk")
         net.WriteEntity(talker)
         net.WriteString(text)
@@ -46,10 +46,11 @@ function RPGM.TalkToAll(talker, text, nameOverride, prefixCol, prefix)
             net.WriteColor(prefixCol or color_white)
             net.WriteString(prefix)
         end
+        if disableColon then net.WriteBool(true) end
     net.Broadcast()
 end
 
-function RPGM.TalkToRange(talker, text, range, nameOverride, prefixCol, prefix)
+function RPGM.TalkToRange(talker, text, range, nameOverride, prefixCol, prefix, disableColon)
     range = range or RPGM.Config.ChatRange
 
     local filter = {}
@@ -72,10 +73,11 @@ function RPGM.TalkToRange(talker, text, range, nameOverride, prefixCol, prefix)
             net.WriteColor(prefixCol or color_white)
             net.WriteString(prefix)
         end
+        if disableColon then net.WriteBool(true) end
     net.Send(filter)
 end
 
-function RPGM.TalkToPlayer(talker, receiver, text, prefixCol, prefix, talkerNameOverride)
+function RPGM.TalkToPlayer(talker, receiver, text, prefixCol, prefix, talkerNameOverride, disableColon)
     net.Start("RPGM.Talk")
         net.WriteEntity(talker)
         net.WriteString(text)
@@ -85,6 +87,7 @@ function RPGM.TalkToPlayer(talker, receiver, text, prefixCol, prefix, talkerName
             net.WriteColor(prefixCol or color_white)
             net.WriteString(prefix)
         end
+        if disableColon then net.WriteBool(true) end
     net.Send(receiver)
 end
 

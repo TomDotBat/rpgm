@@ -29,6 +29,11 @@ net.Receive("RPGM.Talk", function()
         prefixCol, prefix = net.ReadColor(), net.ReadString()
     end
 
+    local disableColon = false
+    if net.BytesLeft() ~= 0 then
+        disableColon = net.ReadBool()
+    end
+
     if text and text ~= "" and IsValid(talker) then
         if hook.Call("OnPlayerChat", GAMEMODE, talker, text, false, talkerDead) == true then return end
     else
@@ -39,7 +44,7 @@ net.Receive("RPGM.Talk", function()
         chat.AddText(
             prefixCol, prefix .. " ",
             talkerDead and deadMessageColor or getTeamColor(talker:Team()), talkerName,
-            color_white, ": ",
+            color_white, disableColon and " " or ": ",
             talkerDead and deadMessageColor or messageColor, text
         )
 
@@ -49,7 +54,7 @@ net.Receive("RPGM.Talk", function()
 
     chat.AddText(
         talkerDead and deadMessageColor or getTeamColor(talker:Team()), talkerName,
-        color_white, ": ",
+        color_white, disableColon and " " or ": ",
         talkerDead and deadMessageColor or messageColor, text
     )
 
