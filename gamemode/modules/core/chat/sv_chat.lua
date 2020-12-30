@@ -5,6 +5,9 @@ util.AddNetworkString("RPGM.Chat")
 function GM:PlayerSay(ply, text, teamOnly)
     if text == "" then return "" end
 
+    local returnOverride = hook.Call("RPGM.PreCommandCheck", nil, ply, text, teamOnly)
+    if returnOverride ~= nil then return returnOverride end
+
     if string.StartWith(text, RPGM.Config.ChatCommandPrefix) and RPGM.HandleCommands(ply, string.Right(text, #text - 1)) then
         return ""
     end
@@ -29,7 +32,7 @@ function GM:PlayerSay(ply, text, teamOnly)
         RPGM.TalkToAll(ply, text)
     end
 
-    hook.Call("PostPlayerSay", nil, ply, text, teamOnly, isDead)
+    hook.Call("RPGM.PostPlayerSay", nil, ply, text, teamOnly, isDead)
     return text
 end
 
@@ -38,10 +41,10 @@ function RPGM.TalkToAll(talker, text, nameOverride, prefixCol, prefix)
         net.WriteEntity(talker)
         net.WriteString(text)
         net.WriteBool(not talker:Alive())
-        if nameOverride then net.WriteString(nameOverride) end
+        net.WriteString(nameOverride or "")
         if prefix then
-            net.WriteString(prefix)
             net.WriteColor(prefixCol or color_white)
+            net.WriteString(prefix)
         end
     net.Broadcast()
 end
@@ -57,7 +60,7 @@ function RPGM.TalkToRange(talker, text, range, nameOverride, prefixCol, prefix)
         if not target:IsPlayer() or target:IsBot() then continue end
 
         local name = nameOverride or talker:Name()
-        if hook.Run("PlayerCanSeePlayersChat", name .. ": " .. text, false, target, talker) ~= false then
+        if hook.Run("PlayerCanSeePlayersChat", prefix .. " " .. name .. ": " .. text, false, target, talker) ~= false then
             table.insert(filter, target)
         end
     end
@@ -66,25 +69,23 @@ function RPGM.TalkToRange(talker, text, range, nameOverride, prefixCol, prefix)
         net.WriteEntity(talker)
         net.WriteString(text)
         net.WriteBool(not talker:Alive())
-        if nameOverride then net.WriteString(nameOverride) end
+        net.WriteString(nameOverride or "")
         if prefix then
-            net.WriteString(prefix)
             net.WriteColor(prefixCol or color_white)
+            net.WriteString(prefix)
         end
     net.Send(filter)
 end
 
 function RPGM.TalkToPlayer(talker, receiver, text, prefixCol, prefix, talkerNameOverride)
-    talkerNameOverride = talkerNameOverride or ""
-
     net.Start("RPGM.Talk")
         net.WriteEntity(talker)
         net.WriteString(text)
         net.WriteBool(not talker:Alive())
-        net.WriteString(talkerNameOverride)
+        net.WriteString(talkerNameOverride or "")
         if prefix then
-            net.WriteString(prefix)
             net.WriteColor(prefixCol or color_white)
+            net.WriteString(prefix)
         end
     net.Send(receiver)
 end
