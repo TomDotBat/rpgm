@@ -71,9 +71,16 @@ hook.Add("PlayerInitialSpawn", "RPGM.InitialisePlayerMoney", function(ply)
 	end)
 end)
 
-function RPGM.PayPlayer(ply1, ply2, amount)
-	ply1:addMoney(-amount)
-	ply2:addMoney(amount)
+function RPGM.PayPlayer(ply1, ply2, amount, callback)
+	ply1:removeMoney(amount, function(success)
+		if not (success ~= false and IsValid(ply2)) then
+			if callback then return callback(false, success and "The player you tried to pay could not be found." or "You don't have enough money to give.") end
+			return
+		end
+
+		ply2:addMoney(amount)
+		if callback then callback(true) end
+	end)
 end
 
 function RPGM.SpawnMoney(pos, amount)

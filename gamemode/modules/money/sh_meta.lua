@@ -60,3 +60,17 @@ function meta:dropMoney(amount, callback)
         end)
     end)
 end
+
+function meta:giveMoney(amount, receiver, callback)
+    RPGM.PayPlayer(self, receiver, amount, function(success, reason)
+        if not success then
+            if callback then return callback(false, reason) end
+            return
+        end
+
+        self:DoAnimationEvent(ACT_GMOD_GESTURE_ITEM_GIVE)
+
+        callback(true)
+        hook.Call("RPGM.PlayerGaveMoney", nil, self, receiver, amount)
+    end)
+end
