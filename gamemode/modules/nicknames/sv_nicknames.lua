@@ -80,6 +80,14 @@ hook.Add("PlayerInitialSpawn", "RPGM.InitialisePlayerNickname", function(ply)
     RPGM.GetPlayerNameFromDB(steamid, function(name)
         if not IsValid(ply) then return end
 
+        if not name then
+            local steamName = ply:SteamName()
+            RPGM.SetPlayerNameInDB(steamid, steamName, steamName)
+            ply:setRPInt("Nickname", steamName)
+
+            return
+        end
+
         ply:setRPInt("Nickname", name)
         RPGM.SetPlayerNameInDB(steamid, name, ply:SteamName())
     end)
