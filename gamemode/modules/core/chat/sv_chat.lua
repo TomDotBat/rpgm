@@ -33,18 +33,22 @@ function GM:PlayerSay(ply, text, teamOnly)
     return text
 end
 
-function RPGM.TalkToAll(talker, text, nameOverride)
+function RPGM.TalkToAll(talker, text, nameOverride, prefixCol, prefix)
     net.Start("RPGM.Talk")
         net.WriteEntity(talker)
         net.WriteString(text)
         net.WriteBool(not talker:Alive())
         if nameOverride then net.WriteString(nameOverride) end
+        if prefix then
+            net.WriteString(prefix)
+            net.WriteColor(prefixCol or color_white)
+        end
     net.Broadcast()
 end
 
 local findInSphere = ents.FindInSphere
 
-function RPGM.TalkToRange(talker, text, range, nameOverride)
+function RPGM.TalkToRange(talker, text, range, nameOverride, prefixCol, prefix)
     range = range or RPGM.Config.ChatRange
 
     local filter = {}
@@ -63,6 +67,10 @@ function RPGM.TalkToRange(talker, text, range, nameOverride)
         net.WriteString(text)
         net.WriteBool(not talker:Alive())
         if nameOverride then net.WriteString(nameOverride) end
+        if prefix then
+            net.WriteString(prefix)
+            net.WriteColor(prefixCol or color_white)
+        end
     net.Send(filter)
 end
 
