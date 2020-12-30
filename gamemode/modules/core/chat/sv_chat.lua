@@ -59,7 +59,7 @@ function RPGM.TalkToRange(talker, text, range, nameOverride, prefixCol, prefix, 
         if not target:IsPlayer() or target:IsBot() then continue end
 
         local name = nameOverride or talker:Name()
-        if hook.Run("PlayerCanSeePlayersChat", prefix .. " " .. name .. ": " .. text, false, target, talker) ~= false then
+        if hook.Run("PlayerCanSeePlayersChat", (prefix and (prefix .. " ") or "") .. name .. ": " .. text, false, target, talker) ~= false then
             table.insert(filter, target)
         end
     end
