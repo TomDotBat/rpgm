@@ -19,6 +19,8 @@ function RPGM.RegisterCommand(name, aliases, ...)
     for _, alias in ipairs(cmd:getNames()) do
         commands[alias] = cmd
     end
+
+    return cmd
 end
 
 function RPGM.RemoveCommand(name)
@@ -30,7 +32,14 @@ function RPGM.RemoveCommand(name)
     end
 end
 
-local errorMessageCol = Color(217, 54, 46)
+function RPGM.CommandCallback(ply, allowed, reason)
+    if not IsValid(ply) then return end
+
+    if not allowed then
+        RPGM.MessagePlayer(ply, reason, RPGM.Config.CommandErrorCol)
+        return
+    end
+end
 
 function RPGM.HandleCommands(ply, str)
     local name = string.Split(str, " ")[1]
@@ -42,14 +51,7 @@ function RPGM.HandleCommands(ply, str)
 
     local length = #str
     local restLength = (#name + 1)
-    cmd:execute(length <= restLength and "" or string.Right(str, length - restLength), ply, function(allowed, reason)
-        if not IsValid(ply) then return end
-
-        if not allowed then
-            RPGM.MessagePlayer(ply, reason, errorMessageCol)
-            return
-        end
-    end)
+    cmd:execute(length <= restLength and "" or string.Right(str, length - restLength), ply, RPGM.CommandCallback)
 
     return true
 end

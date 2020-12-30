@@ -94,7 +94,7 @@ function RPGM.Classes.Command(name, aliases, args, func, permission, minAccess)
         for k, arg in ipairs(args) do
             local success, str, result = arg:processString(str, caller)
             if not success then
-                callback(false, "Correct syntax: " .. name .. " " .. self:getSyntax())
+                callback(caller, false, "Correct syntax: " .. name .. " " .. self:getSyntax())
                 return false
             end
 
@@ -106,7 +106,7 @@ function RPGM.Classes.Command(name, aliases, args, func, permission, minAccess)
         end
 
         return self:hasPermission(caller, function(allowed, reason)
-            callback(allowed, reason)
+            callback(caller, allowed, reason)
             if not allowed then return end
 
             func(caller, data)
