@@ -11,31 +11,39 @@ local getTeamColor = team.GetColor
 
 net.Receive("RPGM.Talk", function()
     local talker = net.ReadEntity()
-    if not IsValid(talker) then return end
+    talker = IsValid(talker) and talker or LocalPlayer()
 
     local text = safeText(net.ReadString())
     local talkerDead = net.ReadBool()
 
     local talkerName
-    if net.BytesLeft() == 0 then
-        talkerName = talker:Nick()
+    local nameOverride = net.ReadString()
+    if isstring(nameOverride) and nameOverride ~= "" then
+        talkerName = nameOverride
     else
-        local override = net.ReadString()
-        if isstring(override) and override ~= "" then
-            talkerName = override
-        end
+        talkerName = talker:Nick()
     end
 
-    hook.Call("OnPlayerChat", GAMEMODE, talker, text, false, talkerDead)
-
+    local prefixCol, prefix
     if net.BytesLeft() ~= 0 then
+        prefixCol, prefix = net.ReadColor(), net.ReadString()
+    end
+
+    if text and text ~= "" and IsValid(talker) then
+        if hook.Call("OnPlayerChat", GAMEMODE, talker, text, false, talkerDead) == true then return end
+    else
+        if hook.Call("ChatText", GAMEMODE, 0, prefix, prefix, "rpgm") == true then return end
+    end
+
+    if prefix then
         chat.AddText(
-            net.ReadColor(), net.ReadString() .. " ",
+            prefixCol, prefix .. " ",
             talkerDead and deadMessageColor or getTeamColor(talker:Team()), talkerName,
             color_white, ": ",
             talkerDead and deadMessageColor or messageColor, text
         )
 
+        chat.PlaySound()
         return
     end
 
