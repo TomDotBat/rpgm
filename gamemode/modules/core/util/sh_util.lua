@@ -143,6 +143,7 @@ do
 end
 
 local maps = {}
+local ipairs = ipairs
 function RPGM.Util.IsMap(name)
     if table.IsEmpty(maps) then
         for k, v in ipairs(file.Find("maps/*.bsp", "GAME")) do
@@ -163,4 +164,18 @@ function RPGM.Util.IsMap(name)
     end
 
     return false
+end
+
+local getAllPlayers = player.GetAll
+function RPGM.Util.FindPlayersInSphere(pos, radius, plyList)
+    plyList = plyList or getAllPlayers()
+    radius = radius ^ 2
+
+    local results = {}
+    for _, ply in ipairs(plyList) do
+        if ply:GetPos():DistToSqr(pos) > radius then continue end
+        table.insert(results, ply)
+    end
+
+    return results
 end
