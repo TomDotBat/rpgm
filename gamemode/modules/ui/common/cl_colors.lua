@@ -8,6 +8,8 @@ RPGM.Colors.PrimaryText = Color(255, 255, 255, 255)
 RPGM.Colors.SecondaryText = Color(189, 189, 189, 255)
 
 RPGM.Colors.Primary = Color(25, 118, 210)
+
+RPGM.Colors.Positive = Color(66, 134, 50)
 RPGM.Colors.Negative = Color(211, 47, 47)
 
 local clamp = math.Clamp
