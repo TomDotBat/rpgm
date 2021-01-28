@@ -1,5 +1,5 @@
 
-local disallowedNames = {["tom.bat"] = true, ["tomdotbat"] = true, ["ooc"] = true, ["advert"] = true, ["shared"] = true, ["world"] = true, ["world prop"] = true}
+local disallowedNames = {["ooc"] = true, ["advert"] = true, ["shared"] = true, ["world"] = true, ["world prop"] = true, ["blocked"] = true}
 hook.Add("RPGM.CanChangeNickname", "RPGM.NicknameRestrictions", function(ply, name)
     if disallowedNames[string.lower(name)] then return false, "is blacklisted" end
     if not string.match(name, "^[a-zA-ZЀ-џ0-9 ]+$") then return false, "contains illegal characters" end
