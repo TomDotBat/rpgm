@@ -168,11 +168,10 @@ end
 
 local getAllPlayers = player.GetAll
 function RPGM.Util.FindPlayersInSphere(pos, radius, plyList)
-    plyList = plyList or getAllPlayers()
     radius = radius ^ 2
 
     local results = {}
-    for _, ply in ipairs(plyList) do
+    for _, ply in ipairs(plyList or getAllPlayers()) do
         if ply:GetPos():DistToSqr(pos) > radius then continue end
         table.insert(results, ply)
     end

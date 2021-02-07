@@ -10,8 +10,8 @@ function RPGM.PayPlayerSalary(ply)
 
     if not salary or salary < 1 then return end
 
-    local cantReceive, reason = hook.Run("RPGM.CanPlayerReceiveSalary", ply, salary)
-    if cantReceive then
+    local canReceive, reason = hook.Run("RPGM.CanPlayerReceiveSalary", ply, salary)
+    if canReceive == false then
         ply:rpNotify(reason, NOTIFY_ERROR)
         return
     end
