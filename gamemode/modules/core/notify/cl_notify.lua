@@ -1,6 +1,9 @@
 
+local defaultType = NOTIFY_GENERIC
+local notificationSounds = RPGM.Config.NotificationSounds
+
 function RPGM.Notify(title, description, type, len, disableSound)
-    RPGM.AddNotification(title, description, type or NOTIFY_GENERIC, len or 5)
+    RPGM.AddNotification(title, description, type or defaultType, len or 5)
     if isstring(title) and title ~= "" then
         RPGM.Log(title .. " - " .. description)
     else
@@ -8,7 +11,7 @@ function RPGM.Notify(title, description, type, len, disableSound)
     end
 
     if disableSound then return end
-    surface.PlaySound("buttons/lightswitch2.wav")
+    surface.PlaySound(notificationSounds[type] or notificationSounds[defaultType])
 end
 
 net.Receive("RPGM.Notify", function()
