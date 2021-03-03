@@ -1,14 +1,8 @@
 
 local materials = {}
 
-local hadFirstThink = false
-local downloadQueue = {}
-
 file.CreateDir("rpgm")
-
 function RPGM.GetImgur(id, callback, useproxy)
-    if not hadFirstThink then downloadQueue[id] = callback end
-
     if materials[id] then return callback(materials[id]) end
 
     if file.Exists("rpgm/" .. id .. ".png", "DATA") then
@@ -31,13 +25,3 @@ function RPGM.GetImgur(id, callback, useproxy)
         end
     )
 end
-
-hook.Add("Think", "RPGM.Imgur.FirstThink", function()
-    hadFirstThink = true
-
-    for k, v in pairs(downloadQueue) do
-        RPGM.GetImgur(k, v)
-    end
-
-    hook.Remove("Think", "RPGM.Imgur.FirstThink")
-end)
