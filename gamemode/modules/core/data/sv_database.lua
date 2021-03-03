@@ -16,13 +16,13 @@ function RPGM.InitializeDB()
 
     MySQLite.begin()
 
-    MySQLite.queueQuery("CREATE TABLE IF NOT EXISTS `" .. tablePrefix .. "version` (version INTEGER NOT NULL PRIMARY KEY);")
+    MySQLite.queueQuery([[CREATE TABLE IF NOT EXISTS `]] .. tablePrefix .. [[version` (version INTEGER NOT NULL PRIMARY KEY);]])
 
-    MySQLite.queueQuery("SELECT MAX(version) AS version FROM `" .. tablePrefix .. "version`;", function(data)
+    MySQLite.queueQuery([[SELECT MAX(version) AS version FROM `]] .. tablePrefix .. [[version`;]], function(data)
         RPGM.DBVersion = data and data[1] and tonumber(data[1].version) or 1
     end)
 
-    MySQLite.queueQuery("REPLACE INTO `" .. tablePrefix .. "version` VALUES(1);")
+    MySQLite.queueQuery([[REPLACE INTO `]] .. tablePrefix .. [[version` VALUES(1);]])
 
     hook.Call("RPGM.DBBuilder", GM or GAMEMODE, autoIncrement)
 
