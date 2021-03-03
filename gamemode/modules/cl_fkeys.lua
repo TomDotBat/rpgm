@@ -51,7 +51,7 @@ hook.Add("RPGM.FKeyPressed", "RPGM.UnlockCursorBind", function(keyNo)
 
     if cursorUnlocked then
         if not (mouseX and mouseY) then
-            gui.SetMousePos(ScrW() / 2, ScrH() / 2)
+            gui.SetMousePos(ScrW() * .5, ScrH() * .5)
         else
             gui.SetMousePos(mouseX, mouseY)
         end
