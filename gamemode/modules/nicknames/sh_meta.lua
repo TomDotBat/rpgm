@@ -8,9 +8,11 @@ function meta:Name()
     return nick == "" and self:SteamName() or nick
 end
 
+meta.name = meta.Name
 meta.GetName = meta.Name
 meta.getName = meta.Name
 meta.Nick = meta.Name
+meta.nick = meta.Name
 
 if CLIENT then return end
 
