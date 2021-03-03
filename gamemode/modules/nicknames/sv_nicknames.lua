@@ -1,12 +1,14 @@
 
+local lang = gmodI18n.getAddon("rpgm")
+
 local disallowedNames = {["ooc"] = true, ["advert"] = true, ["shared"] = true, ["world"] = true, ["world prop"] = true, ["blocked"] = true}
 hook.Add("RPGM.CanChangeNickname", "RPGM.NicknameRestrictions", function(ply, name)
-    if disallowedNames[string.lower(name)] then return false, "is blacklisted" end
-    if not string.match(name, "^[a-zA-ZЀ-џ0-9 ]+$") then return false, "contains illegal characters" end
+    if disallowedNames[string.lower(name)] then return false, lang:getString("isBlacklisted") end
+    if not string.match(name, "^[a-zA-ZЀ-џ0-9 ]+$") then return false, lang:getString("containsIllegalChars") end
 
     local len = string.len(name)
-    if len > 30 then return false, "is too long" end
-    if len < 3 then return false, "is too short" end
+    if len > 30 then return false, lang:getString("isToLong") end
+    if len < 3 then return false, lang:getString("isToShort") end
 end)
 
 function RPGM.ChangeNickname(ply, name, caller)
@@ -16,14 +18,14 @@ function RPGM.ChangeNickname(ply, name, caller)
 
     local success, reason = hook.Call("RPGM.CanChangeNickname", nil, ply, name)
     if success == false then
-        caller:rpNotify("Invalid Nickname", "The name you provided " .. reason .. ".", NOTIFY_ERROR)
+        caller:rpNotify(lang:getString("invalidNickname"), lang:getString("nameProvidedInvalid", {reason = reason}), NOTIFY_ERROR)
         return
     end
 
     RPGM.GetPlayerNameExists(name, function(exists)
         if not (IsValid(ply) and IsValid(caller)) then return end
         if exists then
-            caller:rpNotify("Nickname In Use", "The name you provided is already in use.", NOTIFY_ERROR)
+            caller:rpNotify(lang:getString("nicknameInUse"), lang:getString("nameProvidedInUse"), NOTIFY_ERROR)
             return
         end
 
@@ -39,7 +41,7 @@ end
 function RPGM.ResetNickname(caller, name)
     RPGM.GetPlayerSteamIDFromDB(name, function(steamid)
         if not steamid then
-            if IsValid(caller) then caller:rpNotify("Nickname Not Found", "The name you provided isn't in use.", NOTIFY_ERROR) end
+            if IsValid(caller) then caller:rpNotify(lang:getString("nicknameNotFound"), lang:getString("nameProvidedNotInUse"), NOTIFY_ERROR) end
             return
         end
 
@@ -47,7 +49,13 @@ function RPGM.ResetNickname(caller, name)
         RPGM.SetPlayerNameInDB(steamid, "", IsValid(ply) and ply:steamName() or "", function()
             if IsValid(ply) then
                 ply:setRPString("Nickname", "")
-                ply:rpNotify("Nickname Reset", "Your nickname has been reset" .. (IsValid(caller) and " by an administrator." or "."), NOTIFY_ERROR)
+                ply:rpNotify(
+                    lang:getString("nicknameReset"),
+                    lang:getString("nicknameResetBy", {
+                        by = IsValid(caller) and (" " .. lang:getString("byAnAdmin")) or ""
+                    }),
+                    NOTIFY_ERROR
+                )
 
                 local filter = RecipientFilter()
                 filter:AddAllPlayers()
@@ -55,21 +63,21 @@ function RPGM.ResetNickname(caller, name)
                 if IsValid(caller) then filter:RemovePlayer(caller) end
 
                 RPGM.Notify(
-                    filter, "Nickname Change",
-                    name .. " changed their nickname to " .. ply:steamName() .. ".",
+                    filter, lang:getString("nicknameChange"),
+                    lang:getString("changedOldNameTo", {oldName = name, newName = ply:steamName()}),
                     NOTIFY_GENERIC
                 )
             end
 
-            if IsValid(caller) then caller:rpNotify("Nickname Removed", "The name \"" .. name .. "\" has been made available.", NOTIFY_ERROR) end
+            if IsValid(caller) then caller:rpNotify(lang:getString("nicknameRemoved"), lang:getString("nicknameMadeAvailable", {name = name}), NOTIFY_ERROR) end
         end)
     end)
 end
 
 hook.Add("RPGM.NicknameChanged", "RPGM.AlertNicknameChanges", function(ply, oldName, newName, steamName)
     RPGM.Notify(
-        player.GetAll(), "Nickname Change",
-        oldName .. " changed their nickname to " .. newName .. ".",
+        player.GetAll(), lang:getString("nicknameChange"),
+        lang:getString("changedOldNameTo", {oldName = oldName, newName = newName}),
         NOTIFY_GENERIC
     )
 end)
