@@ -2,6 +2,7 @@
 local meta = FindMetaTable("Player")
 
 meta.SteamName = meta.SteamName or meta.Name
+meta.steamName = meta.SteamName
 
 function meta:Name()
     local nick = self:getRPString("Nickname", self:SteamName())
