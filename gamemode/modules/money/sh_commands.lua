@@ -11,17 +11,17 @@ hook.Add("RPGM.RegisterCommands", "RPGM.MoneyCommands", function()
     }, function(ply, data)
         local receiver = ply:GetEyeTrace().Entity
         if not IsValid(receiver) or receiver:GetPos():DistToSqr(ply:GetPos()) >= 22500 then
-            RPGM.Notify(ply, "Can't Give Money", "You're not looking at someone who's close enough to receive money.", NOTIFY_ERROR)
+            RPGM.Notify(ply, lang:getString("cantGiveMoney"), lang:getString("notLookingAtMoneyReceiver"), NOTIFY_ERROR)
             return
         end
 
         local amount = data[1]
         ply:giveMoney(amount, receiver, function(success, reason)
             if success then
-                RPGM.Notify(receiver, "Received Money", ply:name() .. " has gave you " .. RPGM.FormatMoney(amount) .. ".", NOTIFY_MONEY)
-                RPGM.Notify(ply, "Gave Money", "You have given " .. RPGM.FormatMoney(amount) .. " to " .. receiver:name() .. ".")
+                RPGM.Notify(receiver, lang:getString("receivedMoney"), lang:getString("playerGaveAmount", {giverName = ply:name(), givenAmount = RPGM.FormatMoney(amount)}), NOTIFY_MONEY)
+                RPGM.Notify(ply, lang:getString("gaveMoney"), lang:getString("gaveAmountTo", {giverName = receiver:name(), givenAmount = RPGM.FormatMoney(amount)}))
             else
-                RPGM.Notify(ply, "Can't Give Money", reason, NOTIFY_ERROR)
+                RPGM.Notify(ply, lang:getString("cantGiveMoney"), reason, NOTIFY_ERROR)
             end
         end)
     end)
