@@ -18,8 +18,9 @@ hook.Add("RPGM.RegisterCommands", "RPGM.MoneyCommands", function()
         local amount = data[1]
         ply:giveMoney(amount, receiver, function(success, reason)
             if success then
-                RPGM.Notify(receiver, lang:getString("receivedMoney"), lang:getString("playerGaveAmount", {giverName = ply:name(), givenAmount = RPGM.FormatMoney(amount)}), NOTIFY_MONEY)
-                RPGM.Notify(ply, lang:getString("gaveMoney"), lang:getString("gaveAmountTo", {giverName = receiver:name(), givenAmount = RPGM.FormatMoney(amount)}))
+                local formattedMoney = RPGM.FormatMoney(amount)
+                RPGM.Notify(receiver, lang:getString("receivedMoney"), lang:getString("playerGaveAmount", {giverName = ply:name(), givenAmount = formattedMoney}), NOTIFY_MONEY)
+                RPGM.Notify(ply, lang:getString("gaveMoney"), lang:getString("gaveAmountTo", {giverName = receiver:name(), givenAmount = formattedMoney}))
             else
                 RPGM.Notify(ply, lang:getString("cantGiveMoney"), reason, NOTIFY_ERROR)
             end
