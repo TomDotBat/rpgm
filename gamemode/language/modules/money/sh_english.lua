@@ -1,6 +1,8 @@
 
 local lang = gmodI18n.registerLanguage("rpgm", "en", "Tom.bat", 1.0)
 
+lang:addPhrase("notifyTypeMoney", "Transaction")
+
 lang:addPhrase("cantGiveMoney", "Can't Give Money")
 lang:addPhrase("notLookingAtMoneyReceiver", "You're not looking at someone who's close enough to receive money.")
 
