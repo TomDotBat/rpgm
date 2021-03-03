@@ -1,4 +1,6 @@
 
+local lang = gmodI18n.getAddon("rpgm")
+
 util.AddNetworkString("RPGM.TeamChanged")
 
 local function isValidTeamId(id)
@@ -34,5 +36,5 @@ function GM:PlayerChangedTeam(ply, oldTeamId, newTeamId)
     net.Send(ply)
 
     if not RPGM.Config.AnnounceTeamChange then return end
-    RPGM.Notify(player.GetAll(), "Team Change", ply:Nick() .. " has became a " .. newTeam:getName() .. ".")
+    RPGM.Notify(player.GetAll(), lang:getString("teamChange"), lang:getString("playerBecameA", {playerName = ply:Nick(), teamName = newTeam:getName()}))
 end

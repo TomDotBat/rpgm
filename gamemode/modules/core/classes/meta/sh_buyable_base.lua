@@ -1,4 +1,6 @@
 
+local lang = gmodI18n.getAddon("rpgm")
+
 function RPGM.Classes.BuyableItemBase(name, category, command, model, order, extra, functions, price, max, teamsAllowed)
     local tbl = RPGM.Classes.ItemBase(name, category, command, model, order, extra, functions)
     tbl.__type = "base_buyable"
@@ -14,7 +16,7 @@ function RPGM.Classes.BuyableItemBase(name, category, command, model, order, ext
 
     function tbl:canBuy(ply)
         local teamName = ply:teamName()
-        if not self:isTeamAllowed(teamName) then return false, "You can't buy this item as a " .. teamName .. "." end
+        if not self:isTeamAllowed(teamName) then return false, lang:getString("cantBuyItemAs", {teamName = teamName}) end
         return self:doCustomCheck(ply)
     end
 

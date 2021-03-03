@@ -1,4 +1,6 @@
 
+local lang = gmodI18n.getAddon("rpgm")
+
 local errorMessageCol = Color(217, 54, 46)
 
 hook.Add("RPGM.RegisterCommands", "RPGM.TeamCommand", function()
@@ -12,12 +14,12 @@ hook.Add("RPGM.RegisterCommands", "RPGM.TeamCommand", function()
 
         local teamTbl = ply:getTeamClass()
         if teamTbl and cmd == teamTbl:getCommand() then
-            RPGM.MessagePlayer(ply, "You are already a \"" .. cmd .. "\".", errorMessageCol)
+            RPGM.MessagePlayer(ply, lang:getString("alreadyATeam", {teamName = teamName}), errorMessageCol)
             return
         end
 
         if ply:joinTeam(cmd) then
-            RPGM.MessagePlayer(ply, "The team \"" .. cmd .. "\" couldn't be found.", errorMessageCol)
+            RPGM.MessagePlayer(ply, lang:getString("teamNotFound", {teamName = teamName}), errorMessageCol)
         end
     end)
 end)

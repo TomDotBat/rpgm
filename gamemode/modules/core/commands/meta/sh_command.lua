@@ -1,4 +1,6 @@
 
+local lang = gmodI18n.getAddon("rpgm")
+
 function RPGM.Classes.Command(name, aliases, args, func, permission, minAccess)
     local tbl = {}
     tbl.__type = "command"
@@ -96,7 +98,7 @@ function RPGM.Classes.Command(name, aliases, args, func, permission, minAccess)
             str = newStr
 
             if not success then
-                callback(caller, false, "Correct syntax: " .. name .. " " .. self:getSyntax())
+                callback(caller, false, lang:getString("correctSyntax", {cmdName = name, correctSyntax = self:getSyntax()}))
                 return false
             end
 
