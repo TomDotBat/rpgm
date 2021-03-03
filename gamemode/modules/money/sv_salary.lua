@@ -1,4 +1,6 @@
 
+local lang = gmodI18n.getAddon("rpgm")
+
 function RPGM.PayPlayerSalary(ply)
     local team = ply:getTeamClass()
 
@@ -17,7 +19,7 @@ function RPGM.PayPlayerSalary(ply)
     end
 
     ply:addMoney(salary)
-    ply:rpNotify("Salary Payment", "You have been paid your salary of " .. RPGM.FormatMoney(salary) .. ".", NOTIFY_MONEY)
+    ply:rpNotify(lang:getString("salaryPayment"), lang:getString("salaryOfAmountPaid", {salaryAmount = RPGM.FormatMoney(salary)}), NOTIFY_MONEY)
 end
 
 local getAllPlayers = player.GetAll
