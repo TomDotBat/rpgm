@@ -16,3 +16,6 @@ lang:addPhrase("teamRequirementsNotMet", "You don't meet the requirements to joi
 
 --Commands
 lang:addPhrase("correctSyntax",  "Correct syntax: #cmdName #correctSyntax", {cmdName = "Unknown", correctSyntax = ""})
+
+--CSS Mount Alert
+lang:addPhrase("cssMountAlert",  "WARNING! CSS could not be found on the server.")
