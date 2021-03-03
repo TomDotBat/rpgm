@@ -1,7 +1,7 @@
 
 local lang = gmodI18n.getAddon("rpgm")
 
-local disallowedNames = {["ooc"] = true, ["advert"] = true, ["shared"] = true, ["world"] = true, ["world prop"] = true, ["blocked"] = true}
+local disallowedNames = RPGM.Config.DisallowedNicknames
 hook.Add("RPGM.CanChangeNickname", "RPGM.NicknameRestrictions", function(ply, name)
     if disallowedNames[string.lower(name)] then return false, lang:getString("isBlacklisted") end
     if not string.match(name, "^[a-zA-ZЀ-џ0-9 ]+$") then return false, lang:getString("containsIllegalChars") end
