@@ -1,8 +1,7 @@
 
 local progressMat
-RPGM.GetImgur("hX9kSve", function(mat) progressMat = mat end)
-
 local getImgur = RPGM.GetImgur
+getImgur("hX9kSve", function(mat) progressMat = mat end)
 
 local setMaterial = surface.SetMaterial
 local setDrawColor = surface.SetDrawColor
