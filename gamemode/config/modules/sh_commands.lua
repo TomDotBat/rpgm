@@ -10,3 +10,6 @@ RPGM.Config.PMTagCol = Color(191, 58, 55)
 RPGM.Config.ActionCol = Color(235, 235, 235)
 RPGM.Config.YellTagCol = Color(227, 203, 25)
 RPGM.Config.WhisperTagCol = Color(189, 189, 189)
+
+RPGM.Config.PrefixStartChar = "["
+RPGM.Config.PrefixEndChar = "]"

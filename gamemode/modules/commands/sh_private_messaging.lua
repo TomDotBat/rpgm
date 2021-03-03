@@ -1,5 +1,11 @@
 
 hook.Add("RPGM.RegisterCommands", "RPGM.PMCommands", function()
+    local lang = gmodI18n.getAddon("rpgm")
+
+    local pmPrefix = RPGM.Config.PrefixStartChar .. lang:getString("pmPrefix") .. RPGM.Config.PrefixEndChar
+
+    lang = nil
+
     local lastConversations = setmetatable({}, {
         __mode = 'k'
     })
@@ -21,11 +27,11 @@ hook.Add("RPGM.RegisterCommands", "RPGM.PMCommands", function()
         RPGM.Classes.PlayerArgument("Recipient", false, nil, true),
         RPGM.Classes.TextArgument("Message", false, nil, false, true)
     }, function(ply, data)
-        RPGM.TalkToPlayer(ply, data[1], data[2], RPGM.Config.PMTagCol, "[PM]")
+        RPGM.TalkToPlayer(ply, data[1], data[2], RPGM.Config.PMTagCol, pmPrefix)
 
         if ply == data[1] then return end
         setLatestConversation(ply, data[1])
-        RPGM.TalkToPlayer(ply, ply, data[2], RPGM.Config.PMTagCol, "[PM]")
+        RPGM.TalkToPlayer(ply, ply, data[2], RPGM.Config.PMTagCol, pmPrefix)
     end)
 
     RPGM.RegisterCommand("reply", {"r"}, {
@@ -33,13 +39,13 @@ hook.Add("RPGM.RegisterCommands", "RPGM.PMCommands", function()
     }, function(ply, data)
         local recipient = lastConversations[ply]
         if not IsValid(recipient) then
-            RPGM.Notify(ply, "No Recent Conversation", "You haven't recently spoken to anyone via private message.", NOTIFY_ERROR)
+            RPGM.Notify(ply, lang:getString("noRecentConversation"), lang:getString("haventRecentlySpoken"), NOTIFY_ERROR)
             return
         end
 
         setLatestConversation(ply, recipient)
 
-        RPGM.TalkToPlayer(ply, recipient, data[2], RPGM.Config.PMTagCol, "[PM]")
-        RPGM.TalkToPlayer(ply, ply, data[2], RPGM.Config.PMTagCol, "[PM]")
+        RPGM.TalkToPlayer(ply, recipient, data[2], RPGM.Config.PMTagCol, pmPrefix)
+        RPGM.TalkToPlayer(ply, ply, data[2], RPGM.Config.PMTagCol, pmPrefix)
     end)
 end)

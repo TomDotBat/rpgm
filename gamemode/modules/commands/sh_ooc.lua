@@ -1,9 +1,16 @@
 
 hook.Add("RPGM.RegisterCommands", "RPGM.OOCCommands", function()
+    local lang = gmodI18n.getAddon("rpgm")
+
+    local oocPrefix = RPGM.Config.PrefixStartChar .. lang:getString("oocPrefix") .. RPGM.Config.PrefixEndChar
+    local loocPrefix = RPGM.Config.PrefixStartChar .. lang:getString("loocPrefix") .. RPGM.Config.PrefixEndChar
+
+    lang = nil
+
     local oocCommand = RPGM.RegisterCommand("ooc", {"/", "oc"}, {
         RPGM.Classes.TextArgument("Message", false, nil, false, true)
     }, function(ply, data)
-        RPGM.TalkToAll(ply, data[1], nil, RPGM.Config.OOCTagCol, "[OOC]")
+        RPGM.TalkToAll(ply, data[1], nil, RPGM.Config.OOCTagCol, oocPrefix)
     end)
 
     hook.Add("RPGM.PreCommandCheck", "RPGM.OOCShortcuts", function(ply, text)
@@ -18,7 +25,7 @@ hook.Add("RPGM.RegisterCommands", "RPGM.OOCCommands", function()
     RPGM.RegisterCommand("looc", {"/l", "loc"}, {
         RPGM.Classes.TextArgument("Message", false, nil, false, true)
     }, function(ply, data)
-        RPGM.TalkToRange(ply, data[1], RPGM.Config.LOOCRange, nil, RPGM.Config.LOOCTagCol, "[LOOC]")
-        RPGM.TalkToPlayer(ply, ply, data[1], RPGM.Config.LOOCTagCol, "[LOOC]")
+        RPGM.TalkToRange(ply, data[1], RPGM.Config.LOOCRange, nil, RPGM.Config.LOOCTagCol, loocPrefix)
+        RPGM.TalkToPlayer(ply, ply, data[1], RPGM.Config.LOOCTagCol, loocPrefix)
     end)
 end)
