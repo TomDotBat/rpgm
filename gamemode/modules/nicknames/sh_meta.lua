@@ -5,8 +5,8 @@ meta.SteamName = meta.SteamName or meta.Name
 meta.steamName = meta.SteamName
 
 function meta:Name()
-    local nick = self:getRPString("Nickname", self:SteamName())
-    return nick == "" and self:SteamName() or nick
+    local nick = self:getRPString("Nickname", self:steamName())
+    return nick == "" and self:steamName() or nick
 end
 
 meta.name = meta.Name

@@ -28,10 +28,10 @@ function RPGM.ChangeNickname(ply, name, caller)
         end
 
         local oldName = ply:name()
-        RPGM.SetPlayerNameInDB(ply:SteamID64(), name, ply:SteamName(), function()
+        RPGM.SetPlayerNameInDB(ply:SteamID64(), name, ply:steamName(), function()
             if not IsValid(ply) then return end
             ply:setRPString("Nickname", name)
-            hook.Call("RPGM.NicknameChanged", nil, ply, oldName, name, ply:SteamName())
+            hook.Call("RPGM.NicknameChanged", nil, ply, oldName, name, ply:steamName())
         end)
     end)
 end
@@ -44,7 +44,7 @@ function RPGM.ResetNickname(caller, name)
         end
 
         local ply = player.GetBySteamID64(steamid)
-        RPGM.SetPlayerNameInDB(steamid, "", IsValid(ply) and ply:SteamName() or "", function()
+        RPGM.SetPlayerNameInDB(steamid, "", IsValid(ply) and ply:steamName() or "", function()
             if IsValid(ply) then
                 ply:setRPString("Nickname", "")
                 ply:rpNotify("Nickname Reset", "Your nickname has been reset" .. (IsValid(caller) and " by an administrator." or "."), NOTIFY_ERROR)
@@ -56,7 +56,7 @@ function RPGM.ResetNickname(caller, name)
 
                 RPGM.Notify(
                     filter, "Nickname Change",
-                    name .. " changed their nickname to " .. ply:SteamName() .. ".",
+                    name .. " changed their nickname to " .. ply:steamName() .. ".",
                     NOTIFY_GENERIC
                 )
             end
@@ -81,7 +81,7 @@ hook.Add("PlayerInitialSpawn", "RPGM.InitialisePlayerNickname", function(ply)
         if not IsValid(ply) then return end
 
         if not name then
-            local steamName = ply:SteamName()
+            local steamName = ply:steamName()
             RPGM.SetPlayerNameInDB(steamid, steamName, steamName)
             ply:setRPInt("Nickname", steamName)
 
@@ -89,7 +89,7 @@ hook.Add("PlayerInitialSpawn", "RPGM.InitialisePlayerNickname", function(ply)
         end
 
         ply:setRPInt("Nickname", name)
-        RPGM.SetPlayerNameInDB(steamid, name, ply:SteamName())
+        RPGM.SetPlayerNameInDB(steamid, name, ply:steamName())
     end)
 end)
 
