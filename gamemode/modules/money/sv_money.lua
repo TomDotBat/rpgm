@@ -5,10 +5,10 @@ function RPGM.GetPlayerMoney(ply, callback)
 	local amount = tonumber(ply:getRPInt("Money", -1))
 
 	if amount < 0 then
-		RPGM.GetMoneyFromDB(ply:SteamID64(), function(pnts)
-			ply:setRPInt("Money", pnts)
+		RPGM.GetMoneyFromDB(ply:SteamID64(), function(money)
+			ply:setRPInt("Money", money)
 
-			if callback then callback(pnts) end
+			if callback then callback(money) end
 		end)
 	else
 		if callback then callback(amount) end
@@ -28,6 +28,7 @@ function RPGM.GivePlayerMoney(ply, amount, callback)
 	RPGM.CheckType(amount, "number")
 
 	RPGM.GetPlayerMoney(ply, function(curAmount)
+		if not IsValid(ply) then return end
 		RPGM.SetPlayerMoney(ply, curAmount + amount, callback)
 	end)
 end
@@ -47,6 +48,7 @@ function RPGM.RemovePlayerMoney(ply, amount, callback)
 
 	RPGM.CanPlayerAffordMoney(ply, amount, function(canAfford)
 		if canAfford then
+			if not IsValid(ply) then return end
 			RPGM.GivePlayerMoney(ply, -amount, callback)
 		else
 			callback(false)
@@ -57,8 +59,9 @@ end
 function RPGM.ResetPlayerMoney(ply, callback)
 	RPGM.CheckType(ply, "Player")
 
+	local playerName = ply:name()
 	RPGM.SetPlayerMoney(ply, 0, function()
-		RPGM.LogWarning("Player " .. ply:name() .. " just had their money reset.")
+		RPGM.LogWarning("Player " .. playerName .. " just had their money reset.")
 		debug.Trace()
 
 		callback()
@@ -67,6 +70,7 @@ end
 
 hook.Add("PlayerInitialSpawn", "RPGM.InitialisePlayerMoney", function(ply)
 	RPGM.GetPlayerMoney(ply, function(amount)
+		if not IsValid(ply) then return end
 		ply:setRPInt("Money", amount)
 	end)
 end)
