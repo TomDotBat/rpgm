@@ -1,8 +1,6 @@
 
 if not RPGM.Config.EnableDecalCleaner then return end
 
-local function clearDecals()
+timer.Create("RPGM.DecalCleaner", 120, 0, function()
     RunConsoleCommand("r_cleardecals")
-end
-
-timer.Create("RPGM.DecalCleaner", 120, 0, clearDecals)
+end)
