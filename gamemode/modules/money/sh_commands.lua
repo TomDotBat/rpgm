@@ -1,4 +1,6 @@
 
+local lang = gmodI18n.getAddon("rpgm")
+
 hook.Add("RPGM.RegisterCommands", "RPGM.MoneyCommands", function()
     RPGM.RegisterCommand("dropmoney", {"moneydrop", "dropcash", "cashdrop"}, {
         RPGM.Classes.NumberArgument("Amount", false, nil, false, 1, 2147483647)
