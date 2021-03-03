@@ -166,6 +166,7 @@ function RPGM.Util.IsMap(name)
     return false
 end
 
+local insert = table.insert
 local getAllPlayers = player.GetAll
 function RPGM.Util.FindPlayersInSphere(pos, radius, plyList)
     radius = radius ^ 2
@@ -173,7 +174,7 @@ function RPGM.Util.FindPlayersInSphere(pos, radius, plyList)
     local results = {}
     for _, ply in ipairs(plyList or getAllPlayers()) do
         if ply:GetPos():DistToSqr(pos) > radius then continue end
-        table.insert(results, ply)
+        insert(results, ply)
     end
 
     return results
