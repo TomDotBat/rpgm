@@ -96,5 +96,5 @@ function RPGM.GetPlayerNameExists(name, callback)
 end
 
 hook.Add("PlayerInitialSpawn", "RPGM.InitialisePlayerData", function(ply)
-    RPGM.SetPlayerNameInDB(ply:SteamID64(), ply:Nick(), ply.SteamName and ply:SteamName() or ply:Name())
+    RPGM.SetPlayerNameInDB(ply:SteamID64(), ply:Nick(), ply.SteamName and ply:SteamName() or ply:name())
 end)

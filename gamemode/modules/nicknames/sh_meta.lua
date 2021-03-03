@@ -21,5 +21,5 @@ function meta:setName(name, caller)
 end
 
 function meta:resetName(caller)
-    RPGM.ResetNickname(caller, self:Name())
+    RPGM.ResetNickname(caller, self:name())
 end

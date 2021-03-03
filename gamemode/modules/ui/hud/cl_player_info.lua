@@ -9,7 +9,7 @@ local max = math.max
 local lerp = Lerp
 local ft = FrameTime
 local function updateStats(ply)
-    name = ply:Name()
+    name = ply:name()
     team = ply:getTeamName()
 
     local animSpeed = ft() * 3

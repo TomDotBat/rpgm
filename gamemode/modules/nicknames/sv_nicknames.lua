@@ -10,7 +10,7 @@ hook.Add("RPGM.CanChangeNickname", "RPGM.NicknameRestrictions", function(ply, na
 end)
 
 function RPGM.ChangeNickname(ply, name, caller)
-    if name == "" then RPGM.ResetNickname(caller, ply:Name()) end
+    if name == "" then RPGM.ResetNickname(caller, ply:name()) end
 
     caller = caller or ply
 
@@ -27,7 +27,7 @@ function RPGM.ChangeNickname(ply, name, caller)
             return
         end
 
-        local oldName = ply:Name()
+        local oldName = ply:name()
         RPGM.SetPlayerNameInDB(ply:SteamID64(), name, ply:SteamName(), function()
             if not IsValid(ply) then return end
             ply:setRPString("Nickname", name)

@@ -16,6 +16,6 @@ hook.Add("RPGM.RegisterCommands", "RPGM.NicknameCommands", function()
     end, "Nickname.Reset", "admin")
 
     RPGM.RegisterCommand("resetnick", {"resetrpname", "resetname", "resetnickname"}, {}, function(ply, data)
-        RPGM.ResetNickname(nil, ply:Name())
+        RPGM.ResetNickname(nil, ply:name())
     end)
 end)

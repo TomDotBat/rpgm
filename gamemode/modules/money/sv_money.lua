@@ -58,7 +58,7 @@ function RPGM.ResetPlayerMoney(ply, callback)
 	RPGM.CheckType(ply, "Player")
 
 	RPGM.SetPlayerMoney(ply, 0, function()
-		RPGM.LogWarning("Player " .. ply:Name() .. " just had their money reset.")
+		RPGM.LogWarning("Player " .. ply:name() .. " just had their money reset.")
 		debug.Trace()
 
 		callback()
