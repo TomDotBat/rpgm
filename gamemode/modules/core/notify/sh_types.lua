@@ -5,12 +5,14 @@ NOTIFY_UNDO = 2
 NOTIFY_HINT = 3
 NOTIFY_CLEANUP = 4
 
+local icons = RPGM.Config.NotificationIcons
+
 RPGM.NotificationTypes = RPGM.NotificationTypes or {
-    [NOTIFY_GENERIC] = {"Information", "rTZyn4X"},
-    [NOTIFY_ERROR] = {"Error", "xbMow0M"},
-    [NOTIFY_UNDO] = {"Undone", "Qgdrzj9"},
-    [NOTIFY_HINT] = {"Hint", "Dc1ecKF"},
-    [NOTIFY_CLEANUP] = {"Cleanup", "HidXQBw"}
+    [NOTIFY_GENERIC] = {"Information", icons[NOTIFY_GENERIC]},
+    [NOTIFY_ERROR] = {"Error", icons[NOTIFY_ERROR]},
+    [NOTIFY_UNDO] = {"Undone", icons[NOTIFY_UNDO]},
+    [NOTIFY_HINT] = {"Hint", icons[NOTIFY_HINT]},
+    [NOTIFY_CLEANUP] = {"Cleanup", icons[NOTIFY_CLEANUP]}
 }
 
 function RPGM.RegisterNotificationType(typeName, niceName, imgurId)
@@ -18,3 +20,5 @@ function RPGM.RegisterNotificationType(typeName, niceName, imgurId)
     _G["NOTIFY_" .. string.upper(typeName)] = nextId
     RPGM.NotificationTypes[nextId] = {niceName, imgurId}
 end
+
+icons = nil
