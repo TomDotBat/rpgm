@@ -1,10 +1,10 @@
 
 local PANEL = {}
 
-AccessorFunc(PANEL, "Progress", "Progress", FORCE_NUMBER)
-AccessorFunc(PANEL, "RightToLeft", "RightToLeft", FORCE_BOOL)
-AccessorFunc(PANEL, "BackgroundColor", "BackgroundColor")
-AccessorFunc(PANEL, "ForegroundColor", "ForegroundColor")
+AccessorFunc(PANEL, "nProgress", "Progress", FORCE_NUMBER)
+AccessorFunc(PANEL, "bRightToLeft", "RightToLeft", FORCE_BOOL)
+AccessorFunc(PANEL, "cBackgroundColor", "BackgroundColor")
+AccessorFunc(PANEL, "cForegroundColor", "ForegroundColor")
 
 function PANEL:Init()
     self.Progress = 0
