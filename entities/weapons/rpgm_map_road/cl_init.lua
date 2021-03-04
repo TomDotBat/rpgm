@@ -156,27 +156,27 @@ function SWEP:DrawTips()
     local controlPressed = self:IsControlPressed()
 
     local pad = RPGM.GetScaledConstant("HUD.Padding")
-    local _, titleH = RPGM.DrawSimpleText("RPGM Road Editor", "RPGM.MapEditor.Title", pad, pad, RPGM.Colors.PrimaryText)
+    local _, titleH = RPGM.DrawSimpleText("RPGM Road Editor", "MapEditor.Title", pad, pad, RPGM.Colors.PrimaryText)
 
     local textSpacing = RPGM.GetScaledConstant("MapEditor.TextSpacing")
 
     local textY = pad + titleH + RPGM.GetScaledConstant("MapEditor.TitleSpacing")
-    local _, textH = RPGM.DrawSimpleText("Left click: Place a road point", "RPGM.MapEditor.SubText", pad, textY, RPGM.Colors.SecondaryText)
+    local _, textH = RPGM.DrawSimpleText("Left click: Place a road point", "MapEditor.SubText", pad, textY, RPGM.Colors.SecondaryText)
 
     textY = textY + textH + textSpacing
-    _, textH = RPGM.DrawSimpleText("Shift + Left click: Delete the last point", "RPGM.MapEditor.SubText", pad, textY, shiftPressed and RPGM.Colors.PrimaryText or RPGM.Colors.SecondaryText)
+    _, textH = RPGM.DrawSimpleText("Shift + Left click: Delete the last point", "MapEditor.SubText", pad, textY, shiftPressed and RPGM.Colors.PrimaryText or RPGM.Colors.SecondaryText)
 
     textY = textY + textH + textSpacing
-    _, textH = RPGM.DrawSimpleText("Right click: Start a new road", "RPGM.MapEditor.SubText", pad, textY, RPGM.Colors.SecondaryText)
+    _, textH = RPGM.DrawSimpleText("Right click: Start a new road", "MapEditor.SubText", pad, textY, RPGM.Colors.SecondaryText)
 
     textY = textY + textH + textSpacing
-    _, textH = RPGM.DrawSimpleText("Shift + Right click: Go back and delete the current road", "RPGM.MapEditor.SubText", pad, textY, shiftPressed and RPGM.Colors.PrimaryText or RPGM.Colors.SecondaryText)
+    _, textH = RPGM.DrawSimpleText("Shift + Right click: Go back and delete the current road", "MapEditor.SubText", pad, textY, shiftPressed and RPGM.Colors.PrimaryText or RPGM.Colors.SecondaryText)
 
     textY = textY + textH + textSpacing
-    _, textH = RPGM.DrawSimpleText("Ctrl + Right click: Edit the currently hovered road", "RPGM.MapEditor.SubText", pad, textY, controlPressed and RPGM.Colors.PrimaryText or RPGM.Colors.SecondaryText)
+    _, textH = RPGM.DrawSimpleText("Ctrl + Right click: Edit the currently hovered road", "MapEditor.SubText", pad, textY, controlPressed and RPGM.Colors.PrimaryText or RPGM.Colors.SecondaryText)
 
     textY = textY + textH + textSpacing
-    RPGM.DrawSimpleText("Reload: Open road editor menu", "RPGM.MapEditor.SubText", pad, textY, RPGM.Colors.SecondaryText)
+    RPGM.DrawSimpleText("Reload: Open road editor menu", "MapEditor.SubText", pad, textY, RPGM.Colors.SecondaryText)
 end
 
 function SWEP:DrawLayerInfo()
@@ -186,10 +186,8 @@ function SWEP:DrawLayerInfo()
     local pad = RPGM.GetScaledConstant("HUD.Padding")
     local text = "Selected Layer: " .. (self.Editor.layers[selectedLayer].name or selectedLayer) .. "\nLayer Road Count: " .. #layer.roads
 
-    surface.SetFont("RPGM.MapEditor.SubText")
-    local _, textH = surface.GetTextSize(text)
-
-    RPGM.DrawText(text, "RPGM.MapEditor.SubText", ScrW() * .5, ScrH() - pad - textH, RPGM.Colors.SecondaryText, TEXT_ALIGN_CENTER)
+    local _, textH = RPGM.GetTextSize(text, "MapEditor.SubText")
+    RPGM.DrawText(text, "MapEditor.SubText", ScrW() * .5, ScrH() - pad - textH, RPGM.Colors.SecondaryText, TEXT_ALIGN_CENTER)
 end
 
 local red = Color(255, 0, 0)

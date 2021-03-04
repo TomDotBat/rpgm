@@ -67,8 +67,8 @@ hook.Add("RPGM.DrawHUD", "RPGM.DrawNotifications", function(scrW, scrH)
     for i = #notifs, 1, -1 do
         local notif = notifs[i]
         if not notif[5] then
-            notif[5] = RPGM.WrapText(notif[1], notifW - contentPad * 2, "RPGM.HUD.Notification.Body")
-            notif[6] = select(2, surface.GetTextSize(notif[5])) + contentPad * 3 + iconSize
+            notif[5] = RPGM.WrapText(notif[1], notifW - contentPad * 2, "HUD.Notification.Body")
+            notif[6] = select(2, RPGM.GetTextSize(notif[5])) + contentPad * 3 + iconSize
         end
 
         if time >= notif[3] then
@@ -88,8 +88,8 @@ hook.Add("RPGM.DrawHUD", "RPGM.DrawNotifications", function(scrW, scrH)
         local contentY = notifY + contentPad
         RPGM.DrawImgur(contentX, contentY, iconSize, iconSize, notif[2], titleCol)
 
-        RPGM.DrawSimpleText(notif[4], "RPGM.HUD.Notification.Title", contentX + iconSize + contentPad, contentY + iconSize * .5, titleCol, nil, TEXT_ALIGN_CENTER)
-        RPGM.DrawText(notif[5], "RPGM.HUD.Notification.Body", contentX, contentY + iconSize + contentPad, bodyCol)
+        RPGM.DrawSimpleText(notif[4], "HUD.Notification.Title", contentX + iconSize + contentPad, contentY + iconSize * .5, titleCol, nil, TEXT_ALIGN_CENTER)
+        RPGM.DrawText(notif[5], "HUD.Notification.Body", contentX, contentY + iconSize + contentPad, bodyCol)
 
         surface.SetAlphaMultiplier(1)
         desiredY = desiredY + notif[6] + spacing

@@ -29,9 +29,8 @@ hook.Add("RPGM.DrawHUD", "RPGM.DrawAmmo", function(scrW, scrH)
     local iconSize = getScaledConstant("HUD.Ammo.IconSize")
     local contentPad = getScaledConstant("HUD.ContentPadding")
 
-    surface.SetFont("RPGM.HUD.Ammo")
     local ammoText = clip .. "/" .. reserve
-    local textW, textH = surface.GetTextSize(ammoText)
+    local textW, textH = RPGM.GetTextSize(ammoText, "HUD.Ammo")
 
     local boxW, boxH = iconSize + textW + contentPad * 3, max(textH, iconSize) + contentPad * 2
     local boxX, boxY = scrW - padding - boxW, scrH - padding - boxH
@@ -55,5 +54,5 @@ hook.Add("RPGM.DrawHUD", "RPGM.DrawAmmo", function(scrW, scrH)
 
     local iconX = boxX + contentPad
     RPGM.DrawImgur(iconX, boxY + boxH * .5 - iconSize * .5, iconSize, iconSize, "GRUdrxv", primaryCol)
-    RPGM.DrawSimpleText(ammoText, "RPGM.HUD.Ammo", iconX + contentPad + iconSize, boxY + boxH * .5, primaryCol, nil, TEXT_ALIGN_CENTER)
+    RPGM.DrawSimpleText(ammoText, "HUD.Ammo", iconX + contentPad + iconSize, boxY + boxH * .5, primaryCol, nil, TEXT_ALIGN_CENTER)
 end)

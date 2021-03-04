@@ -57,7 +57,7 @@ rows[1] = function(x, y, w, h, centerY, baseW)
     RPGM.DrawImgur(x, y, h, h, "9dOCGhN", primaryCol)
 
     local nameOffset = h + contentPad
-    local nameW = RPGM.DrawSimpleText(name, "RPGM.HUD.PlayerInfo", x + nameOffset, centerY, primaryCol, nil, TEXT_ALIGN_CENTER)
+    local nameW = RPGM.DrawSimpleText(name, "HUD.PlayerInfo", x + nameOffset, centerY, primaryCol, nil, TEXT_ALIGN_CENTER)
 
     contentOverflow = (nameOffset + nameW) - baseW
 end
@@ -66,13 +66,13 @@ local round = math.Round
 rows[2] = function(x, y, w, h, centerY, baseW)
     RPGM.DrawImgur(x, y, h, h, "wcd8zwk", primaryCol)
     local teamX = x + h + contentPad
-    local teamW = RPGM.DrawSimpleText(team, "RPGM.HUD.PlayerInfo", teamX, centerY, primaryCol, nil, TEXT_ALIGN_CENTER)
+    local teamW = RPGM.DrawSimpleText(team, "HUD.PlayerInfo", teamX, centerY, primaryCol, nil, TEXT_ALIGN_CENTER)
 
     local moneyX = teamX + teamW + contentPad
     RPGM.DrawImgur(moneyX, y, h, h, "1PGuA4X", primaryCol)
 
     moneyX = moneyX + h + contentPad
-    local moneyW = RPGM.DrawSimpleText(RPGM.FormatMoney(round(money)), "RPGM.HUD.PlayerInfo", moneyX, centerY, primaryCol, nil, TEXT_ALIGN_CENTER)
+    local moneyW = RPGM.DrawSimpleText(RPGM.FormatMoney(round(money)), "HUD.PlayerInfo", moneyX, centerY, primaryCol, nil, TEXT_ALIGN_CENTER)
 
     contentOverflow = max((moneyX + moneyW - x) - baseW, contentOverflow)
 end
@@ -149,7 +149,7 @@ do
 
         local centerX = padding + width * .5 - animX
         local wantedY = boxY - getScaledConstant("HUD.PlayerInfo.WantedSpacing")
-        local wantedW, wantedH = RPGM.DrawSimpleText(lang:getString("hudWanted"), "RPGM.HUD.Wanted", centerX, wantedY, primaryCol, TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM)
+        local wantedW, wantedH = RPGM.DrawSimpleText(lang:getString("hudWanted"), "HUD.Wanted", centerX, wantedY, primaryCol, TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM)
 
         local sirenSize = getScaledConstant("HUD.PlayerInfo.SirenSize")
         local sirenOffset = wantedW * .5 + sirenSize + contentPad
