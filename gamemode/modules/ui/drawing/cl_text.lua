@@ -4,7 +4,6 @@ local getTextSize = RPGM.GetTextSize
 local setTextPos = surface.SetTextPos
 local setTextColor = surface.SetTextColor
 local drawText = surface.DrawText
-
 function RPGM.DrawSimpleText(text, font, x, y, col, xAlign, yAlign)
     local w, h = getTextSize(text, font)
 
@@ -82,7 +81,6 @@ function RPGM.DrawDualText(title, subtitle, x, y, h)
     drawShadowText(subtitle[1], subtitle[2], x, y + tH / 2, subtitle[3], subtitle[4], 1, subtitle[5], subtitle[6])
 end
 
-local textWrapCache = {}
 local function charWrap(text, remainingWidth, maxWidth)
     local totalWidth = 0
 
@@ -103,13 +101,9 @@ end
 
 local subString = string.sub
 function RPGM.WrapText(text, width, font)
-    local chachedName = text .. width .. font
-    if textWrapCache[chachedName] then return textWrapCache[chachedName] end
-
     local textWidth = getTextSize(text, font)
 
     if textWidth <= width then
-        textWrapCache[chachedName] = text
         return text
     end
 
@@ -141,22 +135,14 @@ function RPGM.WrapText(text, width, font)
         return '\n' .. word
     end)
 
-    textWrapCache[chachedName] = text
     return text
 end
 
 local left = string.Left
-
-local ellipsesTextCache = {}
-
 function RPGM.EllipsesText(text, width, font)
-    local chachedName = text .. width .. font
-    if ellipsesTextCache[chachedName] then return ellipsesTextCache[chachedName] end
-
     local textWidth = getTextSize(text, font)
 
     if textWidth <= width then
-        ellipsesTextCache[chachedName] = text
         return text
     end
 
@@ -171,6 +157,5 @@ function RPGM.EllipsesText(text, width, font)
 
     text = text .. "..."
 
-    ellipsesTextCache[chachedName] = text
     return text
 end
