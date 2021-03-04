@@ -7,7 +7,7 @@ NOTIFY_UNDO = 2
 NOTIFY_HINT = 3
 NOTIFY_CLEANUP = 4
 
-local icons = RPGM.Config.NotificationIcons
+local icons = RPGM.Config.NotificationIcons or {}
 
 RPGM.NotificationTypes = RPGM.NotificationTypes or {
     [NOTIFY_GENERIC] = {lang:getString("notifyTypeInformation"), icons[NOTIFY_GENERIC]},
