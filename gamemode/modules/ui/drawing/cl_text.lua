@@ -1,6 +1,5 @@
 
 local ceil = math.ceil
-local setFont = RPGM.SetFont
 local getTextSize = RPGM.GetTextSize
 local setTextPos = surface.SetTextPos
 local setTextColor = surface.SetTextColor
