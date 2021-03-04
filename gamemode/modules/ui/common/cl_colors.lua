@@ -97,9 +97,9 @@ end
 
 function RPGM.RGBToHex(color)
     return "#" ..
-        EliteUI.DecToHEX(getMax(getMin(color.r, 255), 0)) ..
-        EliteUI.DecToHEX(getMax(getMin(color.g, 255), 0)) ..
-        EliteUI.DecToHEX(getMax(getMin(color.b, 255), 0))
+        RPGM.DecToHEX(getMax(getMin(color.r, 255), 0)) ..
+        RPGM.DecToHEX(getMax(getMin(color.g, 255), 0)) ..
+        RPGM.DecToHEX(getMax(getMin(color.b, 255), 0))
 end
 
 local tonumber = tonumber
