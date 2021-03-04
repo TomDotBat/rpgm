@@ -16,4 +16,4 @@ lang:addPhrase("receiverNotFound", "The player you tried to pay could not be fou
 lang:addPhrase("dontHaveEnoughMoney", "You don't have enough money to give.")
 
 lang:addPhrase("salaryPayment", "Salary Payment")
-lang:addPhrase("salaryOfAmountPaid", "You have been paid your salary of #salaryAmount", {salaryAmount = "Something"})
+lang:addPhrase("salaryOfAmountPaid", "You have been paid your salary of #salaryAmount.", {salaryAmount = "Something"})
