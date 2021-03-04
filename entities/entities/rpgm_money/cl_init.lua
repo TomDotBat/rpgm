@@ -6,6 +6,7 @@ RPGM.RegisterFontUnscaled("Money.Value", "Open Sans Bold", 50)
 local eyeAngles = EyeAngles
 local centerAlign = TEXT_ALIGN_CENTER
 local disableClipping = DisableClipping
+local drawShadowText = RPGM.DrawShadowText
 local start3D2D, end3D2D = cam.Start3D2D, cam.End3D2D
 
 local col = RPGM.OffsetColor(RPGM.Colors.Positive, 20)
@@ -25,7 +26,7 @@ function ENT:Draw()
     angle[2] = eyeAngles()[2] - 90
 
     start3D2D(self:GetPos() + offset, angle, .1)
-        RPGM.DrawSimpleText(text, "RPGM.Money.Value", 0, 0, col, centerAlign, centerAlign)
+        drawShadowText(text, "Money.Value", 0, 0, col, centerAlign, centerAlign, 2)
     end3D2D()
 
     disableClipping(oldClipping)
