@@ -55,6 +55,7 @@ RPGM.Util.LoadDirectory(rootDir .. "config/modules")
 
 RPGM.Util.LoadDirectory(rootDir .. "libraries")
 gmodI18n.registerAddon("rpgm", "en", "RPGM: An RP Gamemode Base", "Tom.bat", 1.0)
+RPGM.Util.LoadDirectory(rootDir .. "language")
 
 RPGM.Util.LoadDirectory(rootDir .. "modules")
 RPGM.Util.LoadDirectory(rootDir .. "config/items")
