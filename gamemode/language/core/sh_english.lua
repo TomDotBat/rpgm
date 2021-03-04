@@ -11,6 +11,7 @@ lang:addPhrase("teamNotFound", "The team #teamName couldn't be found.", {teamNam
 lang:addPhrase("teamChange", "Team Change")
 lang:addPhrase("playerBecameA", "#playerName has became a #teamName.", {playerName = "Someone", teamName = "Unknown"})
 
+lang:addPhrase("cantTeamChange", "Can't Change Team")
 lang:addPhrase("noSlotsAvailable",  "There are no slots available for #teamName.", {teamName = "Unknown"})
 lang:addPhrase("teamRequirementsNotMet", "You don't meet the requirements to join #teamName.", {teamName = "Unknown"})
 

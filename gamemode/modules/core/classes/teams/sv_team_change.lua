@@ -8,7 +8,7 @@ function RPGM.JoinTeam(ply, cmd, force)
     if not force then
         local limit = teamTbl:getLimit(ply)
         if limit > 0 and team.NumPlayers(teamTbl.__id) >= limit then
-            ply:rpNotify(lang:getString("noSlotsAvailable", {teamName = teamTbl:getName()}), NOTIFY_ERROR)
+            ply:rpNotify(lang:getString("cantTeamChange"), lang:getString("noSlotsAvailable", {teamName = teamTbl:getName()}), NOTIFY_ERROR)
             return
         end
 
@@ -19,7 +19,7 @@ function RPGM.JoinTeam(ply, cmd, force)
                 return
             end
 
-            ply:rpNotify(lang:getString("teamRequirementsNotMet", {teamName = teamTbl:getName()}), NOTIFY_ERROR)
+            ply:rpNotify(lang:getString("cantTeamChange"), lang:getString("teamRequirementsNotMet", {teamName = teamTbl:getName()}), NOTIFY_ERROR)
             return
         end
     end
