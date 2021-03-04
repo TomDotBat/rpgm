@@ -4,6 +4,8 @@ AddCSLuaFile("shared.lua")
 
 include("shared.lua")
 
+local lang = gmodI18n.getAddon("rpgm")
+
 local clamp = math.Clamp
 function ENT:Initialize()
     self:SetModel(RPGM.Config.MoneyModel)
@@ -27,7 +29,7 @@ function ENT:Use(ply)
 
     local canUse, reason = hook.Call("RPGM.CanPickupMoney", nil, ply, self)
     if canUse == false then
-        if reason then RPGM.Notify(ply, "Pick Up Prevented", reason, NOTIFY_ERROR) end
+        if reason then RPGM.Notify(ply, lang:getString("pickUpPrevented"), reason, NOTIFY_ERROR) end
         return
     end
 
@@ -38,7 +40,7 @@ function ENT:Use(ply)
     hook.Call("RPGM.PlayerPickedUpMoney", nil, ply, self, value)
 
     ply:addMoney(value)
-    RPGM.Notify(ply, "Picked Up Money", "You picked up " .. RPGM.FormatMoney(value) .. " from the floor.")
+    RPGM.Notify(ply, lang:getString("pickedUpMoney"), lang:getString("pickedUpAmount", {pickedUpAmount = RPGM.FormatMoney(value)}))
     self:Remove()
 end
 

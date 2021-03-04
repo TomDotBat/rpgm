@@ -17,3 +17,7 @@ lang:addPhrase("dontHaveEnoughMoney", "You don't have enough money to give.")
 
 lang:addPhrase("salaryPayment", "Salary Payment")
 lang:addPhrase("salaryOfAmountPaid", "You have been paid your salary of #salaryAmount.", {salaryAmount = "Something"})
+
+lang:addPhrase("pickUpPrevented", "Pick Up Prevented")
+lang:addPhrase("pickedUpMoney", "Picked Up Money")
+lang:addPhrase("pickedUpAmount", "You picked up #pickedUpAmount from the floor.", {pickedUpAmount = "Money"})
