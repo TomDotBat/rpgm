@@ -4,7 +4,7 @@ RPGM.Config.FirstPersonDeathView = true
 
 --Chat Settings
 RPGM.Config.ChatMessageColor = Color(255, 255, 255, 255)
-RPGM.Config.ChatMessageDeadColor = Color(255, 200, 200, 255)
+RPGM.Config.ChatMessageDeadColor = Color(255, 80, 80, 255)
 
 --Notification Settings
 RPGM.Config.NotificationIcons = {
