@@ -27,6 +27,5 @@ SWEP.DrawAmmo = false
 SWEP.DrawCrosshair = true
 
 SWEP.WorldModel = ""
-
-SWEP.ViewModelFOV = 62
-SWEP.ViewModelFlip = false
+SWEP.ViewModel = ""
+SWEP.UseHands = true
