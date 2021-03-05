@@ -1,7 +1,7 @@
 
 SWEP.PrintName = "Road Editor"
 SWEP.Author = "Tom.bat"
-SWEP.Instructions = "Left mouse to fire a chair!"
+SWEP.Instructions = ""
 SWEP.Category = "RPGM - Map"
 SWEP.Spawnable = true
 SWEP.AdminOnly = false
@@ -31,5 +31,3 @@ SWEP.DrawCrosshair = true
 
 SWEP.ViewModel = "models/weapons/v_pistol.mdl"
 SWEP.WorldModel = "models/weapons/w_pistol.mdl"
-
-SWEP.ShootSound = Sound("Metal.SawbladeStick")
