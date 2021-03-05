@@ -18,7 +18,7 @@ RPGM.Config.NotificationIcons = {
 RPGM.Config.NotificationSounds = {
     [NOTIFY_GENERIC] = "rpgm/ui/notifications/generic.mp3",
     [NOTIFY_ERROR] = "rpgm/ui/notifications/error.mp3",
-    [NOTIFY_UNDO] = "rpgm/ui/notifications/undo.mp3v",
+    [NOTIFY_UNDO] = "rpgm/ui/notifications/undo.mp3",
     [NOTIFY_HINT] = "rpgm/ui/notifications/hint.mp3",
     [NOTIFY_CLEANUP] = "rpgm/ui/notifications/cleanup.mp3"
 }
