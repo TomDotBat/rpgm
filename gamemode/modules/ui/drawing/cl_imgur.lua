@@ -3,6 +3,7 @@ local progressMat
 local getImgur = RPGM.GetImgur
 getImgur("hX9kSve", function(mat) progressMat = mat end)
 
+local curTime = CurTime
 local setMaterial = surface.SetMaterial
 local setDrawColor = surface.SetDrawColor
 local drawTexturedRectRotated = surface.DrawTexturedRectRotated
@@ -13,7 +14,7 @@ local function drawProgressWheel(x, y, w, h, col)
     local progSize = min(w, h)
     setMaterial(progressMat)
     setDrawColor(col.r, col.g, col.b, col.a)
-    drawTexturedRectRotated(x + w / 2, y + h / 2, progSize, progSize, -CurTime() * 100)
+    drawTexturedRectRotated(x + w / 2, y + h / 2, progSize, progSize, -curTime() * 100)
 end
 RPGM.DrawProgressWheel = drawProgressWheel
 
