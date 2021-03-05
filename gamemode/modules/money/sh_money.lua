@@ -2,6 +2,10 @@
 RPGM.Classes.RegisterExtra("team", "salary", true)
 RPGM.RegisterNotificationType("MONEY", gmodI18n.getAddon("rpgm"):getString("notifyTypeMoney"), "5Y76zSd")
 
+if CLIENT then
+    RPGM.Config.NotificationSounds[NOTIFY_MONEY] = RPGM.Config.MoneyNotificationSound
+end
+
 local tostring = tostring
 local find = string.find
 local abs = math.abs

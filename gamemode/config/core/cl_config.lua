@@ -16,11 +16,11 @@ RPGM.Config.NotificationIcons = {
 }
 
 RPGM.Config.NotificationSounds = {
-    [NOTIFY_GENERIC] = "buttons/lightswitch2.wav",
-    [NOTIFY_ERROR] = "buttons/lightswitch2.wav",
-    [NOTIFY_UNDO] = "buttons/lightswitch2.wav",
-    [NOTIFY_HINT] = "buttons/lightswitch2.wav",
-    [NOTIFY_CLEANUP] = "buttons/lightswitch2.wav"
+    [NOTIFY_GENERIC] = "rpgm/ui/notifications/generic.mp3",
+    [NOTIFY_ERROR] = "rpgm/ui/notifications/error.mp3",
+    [NOTIFY_UNDO] = "rpgm/ui/notifications/undo.mp3v",
+    [NOTIFY_HINT] = "rpgm/ui/notifications/hint.mp3",
+    [NOTIFY_CLEANUP] = "rpgm/ui/notifications/cleanup.mp3"
 }
 
 --Misc Settings

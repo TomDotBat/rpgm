@@ -13,7 +13,7 @@ RPGM.Config.RespawnAtSuicide = false
 
 --Loadout Settings
 RPGM.Config.BaseLoadout = {
-    "keys",
+    "rpgm_hands",
     "weapon_physcannon",
     "gmod_camera",
     "gmod_tool",
