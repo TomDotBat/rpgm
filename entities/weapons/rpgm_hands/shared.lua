@@ -22,7 +22,7 @@ SWEP.AutoSwitchTo = false
 SWEP.AutoSwitchFrom = false
 
 SWEP.Slot = 1
-SWEP.SlotPos = 2
+SWEP.SlotPos = 0
 SWEP.DrawAmmo = false
 SWEP.DrawCrosshair = true
 
