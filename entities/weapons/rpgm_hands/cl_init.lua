@@ -1,37 +1,30 @@
 
 include("shared.lua")
 
-function SWEP:Initialize()
+function SWEP:Deploy()
+    return true
 end
 
-function SWEP:IsShiftPressed()
-    return input.IsKeyDown(KEY_LSHIFT) or input.IsKeyDown(KEY_RSHIFT)
+local grabbedCol = Color(42, 135, 212)
+local ungrabbedCol = Color(212, 53, 42)
+local connectionCol = Color(255, 255, 255)
+function SWEP:DrawHUD()
+    local holdPoint = self:GetHoldPoint()
+    local grabPoint = self:GetWorldGrabPoint()
+
+    cam.Start3D()
+     if holdPoint and grabPoint then
+        render.DrawLine(holdPoint, grabPoint, connectionCol, true)
+     end
+
+     self:DrawPoint(holdPoint, ungrabbedCol)
+     self:DrawPoint(grabPoint, grabbedCol)
+    cam.End3D()
 end
 
-function SWEP:IsControlPressed()
-    return input.IsKeyDown(KEY_LCONTROL) or input.IsKeyDown(KEY_RCONTROL)
-end
+function SWEP:DrawPoint(point, col)
+    if not point then return end
 
-function SWEP:PrimaryAttack()
-    if not IsFirstTimePredicted() then return end
-
-    local ply = self:GetOwner()
-    if not IsValid(ply) then return end
-
-end
-
-function SWEP:SecondaryAttack()
-    if not IsFirstTimePredicted() then return end
-
-    local ply = self:GetOwner()
-    if not IsValid(ply) then return end
-
-end
-
-function SWEP:Reload()
-    if not IsFirstTimePredicted() then return end
-
-    local ply = self:GetOwner()
-    if not IsValid(ply) then return end
-
+    render.SetColorMaterial()
+    render.DrawWireframeSphere(point, 1, 8, 8, col, true)
 end
