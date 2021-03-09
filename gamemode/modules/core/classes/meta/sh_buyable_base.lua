@@ -76,9 +76,9 @@ function buyableItemBase:getNetworkableTable(useCache)
 
     itemBase.getNetworkableTable(self, useCache)
 
-    self._netTable["price"] = price
-    self._netTable["max"] = max
-    self._netTable["teamsAllowed"] = teamsAllowed
+    self._netTable["price"] = self._price
+    self._netTable["max"] = self._max
+    self._netTable["teamsAllowed"] = self._teamsAllowed
 
     return self._netTable
 end
