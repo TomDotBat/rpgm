@@ -26,7 +26,6 @@ local buyableItemBase = {}
 _R["RPGMBuyableItemBase"] = buyableItemBase
 
 buyableItemBase.__index = buyableItemBase
-buyableItemBase.__type = "base"
 
 setmetatable(buyableItemBase, {
     __index = itemBase
