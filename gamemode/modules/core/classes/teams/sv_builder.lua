@@ -22,6 +22,7 @@ function RPGM.AddTeam(data)
     local color = data.color
 
     local teamTbl = RPGM.Classes.Team(
+        nil,
         name,
         category,
         command,
