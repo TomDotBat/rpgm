@@ -29,10 +29,10 @@ setmetatable(entity, {
     __index = buyableItemBase
 })
 
-function tbl:getClass() return self._class end
-function tbl:getSpawnFunction() return self._functions["spawnFunction"] end
+function entity:getClass() return self._class end
+function entity:getSpawnFunction() return self._functions["spawnFunction"] end
 
-function tbl:setClass(val)
+function entity:setClass(val)
     RPGM.Assert(isstring(val), "Entity class must be a entity class string.")
 
     if not scripted_ents.Get(val) then
@@ -44,13 +44,12 @@ function tbl:setClass(val)
     self._class = val
 end
 
-function tbl:setSpawnFunction(val)
+function entity:setSpawnFunction(val)
     RPGM.Assert(isfunction(val) or val == nil, "Entity spawn function must be a function taking a player, trace and entity table.")
     self._functions["spawnFunction"] = val
 end
 
-local parentNetTableGetter = tbl.getNetworkableTable
-function tbl:getNetworkableTable(useCache)
+function entity:getNetworkableTable(useCache)
     if useCache and self._netTable then return self._netTable end
 
     buyableItemBase.getNetworkableTable(self, useCache)
