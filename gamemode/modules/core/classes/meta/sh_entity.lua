@@ -25,8 +25,6 @@ local entity = {}
 _R["RPGMEntity"] = entity
 
 entity.__index = entity
-entity.__type = "base"
-
 setmetatable(entity, {
     __index = buyableItemBase
 })
