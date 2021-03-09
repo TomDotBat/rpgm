@@ -3,12 +3,11 @@ RPGM.RegisterFont("HUD.Ammo", "Open Sans SemiBold", 22, 500)
 
 RPGM.RegisterScaledConstant("HUD.Ammo.IconSize", 24)
 
-local localPly
 local clip = 0
 local reserve = 0
 
 local isValid = IsValid
-hook.Add("RPGM.ShouldDraw", "RPGM.DrawAmmo", function(elem)
+hook.Add("RPGM.ShouldDraw", "RPGM.DrawAmmo", function(elem, localPly)
     if elem ~= "Ammo" then return end
     local wep = localPly:GetActiveWeapon()
     if localPly:Health() < 1 or not isValid(wep) or wep:GetClass() == "weapon_physcannon" then return false end
@@ -21,10 +20,7 @@ local primaryCol = RPGM.Colors.PrimaryText
 local lerp = Lerp
 local ft = FrameTime
 local max = math.max
-hook.Add("RPGM.DrawHUD", "RPGM.DrawAmmo", function(scrW, scrH)
-    localPly = RPGM.Util.GetLocalPlayer()
-    if not localPly then return false end
-
+hook.Add("RPGM.DrawHUD", "RPGM.DrawAmmo", function(scrW, scrH, localPly)
     local padding = getScaledConstant("HUD.Padding")
     local iconSize = getScaledConstant("HUD.Ammo.IconSize")
     local contentPad = getScaledConstant("HUD.ContentPadding")
@@ -41,7 +37,7 @@ hook.Add("RPGM.DrawHUD", "RPGM.DrawAmmo", function(scrW, scrH)
         reserve = localPly:GetAmmoCount(wep:GetPrimaryAmmoType())
     end
 
-    if clip < 0 or callHook("RPGM.ShouldDraw", nil, "Ammo") == false then
+    if clip < 0 or callHook("RPGM.ShouldDraw", nil, "Ammo", localPly) == false then
         animX = lerp(ft() * 8, animX, boxW + padding * 2)
     else
         animX = lerp(ft() * 8, animX, 0)

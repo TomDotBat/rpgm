@@ -3,7 +3,6 @@ RPGM.RegisterScaledConstant("HUD.Minimap.Size", 240)
 
 local rotation = Angle(0, 0, 0)
 
-local localPly
 local lerpAngle = LerpAngle
 local ft = FrameTime
 local hasFocus = system.HasFocus
@@ -29,9 +28,7 @@ local pushModelMatrix, popModelMatrix = cam.PushModelMatrix, cam.PopModelMatrix
 local disableClipping = DisableClipping
 local backgroundCol = RPGM.Colors.Background
 local getScaledConstant = RPGM.GetScaledConstant
-hook.Add("RPGM.DrawHUD", "RPGM.DrawMinimap", function(scrW, scrH)
-    localPly = RPGM.Util.GetLocalPlayer()
-    if not localPly then return end
+hook.Add("RPGM.DrawHUD", "RPGM.DrawMinimap", function(scrW, scrH, localPly)
     local realRotation = updateStats(localPly)
 
     local padding = getScaledConstant("HUD.Padding")

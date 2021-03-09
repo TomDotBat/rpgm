@@ -12,5 +12,5 @@ end)
 
 local callHook = hook.Call
 function GM:HUDPaint()
-    callHook("RPGM.DrawHUD", nil, scrW, scrH)
+    callHook("RPGM.DrawHUD", nil, scrW, scrH, localPly)
 end

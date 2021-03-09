@@ -41,7 +41,7 @@ hook.Add("PostDrawTranslucentRenderables", "RPGM.DrawOverheads", function(depth,
     localPly = RPGM.Util.GetLocalPlayer()
     if not localPly then return end
 
-    if callHook("RPGM.ShouldDraw", nil, "Overheads") == false then return end
+    if callHook("RPGM.ShouldDraw", nil, "Overheads", localPly) == false then return end
 
     for _, ply in ipairs(getAllPlayers()) do
         if ply == localPly then continue end

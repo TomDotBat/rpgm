@@ -108,10 +108,9 @@ do
 
     local lang = gmodI18n.getAddon("rpgm")
 
-    hook.Add("RPGM.DrawHUD", "RPGM.DrawPlayerInfo", function(scrW, scrH)
-        localPly = RPGM.Util.GetLocalPlayer()
-        if not localPly then return end
-        updateStats(localPly)
+    hook.Add("RPGM.DrawHUD", "RPGM.DrawPlayerInfo", function(scrW, scrH, ply)
+        localPly = ply
+        updateStats(ply)
 
         local rowCount = hideArmor and (#rows - 1) or #rows
         local padding = getScaledConstant("HUD.Padding")
@@ -129,7 +128,7 @@ do
         local baseRowWidth = width - contentPad * 2
         local rowWidth = baseRowWidth + contentOverflow
 
-        if callHook("RPGM.ShouldDraw", nil, "PlayerInfo") == false then
+        if callHook("RPGM.ShouldDraw", nil, "PlayerInfo", ply) == false then
             animX = lerp(ft() * 5, animX, padding * 2 + width + contentOverflow)
         else
             animX = lerp(ft() * 5, animX, 0)
