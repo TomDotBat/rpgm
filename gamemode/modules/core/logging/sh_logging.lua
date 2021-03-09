@@ -1,16 +1,17 @@
 
-local prefixCol = Color(52, 168, 235)
-local messageCol = Color(255, 255, 255)
+local prefixCol = RPGM.Config.LogPrefixCol
+local messageCol = RPGM.Config.LogMessageCol
+local warningCol = RPGM.Config.LogWarningCol
+local errorCol = RPGM.Config.LogErrorCol
+
 function RPGM.Log(msg, prefixColOverride)
     MsgC(prefixColOverride or prefixCol, "[RPGM]: ", messageCol, msg .. "\n")
 end
 
-local warningCol = Color(242, 141, 24)
 function RPGM.LogWarning(warningMsg)
     MsgC(prefixCol, "[RPGM - WARNING]: ", warningCol, warningMsg .. "\n")
 end
 
-local errorCol = Color(230, 60, 60)
 function RPGM.LogError(errorMsg)
     MsgC(prefixCol, "[RPGM - ERROR]: ", errorCol, errorMsg .. "\n")
     debug.Trace()
