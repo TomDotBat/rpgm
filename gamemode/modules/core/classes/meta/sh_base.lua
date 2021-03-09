@@ -113,12 +113,12 @@ function itemBase:getNetworkableTable(useCache)
     if useCache and self._netTable then return self._netTable end
 
     self._netTable = {
-        ["name"] = name,
-        ["category"] = category,
-        ["command"] = command,
-        ["model"] = model,
-        ["order"] = order,
-        ["extra"] = extra
+        ["name"] = self._name,
+        ["category"] = self._category,
+        ["command"] = self._command,
+        ["model"] = self._model,
+        ["order"] = self._order,
+        ["extra"] = self._extra
     }
 
     return self._netTable
