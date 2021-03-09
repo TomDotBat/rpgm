@@ -2,7 +2,7 @@
 local _R = debug.getregistry()
 
 function RPGM.Classes.ItemBase(tbl, name, category, command, model, order, extra, functions)
-    local tbl = tbl or setmetatable({}, _R["RPGMItemBase"])
+    tbl = tbl or setmetatable({}, _R["RPGMItemBase"])
 
     tbl:setName(name)
     tbl:setCategory(category)
@@ -103,10 +103,10 @@ function itemBase:setFunction(key, val)
 end
 
 function itemBase:doCustomCheck(ply)
-    local self._check = self._functions["customCheck"]
-    if not self._check then return true end
+    local check = self._functions["customCheck"]
+    if not check then return true end
 
-    return self._check(ply)
+    return check(ply)
 end
 
 function itemBase:getNetworkableTable(useCache)
