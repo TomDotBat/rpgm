@@ -72,7 +72,6 @@ function team:setLimit(val)
     self._limit = val
 end
 
-
 function team:getNetworkableTable(useCache)
     if useCache and self._netTable then return self._netTable end
 
