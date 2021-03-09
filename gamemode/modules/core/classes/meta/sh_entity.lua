@@ -1,7 +1,7 @@
 
 local _R = debug.getregistry()
 
-function RPGM.Classes.Entity(name, category, command, model, order, extra, functions, price, max, teamsAllowed, class, spawnFunction)
+function RPGM.Classes.Entity(tbl, name, category, command, model, order, extra, functions, price, max, teamsAllowed, class, spawnFunction)
     tbl = RPGM.Classes.BuyableItemBase(
         tbl or setmetatable({}, _R["RPGMEntity"]),
         name, category, command, model, order, extra, functions, price, max, teamsAllowed
