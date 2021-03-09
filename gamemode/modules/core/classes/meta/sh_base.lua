@@ -1,9 +1,8 @@
 
 local _R = debug.getregistry()
-if _R["RPGMItemBase"] then return end
 
-function RPGM.Classes.ItemBase(name, category, command, model, order, extra, functions)
-    local tbl = setmetatable({}, _R["RPGMItemBase"])
+function RPGM.Classes.ItemBase(tbl, name, category, command, model, order, extra, functions)
+    local tbl = tbl or setmetatable({}, _R["RPGMItemBase"])
 
     tbl:setName(name)
     tbl:setCategory(category)
@@ -17,6 +16,9 @@ function RPGM.Classes.ItemBase(name, category, command, model, order, extra, fun
 
     return tbl
 end
+
+if _R["RPGMItemBase"] then return end
+
 
 local itemBase = {}
 _R["RPGMItemBase"] = itemBase
