@@ -15,6 +15,15 @@ local pairs = pairs
 local insert = table.insert
 local floor = math.floor --Caching floor as we will need to use it a lot
 
+if not useRadius then --Voice radius check is off, don't run checks
+    function GM:PlayerCanHearPlayersVoice(listener, talker)
+        if not whenDead and not talker:Alive() then return false end
+        return true, voice3d
+    end
+
+    return
+end
+
 local canHearWho = {}
 
 for k, ply in pairs(getHumans()) do
@@ -27,10 +36,8 @@ end)
 
 function GM:PlayerCanHearPlayersVoice(listener, talker)
     if not whenDead and not talker:Alive() then return false end
-    return not useRadius or canHearWho[listener][talker] == true, voice3d
+    return canHearWho[listener][talker] == true, voice3d
 end
-
-if not useRadius then return end --Voice radius check is off, don't run checks
 
 --Grid based position check
 local grid
