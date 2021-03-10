@@ -35,6 +35,7 @@ RPGM.Config.VoiceRange = 550
 RPGM.Config.Voice3D = true
 RPGM.Config.VoiceUseRadius = true
 RPGM.Config.VoiceRoomOnly = true
+RPGM.Config.VoiceCanHearCheckRate = 0.3
 
 --Q Menu Spawning Settings
 --[[
