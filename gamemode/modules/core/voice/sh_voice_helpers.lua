@@ -1,15 +1,20 @@
 
 local traceLine = util.TraceLine
+local collisionGroupWorld = COLLISION_GROUP_WORLD
+local maskSolidBrushOnly = MASK_SOLID_BRUSHONLY
+
+local trResult = {}
 local traceData = {
-    start = nil,
-    endpos = nil,
-    filter = nil
+    output = trResult,
+    collisiongroup = COLLISION_GROUP_WORLD,
+    mask = MASK_SOLID_BRUSHONLY
 }
 
-function RPGM.IsInRoom(listenerShootPos, talkerShootPos, talker)
-    traceData.start = talkerShootPos
-    traceData.endpos = listenerShootPos
-    traceData.filter = talker
+function RPGM.IsInRoom(listenerPos, talkerPos, talker)
+    traceData["start"] = talkerPos
+    traceData["endpos"] = listenerPos
+    traceData["filter"] = talker
+    traceLine(traceData)
 
-    return not traceLine(traceData).HitWorld
+    return not trResult["HitWorld"]
 end
