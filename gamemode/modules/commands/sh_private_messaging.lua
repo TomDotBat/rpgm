@@ -45,7 +45,7 @@ hook.Add("RPGM.RegisterCommands", "RPGM.PMCommands", function()
 
         setLatestConversation(ply, recipient)
 
-        RPGM.TalkToPlayer(ply, recipient, data[2], RPGM.Config.PMTagCol, pmPrefix)
-        RPGM.TalkToPlayer(ply, ply, data[2], RPGM.Config.PMTagCol, pmPrefix)
+        RPGM.TalkToPlayer(ply, recipient, data[1], RPGM.Config.PMTagCol, pmPrefix)
+        RPGM.TalkToPlayer(ply, ply, data[1], RPGM.Config.PMTagCol, pmPrefix)
     end)
 end)
