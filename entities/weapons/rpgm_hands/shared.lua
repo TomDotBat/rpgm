@@ -60,8 +60,8 @@ function SWEP:GetHoldPoint()
 end
 
 function SWEP:GetGrabPoint()
-    local grabbedPoint = self:GetGrabbedPoint()
-    if grabbedPoint then return grabbedPoint, self:GetGrabbedEntity() end
+    local grabbedEntity = self:GetGrabbedEntity()
+    if IsValid(grabbedEntity) then return self:GetGrabbedPoint(), grabbedEntity end
 
     local owner = self:GetOwner()
     traceData["filter"] = owner

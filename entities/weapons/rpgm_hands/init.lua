@@ -37,12 +37,12 @@ function SWEP:DropEntity()
         physObj:SetDamping(self.GrabbedEntityInitialLinearDamping or 0, self.GrabbedEntityInitialAngularDamping or 0)
     end
 
-    self:SetGrabbedEntity(nil)
+    self:SetGrabbedEntity(NULL)
 end
 
 function SWEP:Think()
     local grabbedEntity = self:GetGrabbedEntity()
-    if not IsValid(self.GrabbedEntity) then
+    if not IsValid(grabbedEntity) then
         self:DropEntity()
         return
     end
