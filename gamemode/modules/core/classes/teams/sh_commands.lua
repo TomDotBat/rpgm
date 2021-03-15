@@ -14,12 +14,12 @@ hook.Add("RPGM.RegisterCommands", "RPGM.TeamCommand", function()
 
         local teamTbl = ply:getTeamClass()
         if teamTbl and cmd == teamTbl:getCommand() then
-            RPGM.MessagePlayer(ply, lang:getString("alreadyATeam", {teamName = teamName}), errorMessageCol)
+            RPGM.MessagePlayer(ply, lang:getString("alreadyATeam", {teamName = cmd}), errorMessageCol)
             return
         end
 
         if ply:joinTeam(cmd) then
-            RPGM.MessagePlayer(ply, lang:getString("teamNotFound", {teamName = teamName}), errorMessageCol)
+            RPGM.MessagePlayer(ply, lang:getString("teamNotFound", {teamName = cmd}), errorMessageCol)
         end
     end)
 end)
