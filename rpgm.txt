@@ -2,6 +2,7 @@
 {
 	"base"		"sandbox"
 	"title"		"RPGM: An RP Gamemode Base"
+	"category"	"rp"
 	"maps"		"^rp_"
 	"menusystem"	"1"
 	"workshopid"	""
