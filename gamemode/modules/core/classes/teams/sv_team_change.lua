@@ -15,7 +15,7 @@ function RPGM.JoinTeam(ply, cmd, force)
         local allowed, reason = teamTbl:doCustomCheck(ply)
         if not allowed then
             if reason then
-                ply:rpNotify(reason, NOTIFY_ERROR)
+                ply:rpNotify(lang:getString("cantTeamChange"), reason, NOTIFY_ERROR)
                 return
             end
 
