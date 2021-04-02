@@ -19,7 +19,6 @@ end
 
 if _R["RPGMItemBase"] then return end
 
-
 local itemBase = {}
 _R["RPGMItemBase"] = itemBase
 
@@ -102,8 +101,13 @@ function itemBase:setFunction(key, val)
     self._functions[key] = val
 end
 
+function itemBase:getFunction(key)
+    if not istable(self._functions) then self._functions = {} end
+    return self._functions[key]
+end
+
 function itemBase:doCustomCheck(ply)
-    local check = self._functions["customCheck"]
+    local check = self:getFunction("customCheck")
     if not check then return true end
 
     return check(ply)
