@@ -27,7 +27,7 @@ net.Receive("RPGM.Talk", function()
     local disableColon = net.ReadBool()
 
     local prefixCol, prefix
-    if net.BytesLeft() ~= 0 then
+    if net.BytesLeft() > 1 then
         prefixCol, prefix = net.ReadColor(), net.ReadString()
     end
 
@@ -64,7 +64,7 @@ net.Receive("RPGM.Chat", function()
     local textColor = net.ReadColor()
     if not IsColor(textColor) then textColor = messageColor end
 
-    if net.BytesLeft() ~= 0 then
+    if net.BytesLeft() > 1 then
         local prefixCol, prefix = net.ReadColor(), net.ReadString()
 
         chat.AddText(
